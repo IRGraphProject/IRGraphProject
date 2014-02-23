@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from nltk.corpus import stopwords
-import nltk, itertools, codecs, sys
+import nltk, itertools, codecs, sys, re
 from nltk.stem.snowball import GermanStemmer
 
 
@@ -17,14 +17,11 @@ def _stem(stemmer, tokenlist):
     return map(stem_sentence, tokenlist) 
 
 def _parse_to_tokenized_sentences(tokenizer, rawfile):
-    # use
     tokenized = tokenizer.tokenize(rawfile)
     res = []
     for sentence in tokenized:
-        sentence = sentence.replace('.', ' ')
-        sentence = sentence.replace(',', ' ')
-        sentence = sentence.replace('?', ' ')
-        sentence = sentence.replace('!', ' ')
+        sentence = re.sub(re.compile(u'[^a-z^A-Z^ä^ö^ü^Ä^Ö^Ü^ß]+'), ' ', sentence)
+        print sentence
         res.append(sentence)
     return res
 

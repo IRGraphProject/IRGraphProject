@@ -137,7 +137,7 @@ def print_sorted(the_dict):
 def write_to_file(the_dict, filename):
     f = open(filename, 'w')
     for w in sorted(the_dict, key=the_dict.get):
-        f.write("\n" + w[0] + ", " + w[1] + " => " + str(the_dict[w])) 
+        f.write("\n" + w[0] + ", " + w[1] + ", " + str(the_dict[w])) 
 
 def _run(infile, outfile, language, stem, remove_stopwords, neighbour, sig_func):
     calc = CooccurrenceCalculator(infile, remove_stopwords, language)
@@ -186,7 +186,7 @@ def main(argv=None):
             elif o == '-n':
                 print "using neighbours"
                 neighbour = True
-            elif f == '-f':
+            elif o == '-f':
                 if a == 'MI':
                     significance_function = sig_mutual_information
                 elif a == 'log':
@@ -199,6 +199,7 @@ def main(argv=None):
                     raise Usage("-f only accepts MI, log, base, or dice")
             elif o == '-h':
                 print_help()
+                exit()
         if infile == '' or outfile == '': 
             print_help()
             return 2
