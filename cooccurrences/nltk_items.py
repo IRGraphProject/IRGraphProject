@@ -11,13 +11,15 @@ import preprocessing
 
 
 def sentence_cooccurrence(tokenized_sentence):
-    # returns a list of tuples. each word of the sentence is combined with each other word. first item is lexicographically smaller than second. list contains all occurences of all words (same combination may occure more than once).
+    # returns a list of tuples. each word of the sentence is combined with each other word. first item is lexicographically smaller than second. list contains all occurences of all words.
     result = []
     index = 0
     while index < len(tokenized_sentence):
         index_2 = index+1
         while index_2 < len(tokenized_sentence):
-            result.append((min(tokenized_sentence[index], tokenized_sentence[index_2]),max(tokenized_sentence[index], tokenized_sentence[index_2] )))
+            duo = (min(tokenized_sentence[index], tokenized_sentence[index_2]),max(tokenized_sentence[index], tokenized_sentence[index_2] ))
+            if result.count(duo) == 0:
+                result.append(duo)
             index_2 += 1
         index += 1
     return result
@@ -65,24 +67,28 @@ def sig_dice(wa,wb, n_x_y, n_x, n):
 
 def sig_log(wa,wb, n_x_y, n_x, n):
     def _logfact(fact):
-        return 0 if fact == 0 else fact * math.log(fact)
+        if fact == 0:
+            return 0
+        else:
+            return fact * math.log(fact)
     a = min(wa,wb)
     b = max(wa,wb)
 
-    fact_1 = n - n_x[a] - n_x[b] + n_x_y[(a,b)]
-    fact_2 = n_x[a] - n_x_y[(a,b)]
-    fact_3 = (n_x[b] - n_x_y[(a,b)]) 
-    fact_4 = n - n_x[a] 
-    fact_5 = n - n_x[b] 
-    if fact_4 < 1: print fact_4
-    
-    return 2*(
-        _logfact(n) - _logfact(n_x[a]) - _logfact(n_x[b]) + _logfact(n_x_y[(a,b)])
-        + _logfact(fact_1)
-        + _logfact(fact_2)
-        + _logfact(fact_3)
-        - _logfact(fact_4)
-        - _logfact(fact_5))
+    _A = n_x_y[(a,b)]
+    _B = n_x[a]-n_x_y[(a,b)]
+    _C = n_x[b]-n_x_y[(a,b)]
+    _D = n - n_x[a] - n_x[b]
+
+    return 2*(_logfact(_A)
+        + _logfact(_B)
+        + _logfact(_C)
+        + _logfact(_D)
+        - _logfact((_A+_B))
+        - _logfact((_A+_C))
+        - _logfact((_B+_D))
+        - _logfact((_C+_D))
+        + _logfact((_A+_B+_C+_D)))
+
 
 class CooccurrenceCalculator:
     def __init__(self, filename, rem_stopwords=True, language='german'):
@@ -137,7 +143,7 @@ def print_sorted(the_dict):
 def write_to_file(the_dict, filename):
     f = open(filename, 'w')
     for w in sorted(the_dict, key=the_dict.get):
-        f.write("\n" + w[0] + ", " + w[1] + ", " + str(the_dict[w])) 
+        f.write(w[0] + ", " + w[1] + ", " + str(the_dict[w]) + "\n") 
 
 def _run(infile, outfile, language, stem, remove_stopwords, neighbour, sig_func):
     calc = CooccurrenceCalculator(infile, remove_stopwords, language)
@@ -190,7 +196,7 @@ def main(argv=None):
                 if a == 'MI':
                     significance_function = sig_mutual_information
                 elif a == 'log':
-                    significance_function = sig_log_likelihood
+                    significance_function = sig_log
                 elif a == 'base':
                     significance_function = sig_baseline
                 elif a == 'dice':
