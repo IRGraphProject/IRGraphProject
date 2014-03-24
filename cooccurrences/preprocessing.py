@@ -17,27 +17,27 @@ def _stem(stemmer, tokenlist):
     return map(stem_sentence, tokenlist) 
 
 def _parse_to_tokenized_sentences(tokenizer, rawfile):
+    rawfile = re.sub(re.compile(u'[.]+'), '. ', rawfile)
     tokenized = tokenizer.tokenize(rawfile)
     res = []
     for sentence in tokenized:
         sentence = re.sub(re.compile(u'[^a-z^A-Z^ä^ö^ü^Ä^Ö^Ü^ß]+'), ' ', sentence)
-        print sentence
         res.append(sentence)
     return res
 
 def _split(sentence_list):
     return map(unicode.split, sentence_list)
 
-def preprocess(filepath, stemmer, remove_stopwords=True, language='german'):
+def preprocess(text, stemmer, remove_stopwords=True, language='german'):
     global STOPWORDS   
     LANGUAGE = language
     STOPWORDS = map(unicode, stopwords.words(LANGUAGE))
     STOPWORDS.append(u'dass') #not contained in stopwords
-
-    f = codecs.open(filepath, encoding='utf-8')
-    raw = f.read()
-    sentence_list = _parse_to_tokenized_sentences(nltk.data.load('tokenizers/punkt/' + language + '.pickle'), raw)
+    sentence_list = _parse_to_tokenized_sentences(nltk.data.load('tokenizers/punkt/' + language + '.pickle'), text)
     sentences = _split(sentence_list)
+    #for s in sentence_list:
+    #    print s
     if(remove_stopwords): sentences = map(_remove_stopwords, sentences)
     if(stemmer is not None): sentences = _stem(stemmer, sentences)
+    print "preprocessing finished" 
     return sentences

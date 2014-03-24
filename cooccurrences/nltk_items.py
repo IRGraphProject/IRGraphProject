@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from __future__ import division
-import nltk, itertools, sys, math, getopt
+import nltk, itertools, sys, math, getopt, os,codecs, json
 from nltk.util import bigrams
 from nltk.stem.snowball import GermanStemmer, EnglishStemmer
+from py2neo import neo4j
+from pymongo import MongoClient
 # correct encoding to use utf-8 everywhere
 reload(sys)
 sys.setdefaultencoding("UTF-8")
@@ -67,7 +69,8 @@ def sig_dice(wa,wb, n_x_y, n_x, n):
 
 def sig_log(wa,wb, n_x_y, n_x, n):
     def _logfact(fact):
-        if fact == 0:
+        # <= weil bei sätzen wie [...] Ai Weiwei Ai Weiwei [...] (in dem Beispiel wurden im original versehentlich die Sätze nicht getrennt) die Kookkurrenz (ai, weiwei) drei mal vorkommt die wörter aber je nur zwei mal
+        if fact <= 0:
             return 0
         else:
             return fact * math.log(fact)
@@ -91,13 +94,13 @@ def sig_log(wa,wb, n_x_y, n_x, n):
 
 
 class CooccurrenceCalculator:
-    def __init__(self, filename, rem_stopwords=True, language='german'):
+    def __init__(self, corpus, stem, rem_stopwords=True, language='german'):        
         stemmer = None
-        if language == 'english': 
+        if stem and language == 'english': 
             stemmer = EnglishStemmer()
-        else:
+        elif stem and language == 'german':
             stemmer = GermanStemmer()
-        self.raw = preprocessing.preprocess(filename, stemmer, rem_stopwords, language )
+        self.raw = preprocessing.preprocess(corpus, stemmer, rem_stopwords, language )
         self.n = len(self.raw)
         
     def get_wordcount_table(self):
@@ -132,25 +135,67 @@ class CooccurrenceCalculator:
                     sigs[keytuple] = sig_function(keytuple[0], keytuple[1], n_x_y, self.get_wordcount_table(), self.n)
         return sigs
 
-
-
-
-def print_sorted(the_dict):
-    for w in sorted(the_dict, key=the_dict.get):
-        print w, the_dict[w]
-
-
-def write_to_file(the_dict, filename):
+def write_to_file(the_dict, wordlist, filename):
+    # writes the cooccurrences to a csv file (word, word, value)
     f = open(filename, 'w')
     for w in sorted(the_dict, key=the_dict.get):
         f.write(w[0] + ", " + w[1] + ", " + str(the_dict[w]) + "\n") 
 
-def _run(infile, outfile, language, stem, remove_stopwords, neighbour, sig_func):
-    calc = CooccurrenceCalculator(infile, remove_stopwords, language)
+def write_geoff_file(the_dict, wordlist, filename):
+    # doesn't use the _convert_to_geoff method to prevent using the needed memory by writing line by line directly to file.
+    f = open(filename, 'w')
+    for w in wordlist:
+        f.write(''.join(["(", w.title(), ':Word { word:"', w, '"})\n']))
+    for rel in sorted(the_dict, key=the_dict.get):
+        f.write(''.join(["(", rel[0].title(), ")-[:OCCURS_WITH { value: ", "{:.20f}".format(the_dict[rel]), "}]->(", rel[1].title(), ")\n"])) 
+
+def _convert_to_geoff(the_dict, wordlist):
+    geoff = ''
+    for w in wordlist:
+        geoff = ''.join([geoff, "(", w.title(), ':Word { word:"', w, '"})\n'])
+    for rel in sorted(the_dict, key=the_dict.get):
+        geoff = ''.join([geoff, "(", rel[0].title(), ")-[:OCCURS_WITH { value: ", "{:.20f}".format(the_dict[rel]), "}]->(", rel[1].title(), ")\n"])
+    return geoff 
+
+def write_to_neo4j(the_dict, wordlist, filename):
+    # first changes the data into the geoff format so that nodes have a variable name for the transaction and then writes it to the neo4j database. be sure the server is running! also this cleans the complete db.
+    graph_db = neo4j.GraphDatabaseService()
+    graph_db.clear()
+    print("db cleared")
+    print("loading geoff")
+    graph_db.load_geoff(_convert_to_geoff(the_dict, wordlist))
+    print("db filled")
+
+def _read_from_mongo(url):
+    url = url.split('/')
+    con = MongoClient(url[0])
+    db = con[url[1]]
+    corpus = [] 
+    # get text from database (one line = one article)
+    for row in db.find():
+        corpus.append(row['text'])
+    return corpus
+
+def _run(infile, outfile, language, stem, remove_stopwords, neighbour, sig_func, db_mode):
+    if mode == 'db':
+        method = write_to_neo4j
+        corpus = _read_from_mongo(infile)
+    elif mode == 'geoff' :
+        method = write_geoff_file
+        corpus = codecs.open(infile, encoding='utf-8').read()
+    elif mode == 'csv':
+        method = write_to_file
+        corpus = codecs.open(infile, encoding='utf-8').read()
+
+    calc = CooccurrenceCalculator(corpus, stem, remove_stopwords, language)
+
     if neighbour:
-        write_to_file(calc.get_significances(sig_func, calc.get_n_neighbour_cooccurrences()), outfile)
+        method(calc.get_significances(sig_func, calc.get_n_neighbour_cooccurrences()),  calc.get_wordcount_table().keys(), outfile)
     else:
-        write_to_file(calc.get_significances(sig_func, calc.get_n_sentence_cooccurrences()), outfile)
+        method(calc.get_significances(sig_func, calc.get_n_sentence_cooccurrences()), calc.get_wordcount_table().keys(), outfile)
+
+
+   
 
 
 class Usage(Exception):
@@ -164,12 +209,13 @@ def main(argv=None):
     stem = True
     remove_stopwords = True
     neighbour = False
+    mode = "geoff"
     significance_function = sig_dice
     if argv is None:
         argv = sys.argv
     try:
         try:
-            opts, args = getopt.getopt(argv[1:], "hi:o:l:nsf:S")
+            opts, args = getopt.getopt(argv[1:], "hi:o:l:nsf:Sm:")
         except getopt.error, msg:
              raise Usage(msg)
         for o,a in opts:
@@ -206,6 +252,11 @@ def main(argv=None):
             elif o == '-h':
                 print_help()
                 exit()
+            elif o == '-m':
+                if not a in ['geoff', 'csv', 'db']
+                    raise Usage("modes may only be [db, geoff, csv]")
+                    return 2
+                mode = a
         if infile == '' or outfile == '': 
             print_help()
             return 2
@@ -213,7 +264,7 @@ def main(argv=None):
         print >>sys.stderr, err.msg
         return 2
 
-    _run(infile, outfile, language, stem, remove_stopwords, neighbour, significance_function)
+    _run(infile, outfile, language, stem, remove_stopwords, neighbour, significance_function, db_mode)
 
 
 def print_help():
@@ -223,7 +274,8 @@ def print_help():
     print "\t -s : do not stem"
     print "\t -S : do not remove stopwords"
     print "\t -n : use neighbour cooccurrence instead of sentence"
-    print "\t -f [MI, log, base, dice] : choose the significance function. defaults to dice"
+    print "\t -f [MI, log, base, dice] : choose the significance function.defaults to dice"
+    print "\t -m [db, csv, geoff]: set mode. in db mode use -i for input url (mongodb) and -o for the output neo4j url. otherwise use filenames. default to geoff"
 
 if __name__ == "__main__":
     sys.exit(main())
