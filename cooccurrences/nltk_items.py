@@ -169,14 +169,15 @@ def write_to_neo4j(the_dict, wordlist, filename):
 def _read_from_mongo(url):
     url = url.split('/')
     con = MongoClient(url[0])
-    db = con[url[1]]
-    corpus = [] 
+    db = con[url[1]][url[2]]
+    corpus = "" 
     # get text from database (one line = one article)
     for row in db.find():
-        corpus.append(row['text'])
+        corpus = corpus + row['text']
+    print corpus
     return corpus
 
-def _run(infile, outfile, language, stem, remove_stopwords, neighbour, sig_func, db_mode):
+def _run(infile, outfile, language, stem, remove_stopwords, neighbour, sig_func, mode):
     if mode == 'db':
         method = write_to_neo4j
         corpus = _read_from_mongo(infile)
@@ -210,7 +211,7 @@ def main(argv=None):
     remove_stopwords = True
     neighbour = False
     mode = "geoff"
-    significance_function = sig_dice
+    significance_function = sig_log
     if argv is None:
         argv = sys.argv
     try:
@@ -253,7 +254,7 @@ def main(argv=None):
                 print_help()
                 exit()
             elif o == '-m':
-                if not a in ['geoff', 'csv', 'db']
+                if not a in ['geoff', 'csv', 'db']:
                     raise Usage("modes may only be [db, geoff, csv]")
                     return 2
                 mode = a
@@ -264,7 +265,7 @@ def main(argv=None):
         print >>sys.stderr, err.msg
         return 2
 
-    _run(infile, outfile, language, stem, remove_stopwords, neighbour, significance_function, db_mode)
+    _run(infile, outfile, language, stem, remove_stopwords, neighbour, significance_function, mode)
 
 
 def print_help():
@@ -274,7 +275,7 @@ def print_help():
     print "\t -s : do not stem"
     print "\t -S : do not remove stopwords"
     print "\t -n : use neighbour cooccurrence instead of sentence"
-    print "\t -f [MI, log, base, dice] : choose the significance function.defaults to dice"
+    print "\t -f [MI, log, base, dice] : choose the significance function.defaults to log"
     print "\t -m [db, csv, geoff]: set mode. in db mode use -i for input url (mongodb) and -o for the output neo4j url. otherwise use filenames. default to geoff"
 
 if __name__ == "__main__":

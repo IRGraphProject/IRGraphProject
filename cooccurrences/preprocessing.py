@@ -28,12 +28,12 @@ def _parse_to_tokenized_sentences(tokenizer, rawfile):
 def _split(sentence_list):
     return map(unicode.split, sentence_list)
 
-def preprocess(text, stemmer, remove_stopwords=True, language='german'):
+def preprocess(corpus, stemmer, remove_stopwords=True, language='german'):
     global STOPWORDS   
     LANGUAGE = language
     STOPWORDS = map(unicode, stopwords.words(LANGUAGE))
     STOPWORDS.append(u'dass') #not contained in stopwords
-    sentence_list = _parse_to_tokenized_sentences(nltk.data.load('tokenizers/punkt/' + language + '.pickle'), text)
+    sentence_list = _parse_to_tokenized_sentences(nltk.data.load('tokenizers/punkt/' + language + '.pickle'), corpus)
     sentences = _split(sentence_list)
     #for s in sentence_list:
     #    print s
