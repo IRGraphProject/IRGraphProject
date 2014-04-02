@@ -22,17 +22,20 @@ for line in f:
     except:
         print "X"
         continue;
-        
+
     blacklist = ['redirect']
+    # Don't add redirect pages 
     if ( pageset['english'] and pageset['simple'] and
         all(substr not in pageset['english'].lower() for substr in blacklist) and
         all(substr not in pageset['simple'].lower() for substr in blacklist)):
 
         epage = mwparserfromhell.parse(pageset['english'])
         spage = mwparserfromhell.parse(pageset['simple'])
+        # fetch a list of wiki links
         wle = epage.filter_wikilinks()
         wls = spage.filter_wikilinks()
 
+        # filter out Category links
         for wl in wle:
             if '[[Category' in wl:
                 try:
@@ -45,10 +48,12 @@ for line in f:
                     spage.remove(wl)
                 except:
                     print "removal failed"
-
+        
+        # remove remaining mediawiki tags
         epage = epage.strip_code(normalize=True, collapse=True)
         spage = spage.strip_code(normalize=True, collapse=True)
 
+        # remove tables
         i = 0
         while "{|" in epage and "|}" in epage and i < 1000:
             start = epage.find("{|")
@@ -63,6 +68,7 @@ for line in f:
             spage = spage[:start] + spage[end+2:]
             i = i + 1
 
+        # write to data base
         if len(spage)>0 and len(epage)>0:
             print "*"
             stripset = {}
