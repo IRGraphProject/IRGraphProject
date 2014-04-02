@@ -177,6 +177,22 @@ def _read_from_mongo(url):
     print corpus
     return corpus
 
+# helper method up to now only used in REPL
+def dump_db_as_asv_source(url, filename):
+    # read from db
+    url = url.split('/')
+    con = MongoClient(url[0])
+    db = con[url[1]][url[2]]
+    corpus = []
+    # get text from database (one line = one article)
+    
+    # write to file
+    with open(filename, 'w') as f:
+        for row in db.find():
+            item = {'text': row['text'], 'url': row['url']}
+            f.write( ''.join(['<source><location>', item['url'], '</location></source>\n', item['text'], '\n'])) 
+    return 
+
 def _run(infile, outfile, language, stem, remove_stopwords, neighbour, sig_func, mode):
     if mode == 'db':
         method = write_to_neo4j
