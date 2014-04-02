@@ -13,8 +13,6 @@ wiki = con.wikidb.dump
 # clear data collection (if exists)
 wiki.drop()
 
-pars = HTMLParser.HTMLParser()
-
 f = codecs.open('pages.json', encoding='utf-8')
 
 for line in f:
