@@ -30,15 +30,15 @@ class WordsGraph:
 
 
     def make_subgraph_around(self, word, depth):
-        def _add_neighbours(graph, vertex, depth):
+        def _add_neighbours(ngraph, vertex, depth):
             if(depth == 0):
                 return
             v_neighbours = vertex.all_edges()
             for neighbour in v_neighbours:
-                graph.create_edge(self.vprop_word_string[vertex], self.vprop_word_string[neighbour.target()], self.eprop_value_float[neighbour] )
+                ngraph.create_edge(self.vprop_word_string[vertex], self.vprop_word_string[neighbour.target()], self.eprop_value_float[neighbour] )
                 #graph.get_or_create_vertex(self.vprop_word_string[neighbour.target()])
                 if(depth > 0):
-                    _add_neighbours(graph, self.graph.vertex(neighbour.target()), depth-1)
+                    _add_neighbours(ngraph, self.graph.vertex(neighbour.target()), depth-1)
 
         subgraph = WordsGraph()
         start_id = self.get_vertex_id(word)
