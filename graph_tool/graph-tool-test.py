@@ -8,7 +8,7 @@ import graph_parser
 g = graph_parser.file_to_graph('test_data_NL')
 print("graph created")
 
-# graph_tool stellt eine möglichkeit zur Berechnung des Durchmessers eines Graphen zur Verfügung. Die Methode braucht dazu das graph_tool Graph objekt, welches in unserem WordsGraph-Objekt unter dem Feld graph erreichbar ist. 
+# graph_tool stellt eine möglichkeit zur Berechnung des Durchmessers eines Graphen zur Verfügung. Die Methode braucht dazu das graph_tool Graph objekt, welches in unserem WordsGraph-Objekt unter dem Feld graph erreichbar ist.
 #print("pseudo diameter: %s" % str(graph_tool.topology.pseudo_diameter(g.graph)))
 #print("global clustering: %s" % str(graph_tool.clustering.global_clustering(g.graph)))
 
@@ -22,4 +22,3 @@ print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(s
 # Das folgende Erzeug eine png-Datei
 layout = sfdp_layout(sg.graph, C=0.1)
 graph_tool.draw.graph_draw(sg.graph,layout, vertex_text=sg.vprop_word_string, output_size=(1000,1000), output="testout.png", vertex_size=10 )
-
