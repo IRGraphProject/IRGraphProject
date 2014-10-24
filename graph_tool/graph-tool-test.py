@@ -18,7 +18,5 @@ sg = g.make_subgraph_around('Aufsichtsrat', 1)
 # muss dementsprechend 3 sein.
 print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(sg.graph)))
 
-
-# Das folgende Erzeug eine png-Datei
-layout = sfdp_layout(sg.graph, C=0.1)
+layout = sfdp_layout(sg.graph, C=0.1, eweight=sg.eprop_value_float)
 graph_tool.draw.graph_draw(sg.graph,layout, vertex_text=sg.vprop_word_string, output_size=(1000,1000), output="testout.png", vertex_size=10 )
