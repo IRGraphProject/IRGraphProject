@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# remove mediawiki markup from article and return plaintext
+# remove mediawiki markup from article and return plain text
 #
 
 import json
@@ -21,6 +21,11 @@ def remove_categories(line):
 def remove_redirects(page):
     page = re.sub("\#REDIRECT \[\[.*\]\]","",page)
     return page
+
+# remove "magic words" (double underscores)
+def remove_magic(line):
+    line = re.sub("__+.*?__+","",line)
+    return line
 
 # remove headings because they're not sentences
 def remove_headings(line):
@@ -100,17 +105,18 @@ def remove_spaces(page):
     page = page.strip()
     return page
 
-def main():
-    p = re.compile('\[http.*? (.*?)\]')
+p = re.compile('\[http.*? (.*?)\]')
 
+def main():
     con = pymongo.Connection('127.0.0.1', port=27017)
     wiki = con.wikidb.dump
+    errlog = con.wikidb.errors
     # clear collection (if exists)
     wiki.drop()
 
     f = codecs.open('../data/pages.json', encoding='utf-8')
-    #f = codecs.open('../data/page_one.txt', encoding='utf-8')
-    #f = codecs.open('../data/phead.json', encoding='utf-8')
+#    f = codecs.open('../data/page_one.txt', encoding='utf-8')
+#    f = codecs.open('../data/phead.json', encoding='utf-8')
 
     linecount = 0
 
@@ -120,8 +126,7 @@ def main():
             print str(linecount) + " done"
         # handle as JSON
         try:
-            jline = json.loads(line[:-2])
-
+            jline = json.loads(line[:-2], encoding='utf-8')
             # remove redirect pages and pages available only in one language
             blacklist = ['redirect']
             if ( jline['english'] and jline['simple'] and
@@ -132,6 +137,7 @@ def main():
                 sim = jline['simple']
                 sim = remove_categories(sim)
                 sim = remove_redirects(sim)
+                sim = remove_magic(sim)
                 sim = remove_headings(sim)
                 sim = remove_lists(sim)
                 sim = remove_tables(sim)
@@ -140,12 +146,13 @@ def main():
                 sim = remove_wikilinks(sim)
                 sim = remove_links(sim)
                 sim = remove_spaces(sim)
-    #            print sim
+#                print sim
 
                 # do stuff for english
                 eng = jline['english']
                 eng = remove_categories(eng)
                 eng = remove_redirects(eng)
+                eng = remove_magic(eng)
                 eng = remove_headings(eng)
                 eng = remove_lists(eng)
                 eng = remove_tables(eng)
@@ -154,7 +161,7 @@ def main():
                 eng = remove_wikilinks(eng)
                 eng = remove_links(eng)
                 eng = remove_spaces(eng)
-    #           print eng
+#               print eng
 
                 # new JSON object
                 newline = {}
@@ -166,10 +173,14 @@ def main():
 
                 # save to database
                 wiki.insert(newline)
-    #        else:
-    #            print "blacklisted for redirect: " + jline['title']
+#            else:
+#                print "blacklisted for redirect: " + jline['title']
         except:
-            print "JSON load failed for "+line
+            print("JSON load failed for line "+str(linecount))
+            err = {}
+            err['line'] = linecount
+            err['text'] = line
+            errlog.insert(err)
             continue;
 
     return 0
