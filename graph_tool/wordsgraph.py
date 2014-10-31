@@ -31,6 +31,15 @@ class WordsGraph:
             self.wordvertexes[word] = v
         return v
 
+    #
+    def filter_coocccurrence_threshold(self, threshold):
+        filter_property_map = self.graph.new_edge_property("bool")
+        prop_ary = self.eprop_value_float
+        edges = self.graph.edges()
+        for edge in edges:
+            filter_property_map[edge] = prop_ary[edge] > threshold
+        self.graph.set_edge_filter(filter_property_map)
+
     # Erzeugt eine Kante zwischen zwei Wörtern. word_from und word_to sind einfach die string-Wörter, die zugehörigen Knoten werden selbst rausgesucht.
     def create_edge(self, word_from, word_to, value):
         vertex_from = self.get_or_create_vertex(word_from)

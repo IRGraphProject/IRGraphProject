@@ -18,10 +18,6 @@ print("graph created")
 # muss dementsprechend 3 sein.
 #print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(sg.graph)))
 
-my_edge_filter = { k: g.eprop_value_float[k] < 14 for k in g.eprop_value_float.keys() }
-print("halllo")
-print(my_edge_filter)
-g.graph.set_edge_filter(my_edge_filter)
 
 sg = g.make_subgraph_around('Aufsichtsrat', 1)
 # muss dementsprechend 3 sein.

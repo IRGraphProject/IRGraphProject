@@ -10,5 +10,5 @@ def file_to_graph(filename):
     infile = open(filename)
     for line in infile:
         l = line.split(', ')
-        wordsgraph.create_edge(l[0], l[1], l[2])
+        wordsgraph.create_edge(l[0], l[1], 1/float(l[2]))
     return wordsgraph
