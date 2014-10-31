@@ -5,7 +5,7 @@ from wordsgraph import WordsGraph
 import graph_parser
 
 # erzeuge aus der Datei test_data_NL einen WordGraph (siehe wordsgraph.py für weite dokumentation)
-g = graph_parser.file_to_graph('test_data_NL')
+g = graph_parser.file_to_graph('test_data_min')
 print("graph created")
 
 # graph_tool stellt eine möglichkeit zur Berechnung des Durchmessers eines Graphen zur Verfügung. Die Methode braucht dazu das graph_tool Graph objekt, welches in unserem WordsGraph-Objekt unter dem Feld graph erreichbar ist.
@@ -14,6 +14,15 @@ print("graph created")
 
 
 # Macht einen Ausschnitt um das Wort Aufsichtsrat mit allen direkten Nachbarn. Achtung die Funktion ist noch nicht fertig, es werden nicht die Kookkurrenzen der Nachbarn untereinander übernommen.
+#sg = g.make_subgraph_around('Aufsichtsrat', 1)
+# muss dementsprechend 3 sein.
+#print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(sg.graph)))
+
+my_edge_filter = { k: g.eprop_value_float[k] < 14 for k in g.eprop_value_float.keys() }
+print("halllo")
+print(my_edge_filter)
+g.graph.set_edge_filter(my_edge_filter)
+
 sg = g.make_subgraph_around('Aufsichtsrat', 1)
 # muss dementsprechend 3 sein.
 print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(sg.graph)))

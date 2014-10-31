@@ -63,7 +63,6 @@ class WordsGraph:
         for word in words:
             for target_word in words:
                 edge = self.graph.edge(self.wordvertexes[word], self.wordvertexes[target_word])
-                print(edge)
                 if edge:
                     subgraph.create_edge(word, target_word, self.eprop_value_float[edge])
 
