@@ -32,7 +32,7 @@ class WordsGraph:
         return v
 
     #
-    def filter_coocccurrence_threshold(self, threshold):
+    def filter_cooccurrence_threshold(self, threshold):
         filter_property_map = self.graph.new_edge_property("bool")
         prop_ary = self.eprop_value_float
         edges = self.graph.edges()
