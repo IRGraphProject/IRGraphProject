@@ -7,7 +7,9 @@ import math
 
 # erzeuge aus der Datei test_data_NL einen WordGraph
 # (siehe wordsgraph.py für weite dokumentation)
-g = graph_parser.file_to_graph('test_data_NL')
+
+# erzeuge aus der Datei test_data_NL einen WordGraph (siehe wordsgraph.py für weite dokumentation)
+g = graph_parser.file_to_graph('test_data_aufsichtsrat')
 print("graph created")
 
 # graph_tool stellt eine möglichkeit zur Berechnung des Durchmessers eines
@@ -24,9 +26,9 @@ print("graph created")
 # muss dementsprechend 3 sein.
 #print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(sg.graph)))
 g.filter_cooccurrence_threshold(1/15)
-
+print(g.graph)
 sg = g.make_subgraph_around('Aufsichtsrat', 1)
-sg.filter_cooccurrence_threshold(1/15)
+#sg.filter_cooccurrence_threshold(1/15)
 # muss dementsprechend 3 sein.
 print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(sg.graph)))
 

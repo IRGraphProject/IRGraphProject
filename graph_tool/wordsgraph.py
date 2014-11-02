@@ -37,7 +37,7 @@ class WordsGraph:
         prop_ary = self.eprop_value_float
         edges = self.graph.edges()
         for edge in edges:
-            filter_property_map[edge] = prop_ary[edge] > threshold
+            filter_property_map[edge] = prop_ary[edge] < threshold
         self.graph.set_edge_filter(filter_property_map)
 
     # Erzeugt eine Kante zwischen zwei Wörtern. word_from und word_to sind einfach die string-Wörter, die zugehörigen Knoten werden selbst rausgesucht.
