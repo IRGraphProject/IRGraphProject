@@ -44,6 +44,7 @@ class WordsGraph:
     def create_edge(self, word_from, word_to, value):
         vertex_from = self.get_or_create_vertex(word_from)
         vertex_to = self.get_or_create_vertex(word_to)
+        #print(self.vprop_word_string( vertex_to))
         if(self.graph.edge(vertex_from, vertex_to) or self.graph.edge(vertex_to, vertex_from)):
             # do not create the edge again if it exists
             return
@@ -52,30 +53,29 @@ class WordsGraph:
 
     # Erzeugt einen Teilgraphen um das Wort word, mit allen Knoten mit max Abstand depth. Es werden gerade noch nicht alle Edges hinzugefügt, hier ist noch etwas Arbeit zu tun, die Edges zwischen Nachbarn werden noch nicht übernommen.
     def make_subgraph_around(self, word, depth):
-        def _add_neighbours(ngraph, vertex, depth):
+        def _add_neighbours(new_graph, vertex, depth):
             # ngraph ist der neue graph, die nachbarn von vertex im ursprungsgraph sollen übertragen werden.
             if(depth == 0):
                 return
-            v_neighbours = vertex.all_edges()
+            v_neighbours = vertex.all_neighbours()
             for neighbour in v_neighbours:
-                ngraph.create_edge(self.vprop_word_string[vertex], self.vprop_word_string[neighbour.target()], self.eprop_value_float[neighbour] )
-                #graph.get_or_create_vertex(self.vprop_word_string[neighbour.target()])
+                new_graph.get_or_create_vertex( self.vprop_word_string[neighbour] )
                 if(depth > 0):
-                    _add_neighbours(ngraph, self.graph.vertex(neighbour.target()), depth-1)
+                    _add_neighbours(new_graph, self.graph.vertex(neighbour), depth-1)
+
+                 #create_edge(self.vprop_word_string[vertex], self.vprop_word_string[neighbour.target()], self.eprop_value_float[neighbour] )
+        def _add_edges(new_graph):
+            words = new_graph.wordvertexes.keys()
+            for word in words:
+                for target_word in words:
+                    edge = self.graph.edge(self.wordvertexes[word], self.wordvertexes[target_word])
+                    if edge:
+                        subgraph.create_edge(word, target_word, self.eprop_value_float[edge])
 
         subgraph = WordsGraph()
         start_id = self.get_vertex_id(word)
         start_vertex = self.graph.vertex(start_id)
         subgraph.get_or_create_vertex(word)
         _add_neighbours(subgraph, start_vertex, depth)
-        words = list(subgraph.wordvertexes.keys())
-        for word in words:
-            for target_word in words:
-                edge = self.graph.edge(self.wordvertexes[word], self.wordvertexes[target_word])
-                if edge:
-                    subgraph.create_edge(word, target_word, self.eprop_value_float[edge])
-
-    #v_neighbours = start_vertex.all_neighbours()
-    #    for neighbour in v_neighbours:
-    #        subgraph.get_or_create_vertex(self.vprop_word_string[neighbour])
+        _add_edges(subgraph)
         return subgraph
