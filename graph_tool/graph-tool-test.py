@@ -36,7 +36,7 @@ print("graph created")
 # muss dementsprechend 3 sein.
 g.filter_cooccurrence_threshold(1/12)
 
-sg = g.make_subgraph_around('Aufsichtsrat', 1)
+sg = g.make_subgraph_around('Aufsichtsrat', 2)
 #sg.filter_cooccurrence_threshold(1/15)
 # muss dementsprechend 3 sein.
 print("pseudo diameter subgraph: %s" % str(graph_tool.topology.pseudo_diameter(sg.graph)))
