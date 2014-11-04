@@ -113,6 +113,7 @@ def main():
     errlog = con.wikidb.errors
     # clear collection (if exists)
     wiki.drop()
+    errlog.drop()
 
     f = codecs.open('../data/pages.json', encoding='utf-8')
 #    f = codecs.open('../data/page_one.txt', encoding='utf-8')
