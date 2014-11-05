@@ -8,14 +8,14 @@ import graph_parser
 
 ## handle arguments from command line
 parser = argparse.ArgumentParser(description='Create a cooccurrence graph and print out some measures')
-parser.add_argument('-i', type=str, default="test_data_aufsichtsrat",
-    help="input file containing the cooccurrences")
+parser.add_argument('-i', type=str, default="../data/test_data_aufsichtsrat",
+    help="input file containing cooccurrences (default: ../data/test_data_aufsichtsrat)")
 parser.add_argument('-o', type=str, default="testout.png",
-    help="output file (a PNG)")
+    help="PNG output file (default: testout.png)")
 parser.add_argument('-w', type=str, default="Aufsichtsrat",
-    help="word to retrieve cooccurrences from")
+    help="word to retrieve cooccurrences from (default: Aufsichtsrat)")
 parser.add_argument('-d', type=int, default=1,
-    help="iteration depth; maximum distance to word (default = 1)")
+    help="iteration depth; maximum distance to word (default: 1)")
 args = parser.parse_args()
 # assign arguments to variables
 infile = args.i
