@@ -25,9 +25,12 @@ args = parser.parse_args()
 def draw_wordsgraph(word, graph, depth, outfile):
     """Draws a subgraph of all nodes up to ```depth``` around a node with
     identifier ```word``` from ```graph``` and writes it to ```outfile```."""
-    try: 
+    try:
+        # Macht einen Ausschnitt um das Wort mit allen Nachbarn bis Abstand depth
         sg = g.make_subgraph_around(word, depth)
+        # define layout
         layout = sfdp_layout(sg.graph, C=0.1, eweight=sg.eprop_value_float)
+        # draw graph
         graph_tool.draw.graph_draw(sg.graph,layout, vertex_text=sg.vprop_word_string,
             output_size=(1000,1000), output=outfile,
             vertex_size=10, edge_pen_width=2, vertex_text_position=7*math.pi/4,
@@ -40,8 +43,10 @@ def draw_wordsgraph(word, graph, depth, outfile):
 g = graph_parser.file_to_graph(args.i)
 print("graph created")
 
+# define max. relevant cooccurrence
 g.filter_cooccurrence_threshold(args.t)
 
+# save subgraph for each word given
 for word in args.words:
     print('Drawing subgraph ' + word)
     t = os.path.basename('_'.join([args.p, word, '.png']))
