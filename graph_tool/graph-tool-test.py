@@ -6,6 +6,8 @@ import argparse
 import os
 from wordsgraph import WordsGraph
 import graph_parser
+import re
+import numpy as np
 
 ## handle arguments from command line
 parser = argparse.ArgumentParser(description='Create a cooccurrence graph and print out some measures')
@@ -21,6 +23,7 @@ parser.add_argument('-t', type=float, default=1/12,
     help="Cooccurrence threshold (default: 1/12)")
 
 args = parser.parse_args()
+
 
 def draw_wordsgraph(word, graph, depth, outfile):
     """Draws a subgraph of all nodes up to ```depth``` around a node with
@@ -38,10 +41,36 @@ def draw_wordsgraph(word, graph, depth, outfile):
     except:
         pass
 
+def write_vertex_degree_hist(wordsgraph):
+    counts, bins = graph_tool.stats.vertex_hist(wordsgraph.graph, 'total', float_count= False)
+    counts = np.append(counts, 0)
+    f = open(vertex_degree_file, 'w')
+    f.write('; '.join(map(str, bins)))
+    f.write('\n')
+    f.write('; '.join(map(str, counts)))
+    f.close()
+
+def write_min_distance_hist(wordsgraph):
+    counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph, float_count= False)
+    counts = np.append(counts, 0)
+    f = open(min_dist_file, 'w')
+    f.write('; '.join(map(str, bins)))
+    f.write('\n')
+    f.write('; '.join(map(str, counts)))
+    f.close()
+
 # erzeuge aus der Datei test_data_NL einen WordGraph
 # (siehe wordsgraph.py für weitere Dokumentation)
 g = graph_parser.file_to_graph(args.i)
 print("graph created")
+
+vertex_degree_file = args.p + '_v_degree_hist.csv'
+min_dist_file = args.p + '_min_dist_hist.csv'
+
+# histograms for full graph
+write_vertex_degree_hist(g)
+write_min_distance_hist(g)
+print('wrote histograms')
 
 # define max. relevant cooccurrence
 g.filter_cooccurrence_threshold(args.t)
