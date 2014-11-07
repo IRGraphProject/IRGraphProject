@@ -9,12 +9,12 @@ import graph_parser
 
 ## handle arguments from command line
 parser = argparse.ArgumentParser(description='Create a cooccurrence graph and print out some measures')
+parser.add_argument('words', help="list of words to retrieve cooccurrences\
+        from", nargs='+')
 parser.add_argument('-i', default="../data/test_data_aufsichtsrat",
     help="input file containing cooccurrences (default: ../data/test_data_aufsichtsrat)")
 parser.add_argument('-p', default="graph", help="Output file prefix\
         (default: graph)")
-parser.add_argument('words', help="list of words to retrieve cooccurrences\
-        from", nargs='+')
 parser.add_argument('-d', type=int, default=1,
     help="iteration depth; maximum distance to word (default: 1)")
 parser.add_argument('-t', type=float, default=1/12,
