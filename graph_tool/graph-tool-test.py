@@ -9,22 +9,7 @@ import graph_parser
 import re
 import numpy as np
 
-## handle arguments from command line
-parser = argparse.ArgumentParser(description='Create a cooccurrence graph and print out some measures')
-parser.add_argument('words', help="list of words to retrieve cooccurrences\
-        from", nargs='+')
-parser.add_argument('-i', default="../data/test_data_aufsichtsrat",
-    help="input file containing cooccurrences (default: ../data/test_data_aufsichtsrat)")
-parser.add_argument('-p', default="graph", help="Output file prefix\
-        (default: graph)")
-parser.add_argument('-d', type=int, default=1,
-    help="iteration depth; maximum distance to word (default: 1)")
-parser.add_argument('-t', type=float, default=1/12,
-    help="Cooccurrence threshold (default: 1/12)")
-
-args = parser.parse_args()
-
-
+# functions ##################################################################
 def draw_wordsgraph(word, graph, depth, outfile):
     """Draws a subgraph of all nodes up to ```depth``` around a node with
     identifier ```word``` from ```graph``` and writes it to ```outfile```."""
@@ -60,15 +45,36 @@ def write_min_distance_hist(wordsgraph):
         f.write('; '.join(map(str, bins)))
         f.write('\n')
         f.write('; '.join(map(str, counts)))
+##############################################################################
+
+## handle arguments from command line
+parser = argparse.ArgumentParser(description='Create a cooccurrence graph and print out some measures')
+parser.add_argument('outdir', help="(not-yet-existent) output file directory")
+parser.add_argument('words', help="list of words to retrieve cooccurrences\
+        from", nargs='+')
+parser.add_argument('-i', default="../data/test_data_aufsichtsrat",
+    help="input file containing cooccurrences (default: ../data/test_data_aufsichtsrat)")
+parser.add_argument('-d', type=int, default=1,
+    help="iteration depth; maximum distance to word (default: 1)")
+parser.add_argument('-t', type=float, default=1/12,
+    help="Cooccurrence threshold (default: 1/12)")
+
+args = parser.parse_args()
 
 # erzeuge aus der Datei test_data_NL einen WordGraph
 # (siehe wordsgraph.py für weitere Dokumentation)
 g = graph_parser.file_to_graph(args.i)
 print("graph created")
 
-vertex_degree_file = args.p + '_v_degree_hist.csv'
-min_dist_file = args.p + '_min_dist_hist.csv'
-diameter_file = args.p + '_diameter'
+try:
+    os.mkdir(args.outdir)
+except:
+    print("directory "+args.outdir+"/ already exists!")
+    exit()
+
+vertex_degree_file = args.outdir + '/v_degree_hist.csv'
+min_dist_file = args.outdir + '/min_dist_hist.csv'
+diameter_file = args.outdir + '/diameter.txt'
 
 # histograms for full graph
 write_vertex_degree_hist(g)
@@ -84,5 +90,6 @@ g.filter_cooccurrence_threshold(args.t)
 # save subgraph for each word given
 for word in args.words:
     print('Drawing subgraph ' + word)
-    t = os.path.basename('_'.join([args.p, word, '.png']))
+    t = os.path.basename('_'.join(['graph', word, '.png']))
+    t = os.path.join(args.outdir,t)
     draw_wordsgraph(word, g, args.d, t)
