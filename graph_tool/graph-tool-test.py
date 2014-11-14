@@ -41,23 +41,25 @@ def draw_wordsgraph(word, graph, depth, outfile):
     except:
         pass
 
+def calculate_true_diameter(g):
+    d = graph_tool.topology.shortest_distance(g.graph)
+    return max([max(d[v].a) for v in g.graph.vertices()])
+
 def write_vertex_degree_hist(wordsgraph):
     counts, bins = graph_tool.stats.vertex_hist(wordsgraph.graph, 'total', float_count= False)
     counts = np.append(counts, 0)
-    f = open(vertex_degree_file, 'w')
-    f.write('; '.join(map(str, bins)))
-    f.write('\n')
-    f.write('; '.join(map(str, counts)))
-    f.close()
+    with open(vertex_degree_file, 'w') as f:
+        f.write('; '.join(map(str, bins)))
+        f.write('\n')
+        f.write('; '.join(map(str, counts)))
 
 def write_min_distance_hist(wordsgraph):
     counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph, float_count= False)
     counts = np.append(counts, 0)
-    f = open(min_dist_file, 'w')
-    f.write('; '.join(map(str, bins)))
-    f.write('\n')
-    f.write('; '.join(map(str, counts)))
-    f.close()
+    with open(min_dist_file, 'w') as f:
+        f.write('; '.join(map(str, bins)))
+        f.write('\n')
+        f.write('; '.join(map(str, counts)))
 
 # erzeuge aus der Datei test_data_NL einen WordGraph
 # (siehe wordsgraph.py für weitere Dokumentation)
@@ -66,11 +68,15 @@ print("graph created")
 
 vertex_degree_file = args.p + '_v_degree_hist.csv'
 min_dist_file = args.p + '_min_dist_hist.csv'
+diameter_file = args.p + '_diameter'
 
 # histograms for full graph
 write_vertex_degree_hist(g)
 write_min_distance_hist(g)
 print('wrote histograms')
+
+with open(diameter_file, 'w') as fp:
+    fp.write(str(calculate_true_diameter(g)))
 
 # define max. relevant cooccurrence
 g.filter_cooccurrence_threshold(args.t)
