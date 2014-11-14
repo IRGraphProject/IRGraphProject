@@ -61,16 +61,17 @@ parser.add_argument('-t', type=float, default=1/12,
 
 args = parser.parse_args()
 
-# erzeuge aus der Datei test_data_NL einen WordGraph
-# (siehe wordsgraph.py für weitere Dokumentation)
-g = graph_parser.file_to_graph(args.i)
-print("graph created")
-
+# make directory
 try:
     os.mkdir(args.outdir)
 except:
     print("directory "+args.outdir+"/ already exists!")
     exit()
+
+# erzeuge aus der Datei test_data_NL einen WordGraph
+# (siehe wordsgraph.py für weitere Dokumentation)
+g = graph_parser.file_to_graph(args.i)
+print("graph created")
 
 vertex_degree_file = args.outdir + '/v_degree_hist.csv'
 min_dist_file = args.outdir + '/min_dist_hist.csv'
