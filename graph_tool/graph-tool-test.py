@@ -27,6 +27,7 @@ def draw_wordsgraph(word, graph, depth, outfile):
         pass
 
 def calculate_true_diameter(g):
+    """Calculates the true diameter of a graph."""
     d = graph_tool.topology.shortest_distance(g.graph)
     return max([max(d[v].a) for v in g.graph.vertices()])
 
