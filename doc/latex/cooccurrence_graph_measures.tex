@@ -14,8 +14,23 @@
 \section{Motivation und Ziel}
 \section{Verwendete Technologien}
 \subsection{Programmiersprache Python}
-\subsubsection{NLP-Framework NLTK}
+
+Python ist eine schreckliche Programmiersprache mit viel zu wenig geschweiften
+Klammern.
+
+\subsubsection{Natural Language Toolkit}
+
+Das NLTK ist ein generelles Framework f\"ur Sprachverarbeitung in Python.
+
 \subsubsection{Graphen-Bibliothek graph-tool}
+
+graph-tool ist ein Python-Modul welches der Manipulation und statistische
+Auswertung von Graphen dient. Es stellt im Kern ein C++-Wrapper um die Boost
+Graph Library dar wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
+erreicht wird. Es ist zus\"atzlich in der Lage Graphen mit modernen Techniken
+zu visualisieren und \"ubliche Ma\ss{}e wie Clustering-Koeffizienten, Knoten-
+und Kantengrade und Durchmesser zu berechnen.
+
 \section{Datenbasis}
 
 Als Datenbasis wurden Quellen gew\"ahlt die sich durch eine gro\ss{}e
@@ -71,7 +86,7 @@ Automatisches Sprachverarbeitung berechnet.
 
 \subsection{Erstellung der Graphen}
 
-Die errechneten Kookkurrenzen wurden in graph\_tool-Objekte geparst. Subgraphen
+Die errechneten Kookkurrenzen wurden in graph-tool-Objekte geparst. Subgraphen
 aus den Korpora wurden mittels eines \emph{force-directed graph} nach
 \cite{Hu2005} gelayoutet, Histogramdaten wurden aus aus graph\_tool nach R
 exportiert und mittels ggplot2 geplottet.
