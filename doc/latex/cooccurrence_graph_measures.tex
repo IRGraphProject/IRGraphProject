@@ -1,6 +1,26 @@
 \documentclass[12pt, a4paper]{article}
 \usepackage{fontspec}
-\usepackage{amssymb,amsfonts,amsmath}
+\usepackage{unicode-math}
+\usepackage{amsmath}
+
+\setmainfont[Ligatures=TeX,
+	Extension=.otf,
+	BoldFont=*-bold,
+	UprightFont=*-regular,
+	ItalicFont=*-italic,
+	BoldItalicFont=*-bolditalic,
+SmallCapsFeatures={Letters=SmallCaps}]{texgyrepagella}
+\setmathfont[Ligatures=TeX]{texgyrepagella-math.otf}
+
+% set up Heros (Helvetica)
+\setsansfont[Ligatures=TeX,
+	Extension=.otf,
+	BoldFont=*-bold,
+	UprightFont=*-regular,
+	ItalicFont=*-italic,
+	BoldItalicFont=*-bolditalic,
+SmallCapsFeatures={Letters=SmallCaps}]{texgyreheros}
+
 \usepackage{ngerman}
 \usepackage{booktabs}
 \usepackage{microtype}
@@ -18,8 +38,6 @@
 \tableofcontents
 
 \section{Motivation und Ziel}
-
-áðfåéëäé¹²¤³¤’‘öó®œï¶ðß®é¤³€€€€
 
 Leichte oder auch Einfache Sprache ist eine Untermenge der deutschen Sprache
 die auf besonders leichte Verst\"andlichkeit optimiert ist. Sie umfasst unter
