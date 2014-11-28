@@ -1,25 +1,31 @@
 \documentclass[12pt, a4paper]{article}
-\usepackage{fontspec}
-\usepackage{unicode-math}
+\usepackage{ifxetex}
 \usepackage{amsmath}
 
-\setmainfont[Ligatures=TeX,
-	Extension=.otf,
-	BoldFont=*-bold,
-	UprightFont=*-regular,
-	ItalicFont=*-italic,
-	BoldItalicFont=*-bolditalic,
-SmallCapsFeatures={Letters=SmallCaps}]{texgyrepagella}
-\setmathfont[Ligatures=TeX]{texgyrepagella-math.otf}
-
-% set up Heros (Helvetica)
-\setsansfont[Ligatures=TeX,
-	Extension=.otf,
-	BoldFont=*-bold,
-	UprightFont=*-regular,
-	ItalicFont=*-italic,
-	BoldItalicFont=*-bolditalic,
-SmallCapsFeatures={Letters=SmallCaps}]{texgyreheros}
+\ifxetex
+	\usepackage{fontspec}
+	\usepackage{unicode-math}
+	\setmainfont[Ligatures=TeX,
+		Extension=.otf,
+		BoldFont=*-bold,
+		UprightFont=*-regular,
+		ItalicFont=*-italic,
+		BoldItalicFont=*-bolditalic,
+	SmallCapsFeatures={Letters=SmallCaps}]{texgyrepagella}
+	\setmathfont[Ligatures=TeX]{texgyrepagella-math.otf}
+	
+	% set up Heros (Helvetica)
+	\setsansfont[Ligatures=TeX,
+		Extension=.otf,
+		BoldFont=*-bold,
+		UprightFont=*-regular,
+		ItalicFont=*-italic,
+		BoldItalicFont=*-bolditalic,
+	SmallCapsFeatures={Letters=SmallCaps}]{texgyreheros}
+\else
+	\usepackage[utf8]{inputenc}
+	\usepackage[T1]{fontenc}
+\fi
 
 \usepackage{ngerman}
 \usepackage{booktabs}
@@ -168,7 +174,7 @@ Corpus nicht vor. Die Anzahl der Knoten lässt sich natürlich trivial zählen.
 Der \emph{deunews2010\_100K-Corpus} hat TODO Knoten,
 \emph{nachrichtenleicht.de} TODO, die englische Wikipedia TODO, und die
 \emph{simple english} Wikipedia TODO Knoten. Wir können hier erkennen, dass
-.....TODO....(erwartung erfüllt?)
+TODOerwartung erfüllt?)
  
 \paragraph{Kantengewichte (Histogramm)}
 machen wir sowas? was sagt das aus?
