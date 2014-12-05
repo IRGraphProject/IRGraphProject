@@ -31,21 +31,42 @@ def calculate_true_diameter(g):
     d = graph_tool.topology.shortest_distance(g.graph)
     return max([max(d[v].a) for v in g.graph.vertices()])
 
-def write_vertex_degree_hist(wordsgraph):
+def write_vertex_degree_hist(wordsgraph, out_file):
+    """calculates a histogram of vertex degrees, say how often each vertex degree occurs.
+    The results are written to out_file. The first line contains the vertex degrees (bins),
+    the second line the counts.
+    see 
+    """
     counts, bins = graph_tool.stats.vertex_hist(wordsgraph.graph, 'total', float_count= False)
     counts = np.append(counts, 0)
-    with open(vertex_degree_file, 'w') as f:
+    with open(out_file, 'w') as f:
         f.write('; '.join(map(str, bins)))
         f.write('\n')
         f.write('; '.join(map(str, counts)))
+        f.write('\n')
 
-def write_min_distance_hist(wordsgraph):
+def write_min_distance_hist(wordsgraph, out_file):
+    """calculates a histogram of the minimum distances from each vertex to each other
+    and writes it to out_file. The first line contains the distances between vertexes
+    (bins); the second line how often these distances occur (counts).
+    see https://graph-tool.skewed.de/static/doc/stats.html#graph_tool.stats.vertex_hist
+    """
     counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph, float_count= False)
     counts = np.append(counts, 0)
-    with open(min_dist_file, 'w') as f:
+    with open(out_file, 'w') as f:
         f.write('; '.join(map(str, bins)))
         f.write('\n')
         f.write('; '.join(map(str, counts)))
+        f.write('\n')
+
+def graph_density(graph):
+    v_count = graph.graph.num_vertices()
+    e_count = graph.graph.num_edges()
+    return e_count/(v_count * v_count-1)
+
+def global_clustercoefficient(graph):
+    return graph_tool.clustering.global_clustering(graph.graph)
+    
 ##############################################################################
 
 ## handle arguments from command line
@@ -79,9 +100,16 @@ min_dist_file = args.outdir + '/min_dist_hist.csv'
 diameter_file = args.outdir + '/diameter.txt'
 
 # histograms for full graph
-write_vertex_degree_hist(g)
-write_min_distance_hist(g)
+write_vertex_degree_hist(g, vertex_degree_file)
+write_min_distance_hist(g, min_dist_file)
 print('wrote histograms')
+
+
+comp, hist = graph_tool.topology.label_components(g.graph)
+print(comp)
+print(hist)
+
+
 
 with open(diameter_file, 'w') as fp:
     fp.write(str(calculate_true_diameter(g)))
