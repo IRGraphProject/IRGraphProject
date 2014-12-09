@@ -74,8 +74,8 @@ parser = argparse.ArgumentParser(description='Create a cooccurrence graph and pr
 parser.add_argument('outdir', help="(not-yet-existent) output file directory")
 parser.add_argument('words', help="list of words to retrieve cooccurrences\
         from", nargs='+')
-parser.add_argument('-i', default="../data/test_data_aufsichtsrat",
-    help="input file containing cooccurrences (default: ../data/test_data_aufsichtsrat)")
+parser.add_argument('-i', default="../data/test_data_aufsichtsrat.csv",
+    help="input file containing cooccurrences (default: ../data/test_data_aufsichtsrat.csv)")
 parser.add_argument('-d', type=int, default=1,
     help="iteration depth; maximum distance to word (default: 1)")
 parser.add_argument('-t', type=float, default=1/12,
