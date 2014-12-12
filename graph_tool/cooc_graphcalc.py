@@ -40,9 +40,9 @@ def write_vertex_degree_hist(wordsgraph, out_file):
     counts, bins = graph_tool.stats.vertex_hist(wordsgraph.graph, 'total', float_count= False)
     counts = np.append(counts, 0)
     with open(out_file, 'w') as f:
-        f.write('; '.join(map(str, bins)))
+        f.write(';'.join(map(str, bins)))
         f.write('\n')
-        f.write('; '.join(map(str, counts)))
+        f.write(';'.join(map(str, counts)))
         f.write('\n')
 
 def write_min_distance_hist(wordsgraph, out_file):
@@ -54,9 +54,9 @@ def write_min_distance_hist(wordsgraph, out_file):
     counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph, float_count= False)
     counts = np.append(counts, 0)
     with open(out_file, 'w') as f:
-        f.write('; '.join(map(str, bins)))
+        f.write(';'.join(map(str, bins)))
         f.write('\n')
-        f.write('; '.join(map(str, counts)))
+        f.write(';'.join(map(str, counts)))
         f.write('\n')
 
 def graph_density(graph):
