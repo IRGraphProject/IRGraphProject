@@ -70,56 +70,72 @@ def global_clustercoefficient(graph):
 ##############################################################################
 
 ## handle arguments from command line
-parser = argparse.ArgumentParser(description='Create a cooccurrence graph and print out some measures')
-parser.add_argument('outdir', help="(not-yet-existent) output file directory")
-parser.add_argument('words', help="list of words to retrieve cooccurrences\
-        from", nargs='+')
+parser = argparse.ArgumentParser(description='Create a cooccurrence graph and \
+    print out some measures')
+parser.add_argument('outdir', help="output file directory")
 parser.add_argument('-i', default="../data/test_data_aufsichtsrat.csv",
-    help="input file containing cooccurrences (default: ../data/test_data_aufsichtsrat.csv)")
+    help="input file containing cooccurrences (default: \
+        ../data/test_data_aufsichtsrat.csv)")
 parser.add_argument('-d', type=int, default=1,
     help="iteration depth; maximum distance to word (default: 1)")
 parser.add_argument('-t', type=float, default=1/12,
     help="Cooccurrence threshold (default: 1/12)")
+parser.add_argument("-g", "--graph", help="draw only graph/s (omit calculations)",
+                    action="store_true")
+parser.add_argument('-w','--words', help="list of words to retrieve cooccurrences\
+        from", nargs='+')
 
 args = parser.parse_args()
+
+if args.graph and not args.words:
+    print('must specify word/s to draw cooccurrence graphs of (-w)')
+    exit()
 
 # make directory
 try:
     os.mkdir(args.outdir)
 except:
-    print("directory "+args.outdir+"/ already exists!")
-    exit()
+    if os.listdir(args.outdir): # dir not empty
+        print('directory '+args.outdir+'/ not empty!')
+        exit()
+print('saving files to '+args.outdir+'/')
 
 # erzeuge aus der Datei test_data_NL einen WordGraph
 # (siehe wordsgraph.py für weitere Dokumentation)
+print('creating graph for corpus '+args.i)
 g = graph_parser.file_to_graph(args.i)
-print("graph created")
-
-vertex_degree_file = args.outdir + '/v_degree_hist.csv'
-min_dist_file = args.outdir + '/min_dist_hist.csv'
-diameter_file = args.outdir + '/diameter.txt'
-
-# histograms for full graph
-write_vertex_degree_hist(g, vertex_degree_file)
-write_min_distance_hist(g, min_dist_file)
-print('wrote histograms')
-
-
-comp, hist = graph_tool.topology.label_components(g.graph)
-print(comp)
-print(hist)
-
-
-
-with open(diameter_file, 'w') as fp:
-    fp.write(str(calculate_true_diameter(g)))
-
-# define max. relevant cooccurrence
+# define max. relevant cooccurrence value
+print('cooc. threshold = '+str(args.t))
 g.filter_cooccurrence_threshold(args.t)
+print('graph created')
 
-# save subgraph for each word given
-for word in args.words:
-    print('Drawing subgraph ' + word)
-    t = os.path.basename('_'.join(['graph', word, '.png']))
-    t = os.path.join(args.outdir,t)
-    draw_wordsgraph(word, g, args.d, t)
+# do calculations only if not in 'graph-only' mode
+if not args.graph:
+    print('doing calculations')
+    vertex_degree_file = args.outdir + '/v_degree_hist.csv'
+    min_dist_file = args.outdir + '/min_dist_hist.csv'
+    diameter_file = args.outdir + '/diameter.txt'
+
+    # histograms for full graph
+    write_vertex_degree_hist(g, vertex_degree_file)
+    write_min_distance_hist(g, min_dist_file)
+    print('wrote histograms')
+
+    comp, hist = graph_tool.topology.label_components(g.graph)
+    print(comp)
+    print(hist)
+
+    with open(diameter_file, 'w') as fp:
+        fp.write(str(calculate_true_diameter(g)))
+
+if args.words:
+    # save subgraph for each word given
+    print('drawing '+str(len(args.words))+' cooccurrence graph/s with \
+        max. depth '+str(args.d))
+    for word in args.words:
+        print(' - drawing subgraph ' + word)
+        t = os.path.basename('_'.join(['graph', word, '.png']))
+        t = os.path.join(args.outdir,t)
+        draw_wordsgraph(word, g, args.d, t)
+
+print('done')
