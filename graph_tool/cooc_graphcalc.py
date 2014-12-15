@@ -71,7 +71,7 @@ def global_clustercoefficient(graph):
 
 ## handle arguments from command line
 parser = argparse.ArgumentParser(description='Create a cooccurrence graph and \
-    print out some measures')
+    print out some measurements')
 parser.add_argument('outdir', help="output file directory")
 parser.add_argument('-i', default="../data/test_data_aufsichtsrat.csv",
     help="input file containing cooccurrences (default: \
