@@ -59,13 +59,20 @@ def write_min_distance_hist(wordsgraph, out_file):
         f.write(';'.join(map(str, counts)))
         f.write('\n')
 
-def graph_density(graph):
-    v_count = graph.graph.num_vertices()
-    e_count = graph.graph.num_edges()
-    return e_count/(v_count * v_count-1)
-
-def global_clustercoefficient(graph):
-    return graph_tool.clustering.global_clustering(graph.graph)
+def filter_main_component(graph):
+  vertices_before = g.graph.num_vertices()
+  edges_before = g.graph.num_edges()
+  main_component = graph_tool.topology.label_largest_component(g.graph)
+  g.graph.set_vertex_filter(main_component)
+  vertices_after = g.graph.num_vertices()
+  edges_after = g.graph.num_edges()
+  print("filtering for main component")
+  print("vertices before: " + str(vertices_before))
+  print("vertices after: " + str(vertices_after))  
+  print("difference: " + str(vertices_before-vertices_after))
+  print("edges before: " + str(edges_before))
+  print("edges after: " + str(edges_after))
+  print("difference: " + str(edges_before-edges_after))
     
 ##############################################################################
 
@@ -108,6 +115,9 @@ g = graph_parser.file_to_graph(args.i)
 print('cooc. threshold = '+str(args.t))
 g.filter_cooccurrence_threshold(args.t)
 print('graph created')
+
+# HIER GRAPH UM ALLES AUSSER HAUPTKOMPONENTE BESCHNEIDEN
+filter_main_component(g.graph)
 
 # do calculations only if not in 'graph-only' mode
 if not args.graph:

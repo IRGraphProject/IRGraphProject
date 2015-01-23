@@ -79,3 +79,13 @@ class WordsGraph:
         _add_neighbours(subgraph, start_vertex, depth)
         _add_edges(subgraph)
         return subgraph
+
+
+
+    def density():
+        v_count = self.graph.num_vertices()
+        e_count = self.graph.num_edges()
+        return e_count/(v_count * v_count-1)
+
+    def clustercoefficient():
+        return graph_tool.clustering.global_clustering(self.graph)
