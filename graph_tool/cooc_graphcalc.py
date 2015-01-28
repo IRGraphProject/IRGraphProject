@@ -69,10 +69,38 @@ def filter_main_component(graph):
   print("filtering for main component")
   print("vertices before: " + str(vertices_before))
   print("vertices after: " + str(vertices_after))  
-  print("difference: " + str(vertices_before-vertices_after))
+  print("difference: " + str(vertices_before - vertices_after))
   print("edges before: " + str(edges_before))
   print("edges after: " + str(edges_after))
-  print("difference: " + str(edges_before-edges_after))
+  print("difference: " + str(edges_before - edges_after))
+
+def write_top10_vertices(graph, out_file):
+  """writes the 10 vertices with the most edges into the given file
+  if there are more vertices with the same degree as the 10th one
+  all of these are collected
+  TODO this function needs to be tested!!!
+  """
+  tops = [] # i want pairs (word, count)
+  for vertex in graph.vertices():
+    degree = vertex.in_degree() + vertex.out_degree()
+    
+    if tops[0][1] <= degree or len(tops) > 0:
+        tops.insert(0, (vertex.word, degree))
+        # sort, so that we only compare one smallest
+        tops.sort()
+        if len(tops) > 10:
+            # clean up if too many items
+            while tops[0][1] < tops[len(tops)-10][1]:
+                tops.pop(0)
+    else:
+        tops.append((vertex.word, degree))
+
+  tops.reverse()
+  with open(out_file, 'w') as f:
+    for word, count in tops:
+      f.write(word)
+      f.write(str(count))
+      f.write('\n')    
     
 ##############################################################################
 
@@ -114,10 +142,16 @@ g = graph_parser.file_to_graph(args.i)
 # define max. relevant cooccurrence value
 print('cooc. threshold = '+str(args.t))
 g.filter_cooccurrence_threshold(args.t)
+# this irreversibly removes all filtered vertices, needed, because we do
+# filter again
+g.graph.purge_vertices()
 print('graph created')
 
 # HIER GRAPH UM ALLES AUSSER HAUPTKOMPONENTE BESCHNEIDEN
 filter_main_component(g.graph)
+# this irreversibly removes all filtered vertices, needed, when we want to filter
+# again later. We are not interested in the filtered vertices anyways.
+g.graph.purge_vertices()
 
 # do calculations only if not in 'graph-only' mode
 if not args.graph:
@@ -131,9 +165,11 @@ if not args.graph:
     write_min_distance_hist(g, min_dist_file)
     print('wrote histograms')
 
-    comp, hist = graph_tool.topology.label_components(g.graph)
-    print(comp)
-    print(hist)
+    write_top10_vertices(graph, args.outdir + '/top10.txt')
+    print('wrote top10')
+
+    print('graph density: ' + str(g.density()))
+    print('clustercoefficient: ' + str(g.clustercoefficient()))
 
     with open(diameter_file, 'w') as fp:
         fp.write(str(calculate_true_diameter(g)))
