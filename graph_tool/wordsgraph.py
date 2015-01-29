@@ -82,10 +82,10 @@ class WordsGraph:
 
 
 
-    def density():
+    def density(self):
         v_count = self.graph.num_vertices()
         e_count = self.graph.num_edges()
         return e_count/(v_count * v_count-1)
 
-    def clustercoefficient():
+    def clustercoefficient(self):
         return graph_tool.clustering.global_clustering(self.graph)

@@ -60,48 +60,49 @@ def write_min_distance_hist(wordsgraph, out_file):
         f.write('\n')
 
 def filter_main_component(graph):
-  vertices_before = g.graph.num_vertices()
-  edges_before = g.graph.num_edges()
-  main_component = graph_tool.topology.label_largest_component(g.graph)
-  g.graph.set_vertex_filter(main_component)
-  vertices_after = g.graph.num_vertices()
-  edges_after = g.graph.num_edges()
-  print("filtering for main component")
-  print("vertices before: " + str(vertices_before))
-  print("vertices after: " + str(vertices_after))  
-  print("difference: " + str(vertices_before - vertices_after))
-  print("edges before: " + str(edges_before))
-  print("edges after: " + str(edges_after))
-  print("difference: " + str(edges_before - edges_after))
+    vertices_before = g.graph.num_vertices()
+    edges_before = g.graph.num_edges()
+    main_component = graph_tool.topology.label_largest_component(g.graph)
+    g.graph.set_vertex_filter(main_component)
+    vertices_after = g.graph.num_vertices()
+    edges_after = g.graph.num_edges()
+    print("filtering for main component")
+    print("vertices before: " + str(vertices_before))
+    print("vertices after: " + str(vertices_after))  
+    print("difference: " + str(vertices_before - vertices_after))
+    print("edges before: " + str(edges_before))
+    print("edges after: " + str(edges_after))
+    print("difference: " + str(edges_before - edges_after))
 
-def write_top10_vertices(graph, out_file):
-  """writes the 10 vertices with the most edges into the given file
-  if there are more vertices with the same degree as the 10th one
-  all of these are collected
-  TODO this function needs to be tested!!!
-  """
-  tops = [] # i want pairs (word, count)
-  for vertex in graph.vertices():
-    degree = vertex.in_degree() + vertex.out_degree()
-    
-    if tops[0][1] <= degree or len(tops) > 0:
-        tops.insert(0, (vertex.word, degree))
-        # sort, so that we only compare one smallest
-        tops.sort()
-        if len(tops) > 10:
-            # clean up if too many items
-            while tops[0][1] < tops[len(tops)-10][1]:
-                tops.pop(0)
-    else:
-        tops.append((vertex.word, degree))
-
-  tops.reverse()
-  with open(out_file, 'w') as f:
-    for word, count in tops:
-      f.write(word)
-      f.write(str(count))
-      f.write('\n')    
-    
+def write_top10_vertices(words_graph, out_file):
+    """writes the 10 vertices with the most edges into the given file
+    if there are more vertices with the same degree as the 10th one
+    all of these are collected
+    TODO this function needs to be tested!!!
+    """
+    tops = [] # i want pairs (word, count)
+    for vertex in words_graph.graph.vertices():
+        degree = vertex.in_degree() + vertex.out_degree()
+        if len(tops) > 0 and tops[0][1] <= degree:
+            print("adding item ", degree )
+            tops.insert(0, (words_graph.vprop_word_string[vertex], degree))
+            # sort, so that we only compare one smallest
+            tops = sorted(tops, key=lambda entry: entry[1])
+            if len(tops) > 10:
+                # clean up if too many items
+                while tops[0][1] < tops[len(tops)-10][1]:
+                    print("cleaning up: ", tops.pop(0))
+            print(tops)
+        else:  
+            tops.append((words_graph.vprop_word_string[vertex], degree))
+    tops.reverse()
+    with open(out_file, 'w') as f:
+        for word, count in tops:
+            f.write(word)
+            f.write(';')
+            f.write(str(count))
+            f.write('\n')    
+          
 ##############################################################################
 
 ## handle arguments from command line
@@ -145,6 +146,7 @@ g.filter_cooccurrence_threshold(args.t)
 # this irreversibly removes all filtered vertices, needed, because we do
 # filter again
 g.graph.purge_vertices()
+g.graph.purge_edges()
 print('graph created')
 
 # HIER GRAPH UM ALLES AUSSER HAUPTKOMPONENTE BESCHNEIDEN
@@ -165,7 +167,7 @@ if not args.graph:
     write_min_distance_hist(g, min_dist_file)
     print('wrote histograms')
 
-    write_top10_vertices(graph, args.outdir + '/top10.txt')
+    write_top10_vertices(g, args.outdir + '/top10.txt')
     print('wrote top10')
 
     print('graph density: ' + str(g.density()))
