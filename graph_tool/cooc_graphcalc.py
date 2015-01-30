@@ -80,21 +80,11 @@ def write_top10_vertices(words_graph, out_file):
     all of these are collected
     TODO this function needs to be tested!!!
     """
-    tops = [] # i want pairs (word, count)
-    for vertex in words_graph.graph.vertices():
-        degree = vertex.in_degree() + vertex.out_degree()
-        if len(tops) > 0 and tops[0][1] <= degree:
-            print("adding item ", degree )
-            tops.insert(0, (words_graph.vprop_word_string[vertex], degree))
-            # sort, so that we only compare one smallest
-            tops = sorted(tops, key=lambda entry: entry[1])
-            if len(tops) > 10:
-                # clean up if too many items
-                while tops[0][1] < tops[len(tops)-10][1]:
-                    print("cleaning up: ", tops.pop(0))
-            print(tops)
-        else:  
-            tops.append((words_graph.vprop_word_string[vertex], degree))
+    tops = [(words_graph.vprop_word_string[v], v.in_degree() + v.out_degree) for v in words_graph.graph.vertices()]
+    tops = sorted(tops, key = lambda entry: entry[1])
+    while tops[0][1] < tops[len(tops)-10][1]:
+        print("cleaning up: ", tops.pop(0))
+    print(tops)
     tops.reverse()
     with open(out_file, 'w') as f:
         for word, count in tops:
