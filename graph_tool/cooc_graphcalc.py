@@ -80,10 +80,10 @@ def write_top10_vertices(words_graph, out_file):
     all of these are collected
     TODO this function needs to be tested!!!
     """
-    tops = [(words_graph.vprop_word_string[v], v.in_degree() + v.out_degree) for v in words_graph.graph.vertices()]
+    tops = [(words_graph.vprop_word_string[v], v.in_degree() + v.out_degree()) for v in words_graph.graph.vertices()]
     tops = sorted(tops, key = lambda entry: entry[1])
     while tops[0][1] < tops[len(tops)-10][1]:
-        print("cleaning up: ", tops.pop(0))
+        tops.pop(0)
     print(tops)
     tops.reverse()
     with open(out_file, 'w') as f:
