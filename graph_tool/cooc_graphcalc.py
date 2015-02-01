@@ -82,9 +82,8 @@ def write_top10_vertices(words_graph, out_file):
     """
     tops = [(words_graph.vprop_word_string[v], v.in_degree() + v.out_degree()) for v in words_graph.graph.vertices()]
     tops = sorted(tops, key = lambda entry: entry[1])
-    while tops[0][1] < tops[len(tops)-10][1]:
+    while tops[0][1] < tops[len(tops)-20][1]:
         tops.pop(0)
-    print(tops)
     tops.reverse()
     with open(out_file, 'w') as f:
         for word, count in tops:
