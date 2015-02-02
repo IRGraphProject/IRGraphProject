@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 from graph_tool.all import *
-import math
 import argparse
+import math
+import numpy as np
 import os
+import re
+from nltk.corpus import stopwords
 from wordsgraph import WordsGraph
 import graph_parser
-import re
-import numpy as np
 
 # functions ##################################################################
 def draw_wordsgraph(word, graph, depth, outfile):
@@ -74,7 +75,6 @@ def filter_main_component(graph):
     print("edges after: " + str(edges_after))
     print("difference: " + str(edges_before - edges_after))
 
-
 def write_top10_vertices(words_graph, out_file):
     """writes the 10 vertices with the most edges into the given file
     if there are more vertices with the same degree as the 10th one
@@ -82,6 +82,9 @@ def write_top10_vertices(words_graph, out_file):
     TODO this function needs to be tested!!!
     """
     tops = [(words_graph.vprop_word_string[v], v.in_degree() + v.out_degree()) for v in words_graph.graph.vertices()]
+    # remove ALL the stopwords
+    swords = stopwords.words('english') + stopwords.words('german') + ["dass"]
+    tops = [t for t in tops if t[0].lower() not in swords]
     tops = sorted(tops, key = lambda entry: entry[1])
     while tops[0][1] < tops[len(tops)-20][1]:
         tops.pop(0)
@@ -92,7 +95,7 @@ def write_top10_vertices(words_graph, out_file):
             f.write(';')
             f.write(str(count))
             f.write('\n')    
-          
+
 ##############################################################################
 
 ## handle arguments from command line
@@ -154,7 +157,7 @@ if not args.graph:
     print('wrote top10')
 
     print('graph density: ' + str(g.density()))
-    print('clustercoefficient: ' + str(g.clustercoefficient()))
+    print('cluster coefficient: ' + str(g.clustercoefficient()))
 
     with open(diameter_file, 'w') as fp:
         fp.write(str(calculate_true_diameter(g)))
