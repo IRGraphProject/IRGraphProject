@@ -74,6 +74,7 @@ def filter_main_component(graph):
     print("edges after: " + str(edges_after))
     print("difference: " + str(edges_before - edges_after))
 
+
 def write_top10_vertices(words_graph, out_file):
     """writes the 10 vertices with the most edges into the given file
     if there are more vertices with the same degree as the 10th one
@@ -132,17 +133,10 @@ g = graph_parser.file_to_graph(args.i)
 # define max. relevant cooccurrence value
 print('cooc. threshold = '+str(args.t))
 g.filter_cooccurrence_threshold(args.t)
-# this irreversibly removes all filtered vertices, needed, because we do
-# filter again
-g.graph.purge_vertices()
-g.graph.purge_edges()
 print('graph created')
 
 # HIER GRAPH UM ALLES AUSSER HAUPTKOMPONENTE BESCHNEIDEN
 filter_main_component(g.graph)
-# this irreversibly removes all filtered vertices, needed, when we want to filter
-# again later. We are not interested in the filtered vertices anyways.
-g.graph.purge_vertices()
 
 # do calculations only if not in 'graph-only' mode
 if not args.graph:
