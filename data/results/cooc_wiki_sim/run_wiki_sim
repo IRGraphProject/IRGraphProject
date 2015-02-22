@@ -1,0 +1,17 @@
+saving files to ./data/cooc_wiki_sim/
+creating graph for corpus ./data/cooc_wiki_sim.csv
+cooc. threshold = 0.08333333333333333
+graph created
+filtering for main component
+vertices before: 36582
+vertices after: 31045
+difference: 5537
+edges before: 238364
+edges after: 237956
+difference: 408
+doing calculations
+wrote histograms
+wrote top10
+graph density: 0.0002468955895820943
+cluster coefficient: (0.05600628116459542, 0.006499896001822224)
+done
