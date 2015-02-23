@@ -27,11 +27,6 @@ def draw_wordsgraph(word, graph, depth, outfile):
     except:
         pass
 
-def calculate_true_diameter(g):
-    """Calculates the true diameter of a graph."""
-    d = graph_tool.topology.shortest_distance(g.graph)
-    return max([max(d[v].a) for v in g.graph.vertices()])
-
 def write_vertex_degree_hist(wordsgraph, out_file):
     """calculates a histogram of vertex degrees, say how often each vertex degree occurs.
     The results are written to out_file. The first line contains the vertex degrees (bins),
@@ -50,7 +45,7 @@ def write_min_distance_hist(wordsgraph, out_file):
     """calculates a histogram of the minimum distances from each vertex to each other
     and writes it to out_file. The first line contains the distances between vertexes
     (bins); the second line how often these distances occur (counts).
-    see https://graph-tool.skewed.de/static/doc/stats.html#graph_tool.stats.vertex_hist
+    see https://graph-tool.skewed.de/static/doc/stats.html#graph_tool.stats.distance_histogram
     """
     counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph, float_count= False)
     counts = np.append(counts, 0)
@@ -146,7 +141,6 @@ if not args.graph:
     print('doing calculations')
     vertex_degree_file = args.outdir + '/v_degree_hist.csv'
     min_dist_file = args.outdir + '/min_dist_hist.csv'
-    diameter_file = args.outdir + '/diameter.txt'
 
     # histograms for full graph
     write_vertex_degree_hist(g, vertex_degree_file)
@@ -159,8 +153,6 @@ if not args.graph:
     print('graph density: ' + str(g.density()))
     print('cluster coefficient: ' + str(g.clustercoefficient()))
 
-    with open(diameter_file, 'w') as fp:
-        fp.write(str(calculate_true_diameter(g)))
 
 if args.words:
     # save subgraph for each word given
