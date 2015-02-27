@@ -160,7 +160,7 @@ exportiert und mittels ggplot2 geplottet.
 \subsection{Berechnung von Graphen-Kenngr\"o\ss{}en}
 
 Nach Erstellung der Graphen wollen wir sie auf typische Kenngrößen untersuchen
-und anhand dieser charakterisieren und paarweise vergleichen. Für die
+und anhand dieser charakterisieren sowie paarweise vergleichen. Für die
 verschiedenen Eigenschaften bietet \texttt{graph\_tool} bereits implementierte
 Algorithmen an, die wir verwenden wollen. Im Folgenden werden die Kenngrößen
 kurz erläutert, unsere Erwartungen dargestellt und die Ergebnisse gezeigt.
@@ -234,14 +234,30 @@ erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, zum
 Anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
 kürzesten Wege zeigt.
 
-TODO Tabelle
+\begin{table}[h]
+  \begin{tabular}{l|llllllllll}
+    Corpus      & 1      & 2      & 3       & 4       & 5       & 6      & 7      & 8             & 9             & 10           \\
+\hline
+    wiki\_en    & 0,04 & 5,3  & 47,36 & 41,43 & 5,5   & 0,34 & 0,01 & $\approx$0  & $\approx$0  & 0          \\
+    wiki\_sim   & 0,05 & 6,01 & 47,77 & 40,2  & 5,6   & 0,36 & 0,01 & $\approx$0  & $\approx$0  & 0          \\
+    nl          & 0,26 & 4,71 & 27,71 & 44,18 & 18,32 & 3,98 & 0,73 & 0,1         & $\approx$0  & $\approx$0 \\
+    denews10k   & 2    & 3,21 & 19,19 & 44,26 & 25,31 & 6,6  & 1,11 & 0,11        & 0,01        & $\approx$0 \\
+  \end{tabular}
+  \caption{Anteile der Weglängen paarweiser kürzester Wege zwischen allen Knoten, in Prozent}
+\end{table}
 
-TODO, folgenden abschnitt an tatsächliche ergebnisse anpassen In der Tat können
-wir die Schrittzahl bestätigen, beispielsweise für den
+TODO, folgenden abschnitt an tatsächliche ergebnisse anpassen 
+
+In der Tat können wir die Schrittzahl bestätigen, beispielsweise für den
 \texttt{nachrichtenleicht.de} Corpus haben wir einen Durchmesser von 6, und von
 allen paarweisen Pfaden kommt dieser sehr selten vor. Bei XXX Knoten gibt
 es YYY Pfade zu berechnen. Die meisten Knoten sind in drei bis vier Schritten
 miteinander verbunden.
+Das gleiche Bild zeigt sich bei den englischen Wikipedia-Corpora. Sowohl in 
+einfacher Sprache, als auch in normalem Englisch sind über 90\% der paarweisen
+kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen 
+einige wenige Paare die bis zu neun Sprünge auseinander liegen
+TODO Welche sind das? stammen die womöglich von alle von wenigen einzelnen wörtern? evtl rechtschreibfehler? 
 
                              
 \paragraph{Skalenfreiheit}
