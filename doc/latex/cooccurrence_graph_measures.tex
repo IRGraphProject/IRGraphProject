@@ -207,6 +207,27 @@ es gibt ja (hoffentlich) weniger wörter, und diese wenigen sollten
 dementsprechend häufiger verwendet werden und sich untereinander so leichter
 verknüpfen.
 
+Für die einfachen Sprachen sollten die Graphen dichter sein als für die Normalen. 
+Wie bereits beschrieben gibt es in ersteren weniger Vokabular, dementsprechend
+weniger Knoten, die verbunden werden können. Die Vorhandenen kommen jedoch öfter 
+gemeinsam vor und sind enger Verknüpft. Die Ergebnisse in Tabelle \ref{density_table}
+zeigen genau dies. Der Nachrichtenleicht-Corpus ist über 31\% dichter als denews10k.
+Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
+
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{l|l}
+    Corpus            & Dichte          \\
+    \hline
+    nl                &  		0,0013148876 \\
+    denews10k         &  		0,0009998379 \\
+    wiki\_sim         &  		0,0002469035 \\
+    wiki\_en          &  		0,0002109985 \\
+  \end{tabular}
+  \caption{\label{density_table} Die Graphdichten der Corpora}
+\end{table}
+
 \paragraph{Clusterkoeffizient}
 
 Eng mit der Dichte verwandt ist der Clusterkoeffizient. Er beschreibt die
@@ -247,6 +268,7 @@ Anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
 kürzesten Wege zeigt.
 
 \begin{table}[h]
+  \centering
   \begin{tabular}{l|llllllllll}
     Corpus      & 1      & 2      & 3       & 4       & 5       & 6      & 7      & 8             & 9             & 10           \\
 \hline
