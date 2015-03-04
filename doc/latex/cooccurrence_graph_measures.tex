@@ -112,10 +112,10 @@ Sprache zusammenfasst. Er soll die mehreren Millionen Menschen in Deutschland
 erreichen welche aus verschiedenen Gr\"unden von konventionellen
 Nachrichtenangeboten ausgeschlossen sind.
 
-\subsubsection{deunews2010\_100K-Korpus}
+\subsubsection{deunews2010\_100K-Corpus}
 
 Als korrespondierende Datenquelle in Standardsprache wurde der
-deunews\-2010\_100K-Korpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
+deunews\-2010\_100K-Corpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
 der Universit\"at Leipzig gew\"ahlt. Dieser weist eine \"ahnliche Satzzahl zu
 den von nachrichtenleicht extrahierten Text aus und wurde bereits von der ASV
 normalisiert.
@@ -129,7 +129,7 @@ Textsammlungen in leichter Sprache dar. Zus\"atzlich ist sie die einzige
 welche Dokumentenalignment aufweist.
 
 \section{Workflow}
-\subsection{Extraktion der Korpora}
+\subsection{Extraktion der Corpora}
 
 Die selbsterstellten Textcorpora wurden mittels selbstgeschriebener Crawler
 heruntergeladen. Nachrichtenleicht wurde rekursiv von der Startseite gequeriet
@@ -153,7 +153,7 @@ Automatisches Sprachverarbeitung berechnet.
 \subsection{Erstellung der Graphen}
 
 Die errechneten Kookkurrenzen wurden in graph-tool-Objekte geparst. Subgraphen
-aus den Korpora wurden mittels eines \emph{force-directed graph} nach
+aus den Corpora wurden mittels eines \emph{force-directed graph} nach
 \cite{Hu2005} gelayoutet, Histogramdaten wurden aus aus graph\_tool nach R
 exportiert und mittels ggplot2 geplottet.
 
@@ -165,18 +165,25 @@ verschiedenen Eigenschaften bietet \texttt{graph\_tool} bereits implementierte
 Algorithmen an, die wir verwenden wollen. Im Folgenden werden die Kenngrößen
 kurz erläutert, unsere Erwartungen dargestellt und die Ergebnisse gezeigt.
 
-\paragraph{Gr\"o\ss{}e (Anzahl Nodes)}
+\paragraph{Gr\"o\ss{}e (Knotenzahl)}
+
 Schon in der Größe der Graphen sollten sich paarweise Unterschiede erkennen
 lassen. So sollten die beiden Corpora in einfacher Sprache wesentlich weniger
 verschiedene Wörter enthalten. So werden \emph{schwierige} Wörter
 typischerweise durch leichter verständliche ersetzt und kommen so im einfachen
-Corpus nicht vor. Die Anzahl der Knoten lässt sich natürlich trivial zählen.
-Der \emph{deunews2010\_100K-Corpus} hat TODO Knoten,
-\emph{nachrichtenleicht.de} TODO, die englische Wikipedia TODO, und die
-\emph{simple english} Wikipedia TODO Knoten. Wir können hier erkennen, dass
-TODOerwartung erfüllt?)
- 
+Corpus nicht vor. Die Anzahl der Knoten (ohne Stopw\"orter\footnote{Es wurde
+die deutsche bzw. englische Stopwortliste des NLTK benutzt. Erg\"anzt wurde
+diese durch das Wort "'dass"' in neuer Rechtschreibung}) lässt sich natürlich
+trivial zählen. Der \emph{deunews2010\_100K-Corpus} hat 3205 respektive 1812
+Knoten, \emph{nachrichtenleicht.de} 2946 (2305), die englische Wikipedia 45897
+(39212), und die \emph{simple english} Wikipedia 36582 (31045) Knoten. In der
+Tat l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung
+erf\"ullt ist. Des weiteren zeigt sich, dass keine signifikante Unterschiede im
+Anteil der Stopw\"orter zwischen den Corpora auftreten.
+
 \paragraph{Kantengewichte (Histogramm)}
+
+
 machen wir sowas? was sagt das aus?
 
 \paragraph{Dichte}
@@ -197,6 +204,7 @@ dementsprechend häufiger verwendet werden und sich untereinander so leichter
 verknüpfen.
 
 \paragraph{Clusterkoeffizient}
+
 Eng mit der Dichte verwandt ist der Clusterkoeffizient. Er beschreibt die
 Anzahl vorhandener Dreiecke im Graph im Verhältnis zu möglichen Dreiecken. Drei
 Knoten, die jeweils paarweise verbunden sind, bilden ein Dreieck. Ziel ist ein
