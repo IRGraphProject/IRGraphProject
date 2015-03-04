@@ -1,0 +1,17 @@
+saving files to ./cooc_nl2/
+creating graph for corpus ./data/cooc_nl.csv
+cooc. threshold = 0.08333333333333333
+graph created
+filtering for main component
+vertices before: 2946
+vertices after: 2305
+difference: 641
+edges before: 7130
+edges after: 6983
+difference: 147
+doing calculations
+wrote histograms
+wrote top10
+graph density: 0.001314317420738171
+cluster coefficient: (0.08550774653963246, 0.006199593414102043)
+done
