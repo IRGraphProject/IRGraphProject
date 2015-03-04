@@ -24,7 +24,7 @@ def draw_wordsgraph(word, graph, depth, outfile):
             vertex_text=sg.vprop_word_string,
             output_size=(1000,1000), output=outfile,
             vertex_size=10, edge_pen_width=2, vertex_text_position=7*math.pi/4,
-            vertex_text_color='#2E6A7F', edge_color = sg.eprop_value_float)
+            vertex_text_color='#000000', edge_color = sg.eprop_value_float)
     except:
         pass
 
