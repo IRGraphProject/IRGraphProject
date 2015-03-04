@@ -38,9 +38,9 @@ def write_vertex_degree_hist(wordsgraph, out_file):
         float_count= False)
     counts = np.append(counts, 0)
     with open(out_file, 'w') as f:
-        f.write(';'.join(map(str, bins)))
+        f.write(','.join(map(str, bins)))
         f.write('\n')
-        f.write(';'.join(map(str, counts)))
+        f.write(','.join(map(str, counts)))
         f.write('\n')
 
 def write_min_distance_hist(wordsgraph, out_file):
@@ -53,9 +53,9 @@ def write_min_distance_hist(wordsgraph, out_file):
     counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph, float_count= False)
     counts = np.append(counts, 0)
     with open(out_file, 'w') as f:
-        f.write(';'.join(map(str, bins)))
+        f.write(','.join(map(str, bins)))
         f.write('\n')
-        f.write(';'.join(map(str, counts)))
+        f.write(','.join(map(str, counts)))
         f.write('\n')
 
 def filter_main_component(graph):
@@ -90,7 +90,7 @@ def write_topn_vertices(words_graph, out_file):
     with open(out_file, 'w') as f:
         for word, count in tops:
             f.write(word)
-            f.write(';')
+            f.write(',')
             f.write(str(count))
             f.write('\n')
     return [t[0] for t in tops]
