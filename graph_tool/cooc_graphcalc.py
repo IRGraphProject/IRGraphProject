@@ -122,10 +122,6 @@ parser.add_argument('-w','--words', help="list of words to retrieve \
 
 args = parser.parse_args()
 
-if args.graph and not args.words:
-    print('must specify word/s to draw cooccurrence graphs of (-w)')
-    exit()
-
 # create directory
 try:
     os.mkdir(args.outdir)
