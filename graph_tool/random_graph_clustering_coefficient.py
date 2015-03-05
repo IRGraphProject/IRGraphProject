@@ -8,7 +8,7 @@ def filter_main_component(graph):
     graph.graph.set_vertex_filter(main_component)
     graph.graph.purge_vertices()
     
-filepath = "../data/cooc_nl.csv"
+filepath = "../data/cooc_wiki_sim.csv"
 
 graph = graph_parser.file_to_graph(filepath)
 graph.filter_cooccurrence_threshold(1/12)
