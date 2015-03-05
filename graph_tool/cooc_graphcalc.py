@@ -15,7 +15,7 @@ def draw_wordsgraph(word, graph, depth, outfile):
     """Draws a subgraph of all nodes up to ```depth``` around a node with
     identifier ```word``` from ```graph``` and writes it to ```outfile```."""
     try:
-        # Macht einen Ausschnitt um das Wort mit allen Nachbarn bis Abstand depth
+        # creates a section around $word containing all neighbors within $depth
         sg = g.make_subgraph_around(word, depth)
         # define layout
         layout = sfdp_layout(sg.graph, C=0.1, eweight=sg.eprop_value_float)
@@ -29,9 +29,9 @@ def draw_wordsgraph(word, graph, depth, outfile):
         pass
 
 def write_vertex_degree_hist(wordsgraph, out_file):
-    """calculates a histogram of vertex degrees, say how often each vertex \
+    """Calculates a histogram of vertex degrees, say how often each vertex 
     degree occurs.
-    The results are written to out_file. The first line contains the vertex \
+    The results are written to out_file. The first line contains the vertex 
     degrees (bins), the second line the counts.
     """
     counts, bins = graph_tool.stats.vertex_hist(wordsgraph.graph, 'total',
@@ -50,7 +50,8 @@ def write_min_distance_hist(wordsgraph, out_file):
     (counts).
     see https://graph-tool.skewed.de/static/doc/stats.html#graph_tool.stats.distance_histogram
     """
-    counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph, float_count= False)
+    counts, bins = graph_tool.stats.distance_histogram(wordsgraph.graph,
+        float_count= False)
     counts = np.append(counts, 0)
     with open(out_file, 'w') as f:
         f.write(','.join(map(str, bins)))
@@ -59,13 +60,17 @@ def write_min_distance_hist(wordsgraph, out_file):
         f.write('\n')
 
 def filter_main_component(graph):
+    """
+    Filters largest set of interconnected nodes. Drops all small components
+    that are not connected to the main set.
+    """
+    print("filtering for main component...")
     vertices_before = g.graph.num_vertices()
     edges_before = g.graph.num_edges()
     main_component = graph_tool.topology.label_largest_component(g.graph)
     g.graph.set_vertex_filter(main_component)
     vertices_after = g.graph.num_vertices()
     edges_after = g.graph.num_edges()
-    print("filtering for main component")
     print("vertices before: " + str(vertices_before))
     print("vertices after: " + str(vertices_after))  
     print("difference: " + str(vertices_before - vertices_after))
@@ -77,11 +82,12 @@ def write_topn_vertices(words_graph, out_file):
     """writes the n vertices with the most edges into the given file
     Note: if there are more vertices with the same degree as the nth one
     all of these are collected
-    TODO this function needs to be tested!!!
     """
-    tops = [(words_graph.vprop_word_string[v], v.in_degree() + v.out_degree()) for v in words_graph.graph.vertices()]
-    # remove ALL the stopwords
+    tops = [(words_graph.vprop_word_string[v], v.in_degree() + v.out_degree())
+        for v in words_graph.graph.vertices()]
+    # define stopwords
     swords = stopwords.words('english') + stopwords.words('german') + ['dass']
+    # remove ALL the stopwords
     tops = [t for t in tops if t[0].lower() not in swords]
     tops = sorted(tops, key = lambda entry: entry[1])
     while tops[0][1] < tops[len(tops)-args.n][1]:
@@ -95,9 +101,10 @@ def write_topn_vertices(words_graph, out_file):
             f.write('\n')
     return [t[0] for t in tops]
 
+
 ##############################################################################
 
-## handle arguments from command line
+## handle command line arguments
 parser = argparse.ArgumentParser(description='Create a cooccurrence graph and \
     print out some measurements')
 parser.add_argument('infile', help="input file containing cooccurrences")
@@ -119,7 +126,7 @@ if args.graph and not args.words:
     print('must specify word/s to draw cooccurrence graphs of (-w)')
     exit()
 
-# make directory
+# create directory
 try:
     os.mkdir(args.outdir)
 except:
@@ -128,8 +135,7 @@ except:
         exit()
 print('saving files to '+args.outdir+'/')
 
-# erzeuge aus der Datei test_data_NL einen WordGraph
-# (siehe wordsgraph.py für weitere Dokumentation)
+# create WordGraph from file (see wordsgraph.py for further doc)
 print('creating graph for corpus '+args.infile)
 g = graph_parser.file_to_graph(args.infile)
 # define max. relevant cooccurrence value
@@ -137,7 +143,7 @@ print('cooc. threshold = '+str(args.t))
 g.filter_cooccurrence_threshold(args.t)
 print('graph created')
 
-# HIER GRAPH UM ALLES AUSSER HAUPTKOMPONENTE BESCHNEIDEN
+# FILTER MAIN COMPONENT
 filter_main_component(g.graph)
 
 # do calculations only if not in 'graph-only' mode
@@ -155,24 +161,33 @@ if not args.graph:
     print('cluster coefficient: ' + str(g.clustercoefficient()))
 
 if args.n:
-    topwords = write_topn_vertices(g, args.outdir + '/top.txt')
-    print('wrote top' + str(args.n))
-    # save subgraph for each top n word
-    print('drawing '+str(args.n)+' cooccurrence graph/s with \
-        max. depth '+str(args.d))
     tdir = os.path.join(args.outdir,'topwords')
     os.mkdir(tdir)
+    # save top words to file
+    topwords = write_topn_vertices(g, tdir + '/list.csv')
+    print('wrote top' + str(len(topwords)))
+    # save subgraph for each top n word
+    print('drawing '+str(len(topwords))+' cooccurrence graph/s with max. depth '
+        +str(args.d))
     for word in topwords:
         print(' - drawing subgraph ' + word)
-        t = os.path.basename('_'.join(['graph', word, '.png']))
-        t = os.path.join(tdir,t)
-        print(t)
-        draw_wordsgraph(word, g, args.d, t)
+        # pdf files
+        t1 = os.path.basename(''.join(['graph_', word, '.pdf']))
+        t1 = os.path.join(tdir,t1)
+        draw_wordsgraph(word, g, args.d, t1)
+        # svg files
+        t2 = os.path.basename(''.join(['graph_', word, '.svg']))
+        t2 = os.path.join(tdir,t2)
+        draw_wordsgraph(word, g, args.d, t2)
+        # png files
+        t3 = os.path.basename(''.join(['graph_', word, '.png']))
+        t3 = os.path.join(tdir,t3)
+        draw_wordsgraph(word, g, args.d, t3)
 
 if args.words:
     # save subgraph for each word given
-    print('drawing '+str(len(args.words))+' cooccurrence graph/s with \
-        max. depth '+str(args.d))
+    print('drawing '+str(len(args.words))+' cooccurrence graph/s with  max.'
+        +'depth '+str(args.d))
     for word in args.words:
         print(' - drawing subgraph ' + word)
         t = os.path.basename('_'.join(['graph', word, '.png']))
