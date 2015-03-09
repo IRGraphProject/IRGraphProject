@@ -1,8 +1,8 @@
-saving files to ./data/cooc_wiki_en/
+saving files to ./results/cooc_wiki_en/
 creating graph for corpus ./data/cooc_wiki_en.csv
 cooc. threshold = 0.08333333333333333
 graph created
-filtering for main component
+filtering for main component...
 vertices before: 45897
 vertices after: 39212
 difference: 6685
@@ -11,7 +11,28 @@ edges after: 324419
 difference: 408
 doing calculations
 wrote histograms
-wrote top10
-graph density: 0.0002109931197293722
-cluster coefficient: (0.05629809528297278, 0.0049082990240872)
+graph density: 0.00021099850055972334
+cluster coefficient: (0.05629809528297278, 0.004908299024086662)
+wrote top20
+drawing 20 cooccurrence graph/s with max. depth 1
+ - drawing subgraph born
+ - drawing subgraph film
+ - drawing subgraph American
+ - drawing subgraph series
+ - drawing subgraph used
+ - drawing subgraph album
+ - drawing subgraph season
+ - drawing subgraph University
+ - drawing subgraph game
+ - drawing subgraph New
+ - drawing subgraph television
+ - drawing subgraph music
+ - drawing subgraph United
+ - drawing subgraph County
+ - drawing subgraph first
+ - drawing subgraph water
+ - drawing subgraph city
+ - drawing subgraph released
+ - drawing subgraph species
+ - drawing subgraph World
 done
