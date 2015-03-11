@@ -136,7 +136,6 @@ print('creating graph for corpus '+args.infile)
 g = graph_parser.file_to_graph(args.infile)
 # define max. relevant cooccurrence value
 print('cooc. threshold = '+str(args.t))
-g.filter_cooccurrence_threshold(args.t)
 print('graph created')
 
 # FILTER MAIN COMPONENT
@@ -155,6 +154,8 @@ if not args.graph:
 
     print('graph density: ' + str(g.density()))
     print('cluster coefficient: ' + str(g.clustercoefficient()))
+
+g.filter_cooccurrence_threshold(args.t)
 
 if args.n:
     tdir = os.path.join(args.outdir,'topwords')
