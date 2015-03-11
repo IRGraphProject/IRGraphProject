@@ -1,6 +1,7 @@
 \documentclass[12pt, a4paper]{article}
 \usepackage{ifxetex}
 \usepackage{amsmath}
+\usepackage{hyperref}
 
 \ifxetex
 	\usepackage{fontspec}
@@ -75,20 +76,16 @@ existieren verschiedene Modelle des Simple English welche unterschiedliche
 Ziele erreichen sollen, z.B. das \emph{Simplified Technical English}, eine
 kontrollierte Sprache f\"ur technische Handb\"ucher. Aufgrund dieser
 konkurrierenden Ans\"atze gibt es keine einheitliche Definition oder
-Sprachpraxis des Simple English. So sind z.B. i
+Sprachpraxis des Simple English. So sind z.B. i TODO ???
 
 \section{Verwendete Technologien}
-\subsection{Programmiersprache Python}
+\paragraph{Python}
+Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der Unicodeunterstützung wurde Python 3 gewählt.
 
-Python ist eine schreckliche Programmiersprache mit viel zu wenig geschweiften
-Klammern.
+\paragraph{Natural Language Toolkit}
+Das NLTK\footnote{\url{http://www.nltk.org/}} ist ein Framework f\"ur Sprachverarbeitung in Python. Die verwendete Stopwortlisten, sowohl für Deutsch, als auch für Englisch stammen aus der Bibliothek.
 
-\subsubsection{Natural Language Toolkit}
-
-Das NLTK ist ein generelles Framework f\"ur Sprachverarbeitung in Python.
-
-\subsubsection{Graphen-Bibliothek graph-tool}
-
+\paragraph{Graphen-Bibliothek graph-tool}
 graph-tool ist ein Python-Modul welches der Manipulation und statistische
 Auswertung von Graphen dient. Es stellt im Kern ein C++-Wrapper um die Boost
 Graph Library dar wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
@@ -154,7 +151,7 @@ Automatisches Sprachverarbeitung berechnet.
 
 Die errechneten Kookkurrenzen wurden in graph-tool-Objekte geparst. Subgraphen
 aus den Corpora wurden mittels eines \emph{force-directed graph} nach
-\cite{Hu2005} gelayoutet, Histogramdaten wurden aus aus graph\_tool nach R
+\cite{Hu2005} gelayoutet, Histogrammdaten wurden aus aus graph\_tool nach R
 exportiert und mittels ggplot2 geplottet.
 
 \subsection{Berechnung von Graphen-Kenngr\"o\ss{}en}
@@ -213,7 +210,6 @@ weniger Knoten, die verbunden werden können. Die Vorhandenen kommen jedoch öft
 gemeinsam vor und sind enger Verknüpft. Die Ergebnisse in Tabelle \ref{density_table}
 zeigen genau dies. Der Nachrichtenleicht-Corpus ist über 31\% dichter als denews10k.
 Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
-
 
 \begin{table}[h]
   \centering
@@ -315,6 +311,7 @@ für alle Graphen nachweisen. TODO passt das? skalenfreiheit?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Testkapitel mit Testgrafiken}
+Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
 
 \subsection{pdf-Grafik}
 \includegraphics{testplot.pdf}

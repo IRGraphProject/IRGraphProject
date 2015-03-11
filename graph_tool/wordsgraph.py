@@ -37,6 +37,8 @@ class WordsGraph:
         prop_ary = self.eprop_value_float
         edges = self.graph.edges()
         for edge in edges:
+            # jede kante mit false wird rausgefiltert
+            # hier müssen die kleineren Werte beibehalten werden, weil im graph_parser die kookkurrenzwerte umgekehrt werden (1/wert)
             filter_property_map[edge] = prop_ary[edge] < threshold
         self.graph.set_edge_filter(filter_property_map)
 
