@@ -112,7 +112,7 @@ parser.add_argument('outdir', help="output file directory")
 parser.add_argument('-d', type=int, default=1,
     help="iteration depth; maximum distance to word (default: 1)")
 parser.add_argument('-t', type=float, default=1/12,
-    help="Cooccurrence threshold (default: 1/12)")
+    help="Cooccurrence threshold for graphs (default: 1/12)")
 parser.add_argument("-g", "--graph", action="store_true",
     help="draw only graph/s (omit calculations)")
 parser.add_argument('-n', type=int, default=10,
@@ -134,8 +134,6 @@ print('saving files to '+args.outdir+'/')
 # create WordGraph from file (see wordsgraph.py for further doc)
 print('creating graph for corpus '+args.infile)
 g = graph_parser.file_to_graph(args.infile)
-# define max. relevant cooccurrence value
-print('cooc. threshold = '+str(args.t))
 print('graph created')
 
 # FILTER MAIN COMPONENT
@@ -155,6 +153,8 @@ if not args.graph:
     print('graph density: ' + str(g.density()))
     print('cluster coefficient: ' + str(g.clustercoefficient()))
 
+# define max. relevant cooccurrence value
+print('cooc. threshold filter applied (='+str(args.t)+")")
 g.filter_cooccurrence_threshold(args.t)
 
 if args.n:
