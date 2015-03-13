@@ -1,0 +1,28 @@
+saving files to ./data/results/cooc_wiki_sim_f/
+creating graph for corpus ./data/cooc_wiki_sim.csv
+cooc. threshold = 0.01
+graph created
+filtering for main component...
+vertices before: 36582
+vertices after: 36131
+difference: 451
+edges before: 371559
+edges after: 371319
+difference: 240
+doing calculations
+wrote histograms
+graph density: 0.00028444560569462063
+cluster coefficient: (0.040403420779455045, 0.0061247613776797315)
+wrote top10
+drawing 10 cooccurrence graph/s with max. depth 1
+ - drawing subgraph born
+ - drawing subgraph American
+ - drawing subgraph won
+ - drawing subgraph television
+ - drawing subgraph people
+ - drawing subgraph movie
+ - drawing subgraph album
+ - drawing subgraph played
+ - drawing subgraph League
+ - drawing subgraph NHL
+done
