@@ -1,0 +1,42 @@
+saving files to data/results/cooc_denews10k/t001/
+creating graph for corpus ./data/cooc_denews10k.csv
+graph created
+filtering for main component...
+vertices before: 3205
+vertices after: 3142
+difference: 63
+edges before: 7669
+edges after: 7636
+difference: 33
+doing calculations
+wrote histograms
+graph density: 0.000773734216014515
+cluster coefficient: (0.03390617865277972, 0.004703892212143793)
+cooc. threshold filter applied (=0.01)
+wrote top24
+drawing 24 cooccurrence graph/s with max. depth 1
+ - drawing subgraph Artikel
+ - drawing subgraph einfach
+ - drawing subgraph verwenden
+ - drawing subgraph unten
+ - drawing subgraph Link
+ - drawing subgraph verlinken
+ - drawing subgraph kostenfrei
+ - drawing subgraph stehenden
+ - drawing subgraph möchten
+ - drawing subgraph Prozent
+ - drawing subgraph sei
+ - drawing subgraph Euro
+ - drawing subgraph wurde
+ - drawing subgraph Jahr
+ - drawing subgraph wurden
+ - drawing subgraph Yahoo
+ - drawing subgraph hinausgeht
+ - drawing subgraph Merkel
+ - drawing subgraph vorherige
+ - drawing subgraph Verlages
+ - drawing subgraph anzeigen
+ - drawing subgraph müssen
+ - drawing subgraph dpa
+ - drawing subgraph Jahren
+done

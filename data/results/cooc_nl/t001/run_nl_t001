@@ -1,0 +1,40 @@
+saving files to data/results/cooc_nl/t001/
+creating graph for corpus ./data/cooc_nl.csv
+graph created
+filtering for main component...
+vertices before: 2946
+vertices after: 2766
+difference: 180
+edges before: 11639
+edges after: 11541
+difference: 98
+doing calculations
+wrote histograms
+graph density: 0.001509023939623352
+cluster coefficient: (0.06451559645144958, 0.0062633864962161915)
+cooc. threshold filter applied (=0.01)
+wrote top22
+drawing 22 cooccurrence graph/s with max. depth 1
+ - drawing subgraph CDU
+ - drawing subgraph bekommen
+ - drawing subgraph Jahr
+ - drawing subgraph Präsident
+ - drawing subgraph Land
+ - drawing subgraph Mannschaft
+ - drawing subgraph gewonnen
+ - drawing subgraph zusammen
+ - drawing subgraph Ländern
+ - drawing subgraph CSU
+ - drawing subgraph Olympischen
+ - drawing subgraph Toren
+ - drawing subgraph Partei
+ - drawing subgraph mehr
+ - drawing subgraph gibt
+ - drawing subgraph finden
+ - drawing subgraph SPD
+ - drawing subgraph Merkel
+ - drawing subgraph sagte
+ - drawing subgraph Menschen
+ - drawing subgraph Geld
+ - drawing subgraph Welt
+done
