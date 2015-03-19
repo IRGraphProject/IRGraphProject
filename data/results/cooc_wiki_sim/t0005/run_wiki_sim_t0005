@@ -1,0 +1,36 @@
+saving files to ./data/results/cooc_wiki_sim_t0005/
+creating graph for corpus ./data/cooc_wiki_sim.csv
+graph created
+filtering for main component...
+vertices before: 36582
+vertices after: 36131
+difference: 451
+edges before: 371559
+edges after: 371319
+difference: 240
+cooc. threshold filter applied (=0.005)
+wrote top22
+drawing 22 cooccurrence graph/s with max. depth 1
+ - drawing subgraph born
+ - drawing subgraph American
+ - drawing subgraph commune
+ - drawing subgraph France
+ - drawing subgraph won
+ - drawing subgraph department
+ - drawing subgraph movie
+ - drawing subgraph television
+ - drawing subgraph died
+ - drawing subgraph people
+ - drawing subgraph NHL
+ - drawing subgraph actor
+ - drawing subgraph World
+ - drawing subgraph United
+ - drawing subgraph League
+ - drawing subgraph National
+ - drawing subgraph years
+ - drawing subgraph released
+ - drawing subgraph Award
+ - drawing subgraph County
+ - drawing subgraph played
+ - drawing subgraph year
+done

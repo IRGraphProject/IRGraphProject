@@ -1,0 +1,35 @@
+saving files to ./data/results/cooc_wiki_en_t0005/
+creating graph for corpus ./data/cooc_wiki_en.csv
+graph created
+filtering for main component...
+vertices before: 45897
+vertices after: 45446
+difference: 451
+edges before: 514489
+edges after: 514248
+difference: 241
+cooc. threshold filter applied (=0.005)
+wrote top21
+drawing 21 cooccurrence graph/s with max. depth 1
+ - drawing subgraph born
+ - drawing subgraph American
+ - drawing subgraph commune
+ - drawing subgraph France
+ - drawing subgraph department
+ - drawing subgraph film
+ - drawing subgraph television
+ - drawing subgraph won
+ - drawing subgraph League
+ - drawing subgraph County
+ - drawing subgraph Award
+ - drawing subgraph University
+ - drawing subgraph series
+ - drawing subgraph released
+ - drawing subgraph album
+ - drawing subgraph professional
+ - drawing subgraph located
+ - drawing subgraph season
+ - drawing subgraph World
+ - drawing subgraph years
+ - drawing subgraph city
+done
