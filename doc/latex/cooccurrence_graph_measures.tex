@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[11pt, a4paper]{article}
 \usepackage{ifxetex}
 \usepackage{amsmath}
 \usepackage{hyperref}
@@ -82,8 +82,8 @@ Sprachpraxis des Simple English. So sind z.B. i TODO ???
 \paragraph{Programmiersprache Python}
 Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der Unicodeunterstützung wurde Python 3 gewählt.
 
-\paragraph{Graphen-Bibliothek graph-tool}
-graph-tool\footnote{\url{http://graph-tool.skewed.de/}} ist ein Python-Modul,
+\paragraph{Graphen-Bibliothek \texttt{graph-tool}}
+\texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein Python-Modul,
 welches der Manipulation und statistische
 Auswertung von Graphen dient. Es stellt im Kern ein C++-Wrapper um die Boost
 Graph Library dar, wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
@@ -164,7 +164,7 @@ gespeichert.
 
 \subsection{Erstellung der Graphen}
 
-Die errechneten Kookkurrenzen wurden in graph-tool-Objekte geparst. Subgraphen
+Die errechneten Kookkurrenzen wurden in \texttt{graph-tool}-Objekte geparst. Subgraphen
 aus den Corpora wurden mittels eines \texttt{force-directed graph} nach
 \cite{Hu2005} gelayoutet.
 Die relevanten Daten zur Erstellung der Histogramme wurden gespeichert,
@@ -174,7 +174,7 @@ um sie anschließend nach R zu exportieren und dort mittels ggplot2 zu plotten.
 
 Nach Erstellung der Graphen wollen wir sie auf typische Kenngrößen untersuchen,
 anhand dieser charakterisieren sowie paarweise vergleichen. Für die
-verschiedenen Eigenschaften bietet \texttt{graph\_tool} bereits implementierte
+verschiedenen Eigenschaften bietet \texttt{graph-tool} bereits implementierte
 Algorithmen an, die wir verwenden wollen. Im Folgenden werden die Kenngrößen
 kurz erläutert, unsere Erwartungen dargestellt und die Ergebnisse gezeigt.
 
@@ -271,11 +271,11 @@ Wert typischerweise hoch.
 % die beiden fasse ich im folgendem punkt zusammen
 
 \paragraph{Wegl\"angen}
-Um Small-World-Eigenschaften nachzuweisen, ist es ausserdem interessant, die
+Um Small-World-Eigenschaften nachzuweisen, ist es außerdem interessant, die
 Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchmesser
 des Graphen, also der längste kürzeste Weg zwischen zwei Knoten. In einer
 \emph{small-world} sind alle Knoten von allen anderen in wenigen Schritten
-erreichbar, typischerweise in 5 bis 7 Schritten. \texttt{Graph\_tool}
+erreichbar, typischerweise in 5 bis 7 Schritten. \texttt{graph-tool}
 erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, und zum
 anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
 kürzesten Wege zeigt.
@@ -310,7 +310,7 @@ TODO Welche sind das? stammen die womöglich von alle von wenigen einzelnen wör
 \paragraph{Skalenfreiheit}
 Skalenfreie Graphen zeichnen sich duch exponential verteilte Knotengrade aus. Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}. Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
 
-haben wir so etwas? wir können das mit graph\_tool über die
+haben wir so etwas? wir können das mit \texttt{graph-tool} über die
 clustering algorithmen leicht ausrechnen!  skalieren die graphen paarweise um
 ein paar knoten, oder kommen neue wichtige (hubs) wörter hinzu?
 
