@@ -46,7 +46,7 @@
 
 \section{Motivation und Ziel}
 
-Leichte oder auch Einfache Sprache ist eine Untermenge der deutschen Sprache
+Leichte oder auch Einfache Sprache ist eine Untermenge der deutschen Sprache,
 die auf besonders leichte Verst\"andlichkeit optimiert ist. Sie umfasst unter
 anderem spezielle Sprachregelungen, typographische Empfehlungen und
 Rechtschreibregeln. 
@@ -57,59 +57,60 @@ Eigenschaften Leichter Sprache:
 % Quellenangabe?!
 \begin{itemize}
 	\item Benutzen Sie einfache W\"orter
-	\item Benutzen Sie W\"orter die etwas genau beschreiben
+	\item Benutzen Sie W\"orter, die etwas genau beschreiben
 	\item Benutzen Sie bekannte W\"orter und verzichten sie auf Fachw\"orter und Fremdw\"orter
-	\item Benutzen Sie immer die gleichen W\"orter f\"ur gleiche Dinge.
+	\item Benutzen Sie immer die gleichen W\"orter f\"ur gleiche Dinge
 	\item Benutzen Sie kurze W\"orter
 	\item Verzichten Sie auf Abk\"urzungen
 	\item Benutzen Sie Verben
 	\item Vermeiden Sie den Genitiv und Konjunktiv
 	\item Vermeiden Sie Kolloquialismen und bildliche Sprache
-	\item Benutzen Sie Ziffern anstatt Worten
-	\item Schreiben Sie kurze S\"atze die nur eine Aussage enthalten
+	\item Benutzen Sie Ziffern anstatt von Worten
+	\item Schreiben Sie kurze S\"atze, die nur eine Aussage enthalten
 	\item Benutzen Sie einen einfachen Satzbau
 	\item Schreiben Sie jeden Satz in eine Zeile
 \end{itemize}
 
 Das englische \"Aquivalent zu Leichter Sprache ist \emph{Simple English}. Es
-existieren verschiedene Modelle des Simple English welche unterschiedliche
-Ziele erreichen sollen, z.B. das \emph{Simplified Technical English}, eine
+existieren verschiedene Modelle des Simple English, welche unterschiedliche
+Ziele erreichen sollen -- z.B. das \emph{Simplified Technical English}, eine
 kontrollierte Sprache f\"ur technische Handb\"ucher. Aufgrund dieser
 konkurrierenden Ans\"atze gibt es keine einheitliche Definition oder
 Sprachpraxis des Simple English. So sind z.B. i TODO ???
 
-\section{Verwendete Technologien}
-\paragraph{Python}
-Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der Unicodeunterstützung wurde Python 3 gewählt.
-
-\paragraph{Natural Language Toolkit}
-Das NLTK\footnote{\url{http://www.nltk.org/}} ist ein Framework f\"ur Sprachverarbeitung in Python. Die verwendete Stopwortlisten, sowohl für Deutsch, als auch für Englisch stammen aus der Bibliothek.
+\section{Tools}
+\paragraph{Programmiersprache Python}
+Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der Unicodeunterstützung wurde Python 3 gewählt.
 
 \paragraph{Graphen-Bibliothek graph-tool}
-graph-tool ist ein Python-Modul welches der Manipulation und statistische
+graph-tool\footnote{\url{http://graph-tool.skewed.de/}} ist ein Python-Modul,
+welches der Manipulation und statistische
 Auswertung von Graphen dient. Es stellt im Kern ein C++-Wrapper um die Boost
-Graph Library dar wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
-erreicht wird. Es ist zus\"atzlich in der Lage Graphen mit modernen Techniken
+Graph Library dar, wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
+erreicht wird. Es ist zus\"atzlich in der Lage, Graphen mit modernen Techniken
 zu visualisieren und \"ubliche Ma\ss{}e wie Clustering-Koeffizienten, Knoten-
 und Kantengrade und Durchmesser zu berechnen.
 
+\paragraph{NLP-Framework NLTK}
+Das Natural Language Toolkit (NLTK\footnote{\url{http://www.nltk.org/}}) ist ein Framework f\"ur Sprachverarbeitung in Python. Die verwendeten Stopwortlisten, sowohl für Deutsch, als auch für Englisch stammen aus der Bibliothek.
+
 \section{Datenbasis}
 
-Als Datenbasis wurden Quellen gew\"ahlt die sich durch eine gro\ss{}e
+Als Datenbasis wurden Quellen gew\"ahlt, die sich durch eine gro\ss{}e
 semantische und logische N\"ahe auszeichnen, namentlich Nachrichtenseiten in
-deutscher und die Wikipedia in englischer Sprache.
+deutscher und Wikipediaartikel in englischer Sprache.
 
 \subsection{Nachrichtenseiten}
 
-\subsubsection{nachrichtenleicht.de}
+\subsubsection{nachrichtenleicht.de (nl)}
 
-Nachrichtenleicht ist ein Dienst des Deutschlandfunks welcher einmal
-w\"ochentlich die wichtigsten Nachrichten der vorangegangenen Woche in leichter
+Nachrichtenleicht ist ein Dienst des Deutschlandfunks, welcher einmal
+w\"ochentlich die wichtigsten Nachrichten der vorangegangenen Woche in Leichter
 Sprache zusammenfasst. Er soll die mehreren Millionen Menschen in Deutschland
-erreichen welche aus verschiedenen Gr\"unden von konventionellen
+erreichen, die aus verschiedenen Gr\"unden von konventionellen
 Nachrichtenangeboten ausgeschlossen sind.
 
-\subsubsection{deunews2010\_100K-Corpus}
+\subsubsection{deunews2010\_100K Corpus der ASV (denews10k)}
 
 Als korrespondierende Datenquelle in Standardsprache wurde der
 deunews\-2010\_100K-Corpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
@@ -117,47 +118,62 @@ der Universit\"at Leipzig gew\"ahlt. Dieser weist eine \"ahnliche Satzzahl zu
 den von nachrichtenleicht extrahierten Text aus und wurde bereits von der ASV
 normalisiert.
 
-\subsection{Wikipedia}
+\subsection{Wikipedia (wiki\_sim bzw. wiki\_en)}
 
-Die zweite Datenquelle sind Artikel aus der Wikipedia in \emph{Standard} und
-\emph{Simple English}. Mit fast 120000 Lemmata stellt die Simple English
-Wikipedia eine der gr\"o\ss{}ten \"offentlich verf\"ugbaren, freien
-Textsammlungen in leichter Sprache dar. Zus\"atzlich ist sie die einzige
-welche Dokumentenalignment aufweist.
+Die zweite Datenquelle sind Artikel aus der Wikipedia in \emph{Simple} und
+\emph{Standard English}. Mit fast 120.000 Lemmata stellt die Simple English
+Wikipedia eine der gr\"o\ss{}ten \"offentlich frei verf\"ugbaren Textsammlungen
+in einer einfachen Sprachvariante dar. Zus\"atzlich ist sie die
+einzige, welche Dokumentenalignment aufweist, was die einfache Erstellung zwei
+inhaltlich homogener Corpora gestattet.
 
 \section{Workflow}
-\subsection{Extraktion der Corpora}
+\subsection{Datenextraktion und Erstellung der Corpora}
 
-Die selbsterstellten Textcorpora wurden mittels selbstgeschriebener Crawler
-heruntergeladen. Nachrichtenleicht wurde rekursiv von der Startseite gequeriet
-und die resultierenden Seiten in einer MongoDB gespeichert. 
+Mittels selbstgeschriebener Crawler wurden die relevanten Textmengen
+heruntergeladen, extrahiert und zu Corpora zusammengefasst.
 
-Die beiden Wikipedias wurden \"uber eine Simple English Artikelliste
-heruntergeladen und in einer JSON-Datei inklusive Wiki Markup gespeichert. Das
-Entfernen des Markups stellte sich als eine nichttriviale Aufgabe dar. Nach
-negativen Erfahrungen mit einem vollst\"andigen Parser\footnote{MediaWiki
-Parser from Hell (http://mwparserfromhell.rtfd.org)} ohne und mit Kombination
-von regul\"aren Ausdr\"ucken wurde ein Ansatz gew\"ahlt der nur mit regul\"aren
-Ausdr\"ucken zufriedenstellende Ergebnisse erzielt. Nach Entfernen des Wiki
-Markups wurden die Artikel jeweils auf die L\"ange des k\"urzeren beschnitten
-und anschliessend in einer MongoDB gespeichert.
+Nachrichtenleicht wurde rekursiv von der Startseite gequeriet
+und die resultierenden Texte in einer MongoDB gespeichert.
+Dabei wurden Überschriften, Teaser und Nachrichtentext jeweils seperat erfasst
+und schließlich Teaser und Nachrichteninhalt zum Corpus hinzugefügt.
 
-\subsection{Berechnung Kookkurrenzen}
+Zur Erstellung der Wikipedia-Corpora wurde zunächst eine Liste aller
+in Simple English verfügbaren Artikel erstellt. Anschließend wurden diese und
+die jeweils korrespondierenden Artikel in Standard English heruntergeladen und
+im Rohformat (mit eingebettetem MediaWiki-Markup) in einer JSON-Datei gespeichert.
+\\
+Die Entfernung des Markups stellte sich als eine nichttriviale Aufgabe dar.
+Der vollständige MWParser\footnote{MediaWiki
+Parser from Hell (\url{http://mwparserfromhell.rtfd.org})} erwies sich für die
+entsprechende Datenmenge (ca. 2 GB Dateigröße des Dumps) als deutlich zu langsam
+und somit unbrauchbar.
+\\
+Mit einem Python-Skript, das Markup mit Hilfe regul\"arer Ausdr\"ucke entfernt
+bzw. umwandelt, konnten jedoch zufriedenstellende Ergebnisse mit vertretbarem
+Zeitaufwand erzielt werden.
+Nach Entfernen des Wiki-Markups wurden die Artikel auf die Satzanzahl
+des jweils k\"urzeren Artikels reduziert und anschliessend in einer MongoDB
+gespeichert.
+
+\subsection{Berechnung der Kookkurrenzen}
 
 Die Kookkurrenzen wurden von mittels der Pipeline des Lehrsstuhls f\"ur
-Automatisches Sprachverarbeitung berechnet.
+Automatische Sprachverarbeitung für uns berechnet und in eine MySQL-Datenbank
+gespeichert.
 
 \subsection{Erstellung der Graphen}
 
 Die errechneten Kookkurrenzen wurden in graph-tool-Objekte geparst. Subgraphen
-aus den Corpora wurden mittels eines \emph{force-directed graph} nach
-\cite{Hu2005} gelayoutet, Histogrammdaten wurden aus aus graph\_tool nach R
-exportiert und mittels ggplot2 geplottet.
+aus den Corpora wurden mittels eines \texttt{force-directed graph} nach
+\cite{Hu2005} gelayoutet.
+Die relevanten Daten zur Erstellung der Histogramme wurden gespeichert,
+um sie anschließend nach R zu exportieren und dort mittels ggplot2 zu plotten.
 
 \subsection{Berechnung von Graphen-Kenngr\"o\ss{}en}
 
-Nach Erstellung der Graphen wollen wir sie auf typische Kenngrößen untersuchen
-und anhand dieser charakterisieren sowie paarweise vergleichen. Für die
+Nach Erstellung der Graphen wollen wir sie auf typische Kenngrößen untersuchen,
+anhand dieser charakterisieren sowie paarweise vergleichen. Für die
 verschiedenen Eigenschaften bietet \texttt{graph\_tool} bereits implementierte
 Algorithmen an, die wir verwenden wollen. Im Folgenden werden die Kenngrößen
 kurz erläutert, unsere Erwartungen dargestellt und die Ergebnisse gezeigt.
@@ -166,16 +182,16 @@ kurz erläutert, unsere Erwartungen dargestellt und die Ergebnisse gezeigt.
 
 Schon in der Größe der Graphen sollten sich paarweise Unterschiede erkennen
 lassen. So sollten die beiden Corpora in einfacher Sprache wesentlich weniger
-verschiedene Wörter enthalten. So werden \emph{schwierige} Wörter
-typischerweise durch leichter verständliche ersetzt und kommen so im einfachen
-Corpus nicht vor. Die Anzahl der Knoten (ohne Stopw\"orter\footnote{Es wurde
+verschiedene Wörter enthalten. Durch die Praxis, \emph{schwierige} Wörter
+durch leichter verständliche zu ersetzen, ist zu erwarten, dass erstere im einfachen
+Corpus nicht vorkommen. Die Anzahl der Knoten (ohne Stopw\"orter\footnote{Es wurde
 die deutsche bzw. englische Stopwortliste des NLTK benutzt. Erg\"anzt wurde
 diese durch das Wort "'dass"' in neuer Rechtschreibung}) lässt sich natürlich
 trivial zählen. Der \emph{deunews2010\_100K-Corpus} hat 3205 respektive 1812
 Knoten, \emph{nachrichtenleicht.de} 2946 (2305), die englische Wikipedia 45897
 (39212), und die \emph{simple english} Wikipedia 36582 (31045) Knoten. In der
 Tat l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung
-erf\"ullt ist. Des weiteren zeigt sich, dass keine signifikante Unterschiede im
+erf\"ullt ist. Des weiteren zeigt sich, dass keine bedeutsamen Unterschiede im
 Anteil der Stopw\"orter zwischen den Corpora auftreten.
 
 \paragraph{Rang der Kantengewichte}
@@ -189,23 +205,24 @@ Spezialvokabular im "'Long Tail"' der Verteilung auftritt.
 \paragraph{Dichte}
 
 Die Dichte eines Graphen beschreibt das Verhältnis von vorhandenen Kanten zu
-potentiell möglichen Kanten in einem Graphen. Ein Wert von 1 bedeutet, dass
-jeder Knoten mit jedem anderen Verbunden ist, dem gegenüber eine 0, dass keine
+potentiell möglichen Kanten in einem Graphen. Ein Wert von $1$ bedeutet, dass
+jeder Knoten mit jedem anderen Verbunden ist, dem gegenüber eine $0$, dass keine
 Kanten vorhanden sind. Die Dichte wird wie folgt berechnet:
 
 $$
     \frac{|E|}{|V|(|V|-1)}
 $$
 
-|E| ist die Anzahl der Kanten, |V| die Anzahl der Knoten im Graphen. 
+$|E|$ ist die Anzahl der Kanten, $|V|$ die Anzahl der Knoten im Graphen. 
 
 TODO: ist es hier plausibel, dass die einfachen sprachen dichter sein sollten?
 es gibt ja (hoffentlich) weniger wörter, und diese wenigen sollten
 dementsprechend häufiger verwendet werden und sich untereinander so leichter
 verknüpfen.
 
-Für die einfachen Sprachen sollten die Graphen dichter sein als für die Normalen. 
-Wie bereits beschrieben gibt es in ersteren weniger Vokabular, dementsprechend
+Für die einfachen Sprachvarianten sollten die Graphen dichter sein als für
+Standardsprache.
+Wie bereits beschrieben, gibt es in ersteren weniger Vokabular, dementsprechend
 weniger Knoten, die verbunden werden können. Die Vorhandenen kommen jedoch öfter 
 gemeinsam vor und sind enger Verknüpft. Die Ergebnisse in Tabelle \ref{density_table}
 zeigen genau dies. Der Nachrichtenleicht-Corpus ist über 31\% dichter als denews10k.
@@ -232,7 +249,7 @@ Knoten, die jeweils paarweise verbunden sind, bilden ein Dreieck. Ziel ist ein
 Messwert der Aussagt wie sehr die Knoten Cliquen bilden. Lokal betrachtet
 bedeutet der Wert die Wahrscheinlichkeit die Nachbarn eines Nachbarn zu kennen.
 Da wir die Graphen global miteinander vergleichen möchten verwenden wir den
-globalen Clusterkoeffizienten \emph{C}. Er berechnet sich wie folgt:
+globalen Clusterkoeffizienten $C$. Er berechnet sich wie folgt:
 
 $$
     C = \frac{3*\text{Anzahl der Dreiecke}}{\text{Anzahl verbundener Tripel}}
@@ -254,13 +271,13 @@ Wert typischerweise hoch.
 % die beiden fasse ich im folgendem punkt zusammen
 
 \paragraph{Wegl\"angen}
-Um Small-World-Eigenschaften nachzuweisen ist es ausserdem interessant die
-Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist der Durchmesser
+Um Small-World-Eigenschaften nachzuweisen, ist es ausserdem interessant, die
+Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchmesser
 des Graphen, also der längste kürzeste Weg zwischen zwei Knoten. In einer
-\emph{small-world} sind alle Knoten von allen Anderen in wenigen Schritten
-erreichbar, typischerweise in höchstens 5 bis 7 Schritten. \texttt{Graph\_tool}
-erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, zum
-Anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
+\emph{small-world} sind alle Knoten von allen anderen in wenigen Schritten
+erreichbar, typischerweise in 5 bis 7 Schritten. \texttt{Graph\_tool}
+erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, und zum
+anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
 kürzesten Wege zeigt.
 
 \begin{table}[h]
@@ -268,10 +285,10 @@ kürzesten Wege zeigt.
   \begin{tabular}{l|llllllllll}
     Corpus      & 1      & 2      & 3       & 4       & 5       & 6      & 7      & 8             & 9             & 10           \\
 \hline
-    wiki\_en    & 0,04 & 5,3  & 47,36 & 41,43 & 5,5   & 0,34 & 0,01 & $\approx$0  & $\approx$0  & 0          \\
-    wiki\_sim   & 0,05 & 6,01 & 47,77 & 40,2  & 5,6   & 0,36 & 0,01 & $\approx$0  & $\approx$0  & 0          \\
-    nl          & 0,26 & 4,71 & 27,71 & 44,18 & 18,32 & 3,98 & 0,73 & 0,1         & $\approx$0  & $\approx$0 \\
-    denews10k   & 2    & 3,21 & 19,19 & 44,26 & 25,31 & 6,6  & 1,11 & 0,11        & 0,01        & $\approx$0 \\
+    wiki\_en    & 0,04 & 5,3  & 47,36 & 41,43 & 5,5   & 0,34 & 0,01 & $\sim$0  & $\sim$0  & 0          \\
+    wiki\_sim   & 0,05 & 6,01 & 47,77 & 40,2  & 5,6   & 0,36 & 0,01 & $\sim$0  & $\sim$0  & 0          \\
+    nl          & 0,26 & 4,71 & 27,71 & 44,18 & 18,32 & 3,98 & 0,73 & 0,1         & $\sim$0  & $\sim$0 \\
+    denews10k   & 2,0    & 3,21 & 19,19 & 44,26 & 25,31 & 6,6  & 1,11 & 0,11        & 0,01        & $\sim$0 \\
   \end{tabular}
   \caption{Anteile der Weglängen paarweiser kürzester Wege zwischen allen Knoten, in Prozent}
 \end{table}
@@ -279,19 +296,19 @@ kürzesten Wege zeigt.
 TODO, folgenden abschnitt an tatsächliche ergebnisse anpassen 
 
 In der Tat können wir die Schrittzahl bestätigen, beispielsweise für den
-\texttt{nachrichtenleicht.de} Corpus haben wir einen Durchmesser von 6, und von
+nachrichtenleicht-Corpus haben wir einen Durchmesser von 6, und von
 allen paarweisen Pfaden kommt dieser sehr selten vor. Bei XXX Knoten gibt
 es YYY Pfade zu berechnen. Die meisten Knoten sind in drei bis vier Schritten
 miteinander verbunden.
 Das gleiche Bild zeigt sich bei den englischen Wikipedia-Corpora. Sowohl in 
-einfacher Sprache, als auch in normalem Englisch sind über 90\% der paarweisen
+Simple als auch in Standard English sind über 90\% der paarweisen
 kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen 
-einige wenige Paare die bis zu neun Sprünge auseinander liegen
+einige wenige Paare, die bis zu neun Sprünge auseinander liegen.
 TODO Welche sind das? stammen die womöglich von alle von wenigen einzelnen wörtern? evtl rechtschreibfehler? 
 
                              
 \paragraph{Skalenfreiheit}
-Skalenfreie Graphen zeichnen sich duch exponentialverteilte Knotengrade aus. Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}. Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
+Skalenfreie Graphen zeichnen sich duch exponential verteilte Knotengrade aus. Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}. Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
 
 haben wir so etwas? wir können das mit graph\_tool über die
 clustering algorithmen leicht ausrechnen!  skalieren die graphen paarweise um
@@ -299,7 +316,7 @@ ein paar knoten, oder kommen neue wichtige (hubs) wörter hinzu?
 
 \paragraph{Small World Eigenschaften}
 Zusammengefasst zeichnen sich Small-World-Graphen durch kleine Durchmesser und
-hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig!
+hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig.
 Wir konnten sowohl die kurzen Weglängen, als auch hohe Clusteringkoeffizienten
 für alle Graphen nachweisen. TODO passt das? skalenfreiheit? 
 
@@ -312,13 +329,12 @@ für alle Graphen nachweisen. TODO passt das? skalenfreiheit?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Testkapitel mit Testgrafiken}
 Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
+TODO: Threshold je nach Corpus verschieden
 
 \subsection{pdf-Grafik}
 \includegraphics{testplot.pdf}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Versionshinweise}
 
 \newpage
 \begin{thebibliography}{9}
