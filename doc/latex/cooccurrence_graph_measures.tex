@@ -45,6 +45,7 @@
 \maketitle
 \tableofcontents
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motivation und Ziel}
 
 Leichte oder auch Einfache Sprache ist eine Untermenge der deutschen Sprache,
@@ -55,8 +56,8 @@ Rechtschreibregeln.
 Das \emph{Netzwerk Leichte Sprache} definiert folgende grundlegenden
 Eigenschaften Leichter Sprache:
 
-% Quellenangabe?!
-\begin{itemize}
+% TODO: Quellenangabe für das Folgende!
+\begin{enumerate}
 	\item Benutzen Sie einfache W\"orter
 	\item Benutzen Sie W\"orter, die etwas genau beschreiben
 	\item Benutzen Sie bekannte W\"orter und verzichten sie auf Fachw\"orter und Fremdw\"orter
@@ -70,7 +71,7 @@ Eigenschaften Leichter Sprache:
 	\item Schreiben Sie kurze S\"atze, die nur eine Aussage enthalten
 	\item Benutzen Sie einen einfachen Satzbau
 	\item Schreiben Sie jeden Satz in eine Zeile
-\end{itemize}
+\end{enumerate}
 
 Das englische \"Aquivalent zu Leichter Sprache ist \emph{Simple English}. Es
 existieren verschiedene Modelle des Simple English, welche unterschiedliche
@@ -79,11 +80,14 @@ kontrollierte Sprache f\"ur technische Handb\"ucher. Aufgrund dieser
 konkurrierenden Ans\"atze gibt es keine einheitliche Definition oder
 Sprachpraxis des Simple English. So sind z.B. i TODO ???
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Tools}
-\paragraph{Programmiersprache Python}
+
+\subsection{Programmiersprache Python}
 Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der Unicodeunterstützung wurde Python 3 gewählt.
 
-\paragraph{Graphen-Bibliothek \texttt{graph-tool}}
+\subsection{Graphen-Bibliothek \texttt{graph-tool}}
 \texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein Python-Modul,
 welches der Erstellung, Manipulation und statistischen
 Auswertung von Graphen dient. Es stellt im Kern ein C++-Wrapper um die Boost
@@ -92,10 +96,12 @@ erreicht wird. Es ist zus\"atzlich in der Lage, Graphen mit modernen Techniken
 zu visualisieren und \"ubliche Ma\ss{}e wie Clustering-Koeffizienten, Knoten-
 und Kantengrade und Durchmesser zu berechnen.
 
-\paragraph{NLP-Framework NLTK}
+\subsection{NLP-Framework NLTK}
 Das Natural Language Toolkit (NLTK\footnote{\url{http://www.nltk.org/}}) ist ein Framework f\"ur Sprachverarbeitung in Python.
 Die verwendeten Stopwortlisten für Deutsch und Englisch stammen aus der Bibliothek.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Datenbasis}
 
 Als Datenbasis wurden Quellen gew\"ahlt, die sich durch eine gro\ss{}e
@@ -129,7 +135,10 @@ in einer einfachen Sprachvariante dar. Zus\"atzlich ist sie die
 einzige, welche Dokumentenalignment aufweist, was die einfache Erstellung zwei
 inhaltlich homogener Corpora gestattet.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Workflow}
+
 \subsection{Datenextraktion und Erstellung der Corpora}
 
 Mittels selbstgeschriebener Crawler wurden die relevanten Textmengen
@@ -158,21 +167,26 @@ Nach Entfernen des Wiki-Markups wurden die Artikel auf die Satzanzahl
 des jweils k\"urzeren Artikels reduziert und anschliessend in einer MongoDB
 gespeichert.
 
+
 \subsection{Berechnung der Kookkurrenzen}
 
 Die Kookkurrenzen wurden von mittels der Pipeline des Lehrsstuhls f\"ur
 Automatische Sprachverarbeitung für uns berechnet und in eine MySQL-Datenbank
 gespeichert.
 
+
 \subsection{Erstellung der Graphen}
 
-Die errechneten Kookkurrenzen wurden in \texttt{graph-tool}-Objekte geparst. Subgraphen
+Die errechneten Kookkurrenzen wurden in \texttt{graph-tool}-Objekte geparst.
+Subgraphen
 aus den Corpora wurden mittels eines \texttt{force-directed graph} nach
 \cite{Hu2005} gelayoutet.
 Die relevanten Daten zur Erstellung der Histogramme wurden gespeichert,
 um sie anschließend nach R zu exportieren und dort mittels ggplot2 zu plotten.
 
-\subsection{Berechnung von Graphen-Kenngr\"o\ss{}en}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Berechnung der Graphenkenngr\"o\ss{}en und Ergebnisse}
 
 Nach Erstellung der Graphen wollen wir sie auf typische Kenngrößen untersuchen,
 anhand dieser charakterisieren sowie paarweise vergleichen. Für die
@@ -180,7 +194,7 @@ verschiedenen Eigenschaften bietet \texttt{graph-tool} bereits implementierte
 Algorithmen an, die wir verwenden wollen. Im Folgenden werden die Kenngrößen
 kurz erläutert, unsere Erwartungen dargestellt und die Ergebnisse gezeigt.
 
-\paragraph{Gr\"o\ss{}e (Knotenzahl)}
+\subsection{Gr\"o\ss{}e (Knotenzahl)}
 
 Schon in der Größe der Graphen sollten sich paarweise Unterschiede erkennen
 lassen. So sollten die beiden Corpora in einfacher Sprache wesentlich weniger
@@ -196,15 +210,25 @@ Tat l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung
 erf\"ullt ist. Des weiteren zeigt sich, dass keine bedeutsamen Unterschiede im
 Anteil der Stopw\"orter zwischen den Corpora auftreten.
 
-\paragraph{Rang der Kantengewichte}
+\subsection{Rang der Kantengewichte}
 
 TODO: Aussage verifizieren
+
+Siehe Abb. \ref{fig-vdeg}
 
 Die Kantengewichte folgen dem zipfschen Gesetz wobei sich f\"ur Leichte Sprache
 feststellen l\"asst, dass die Verteilung gleichm\"a\ss{}iger ist, d.h. weniger
 Spezialvokabular im "'Long Tail"' der Verteilung auftritt.
 
-\paragraph{Dichte}
+\begin{figure}
+    \centering
+        \includegraphics[scale=.5]{vdeg_plots.pdf}
+    \caption{Verteilung der Knotengrade nach Corpus}
+    \label{fig-vdeg}
+\end{figure}
+
+
+\subsection{Dichte}
 
 Die Dichte eines Graphen beschreibt das Verhältnis von vorhandenen Kanten zu
 potentiell möglichen Kanten in einem Graphen. Ein Wert von $1$ bedeutet, dass
@@ -245,7 +269,7 @@ Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
   \caption{\label{density_table} Die Graphdichten der Corpora}
 \end{table}
 
-\paragraph{Clusterkoeffizient}
+\subsection{Clusterkoeffizient}
 
 Eng mit der Dichte verwandt ist der Clusterkoeffizient. Er beschreibt die
 Anzahl vorhandener Dreiecke im Graph im Verhältnis zu möglichen Dreiecken. Drei
@@ -274,10 +298,10 @@ Wert typischerweise hoch.
 % \paragraph{K\"urzeste Wegl\"ange}
 % die beiden fasse ich im folgendem punkt zusammen
 
-\paragraph{Wegl\"angen}
+\subsection{Minimale Wegl\"angen}
 Um Small-World-Eigenschaften nachzuweisen, ist es außerdem interessant, die
 Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchmesser
-des Graphen, also der längste kürzeste Weg zwischen zwei Knoten. In einer
+des Graphen, also der längste minimale Weg zwischen zwei Knoten. In einer
 \emph{small-world} sind alle Knoten von allen anderen in wenigen Schritten
 erreichbar, typischerweise in 5 bis 7 Schritten. \texttt{graph-tool}
 erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, und zum
@@ -301,6 +325,8 @@ kürzesten Wege zeigt.
 
 TODO, folgenden abschnitt an tatsächliche ergebnisse anpassen 
 
+Siehe Abb. \ref{fig-mdh}.
+
 In der Tat können wir die Schrittzahl bestätigen, beispielsweise für den
 nachrichtenleicht-Corpus haben wir einen Durchmesser von 6, und von
 allen paarweisen Pfaden kommt dieser sehr selten vor. Bei XXX Knoten gibt
@@ -312,39 +338,153 @@ kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen
 einige wenige Paare, die bis zu neun Sprünge auseinander liegen.
 TODO Welche sind das? stammen die womöglich von alle von wenigen einzelnen wörtern? evtl rechtschreibfehler? 
 
-                             
-\paragraph{Skalenfreiheit}
-Skalenfreie Graphen zeichnen sich duch exponential verteilte Knotengrade aus. Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}. Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
+\begin{figure}
+    \centering
+        \includegraphics[scale=.75]{mdh_plots.pdf}
+    \caption{Verteilung der minimalen Weglängen nach Corpus}
+    \label{fig-mdh}
+\end{figure}
+
+\subsection{Skalenfreiheit}
+Skalenfreie Graphen zeichnen sich duch exponential verteilte Knotengrade aus.
+Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}.
+Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
 
 haben wir so etwas? wir können das mit \texttt{graph-tool} über die
 clustering algorithmen leicht ausrechnen!  skalieren die graphen paarweise um
 ein paar knoten, oder kommen neue wichtige (hubs) wörter hinzu?
 
-\paragraph{Small World Eigenschaften}
+\subsection{Small-World-Eigenschaften}
 Zusammengefasst zeichnen sich Small-World-Graphen durch kleine Durchmesser und
 hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig.
 Wir konnten sowohl die kurzen Weglängen, als auch hohe Clusteringkoeffizienten
 für alle Graphen nachweisen. TODO passt das? skalenfreiheit? 
 
 
-\paragraph{Übersichtstabelle}
-\section{Ergebnisse}
-\subsection{Weitere Beobachtungen}
-\paragraph{H\"aufigste W\"orter nach Sprache}
+\subsection{Übersichtstabelle Graphenkenngrößen}
+
+\subsection{H\"aufigste W\"orter nach Sprache}
+
+\subsubsection{Nachrichtenleicht}
+
+\begin{enumerate}
+    \item Menschen (87)
+    \item gewonnen (69)
+    \item Mannschaft (62)
+    \item Geld (54)
+    \item Stadt (51)
+    \item mehr (50)
+    \item Partei (45)
+    \item Land (45)
+    \item Dortmund (45)
+    \item Politiker (43)
+    \item Spiel (41)
+    \item bekommen (41)
+    \item Jahr (40)
+    \item viele (38)
+    \item Bayern (36)
+    \item Preis (34)
+    \item München (34)
+    \item Verein (33)
+    \item deutsche (33)
+    \item Film (32)
+    \item zusammen (32)
+\end{enumerate}
+
+\subsubsection{denews10k}
+
+\begin{enumerate}
+    \item Prozent (48)
+    \item Euro (47)
+    \item sagte (24)
+    \item Uhr (23)
+    \item Jahren (23)
+    \item sei (18)
+    \item wurde (18)
+    \item einfach (17)
+    \item Artikel (16)
+    \item Jahr (16)
+    \item Dollar (15)
+    \item verwenden (15)
+    \item unten (15)
+    \item Jahre (15)
+    \item stehenden (15)
+    \item Link (14)
+    \item möchten (14)
+    \item verlinken (14)
+    \item kostenfrei (14)
+    \item seit (14)
+    \item dpa (14)
+    \item Millionen (14)
+\end{enumerate}
+
+\subsubsection{wiki\_sim (t=0.005)}
+
+\begin{enumerate}
+    \item born (71)
+    \item American (52)
+    \item commune (49)
+    \item France (47)
+    \item won (41)
+    \item department (41)
+    \item movie (36)
+    \item television (35)
+    \item died (33)
+    \item people (33)
+    \item NHL (31)
+    \item actor (31)
+    \item World (30)
+    \item United (29)
+    \item League (28)
+    \item National (28)
+    \item years (28)
+    \item released (28)
+    \item Award (27)
+    \item County (27)
+    \item played (27)
+    \item year (27)
+\end{enumerate}
+
+\subsubsection{wiki\_en (t=0.005)}
+
+\begin{enumerate}
+    \item born (86)
+    \item American (58)
+    \item commune (52)
+    \item France (50)
+    \item department (49)
+    \item film (46)
+    \item television (43)
+    \item won (42)
+    \item League (40)
+    \item County (40)
+    \item Award (39)
+    \item University (39)
+    \item series (38)
+    \item released (38)
+    \item album (38)
+    \item professional (35)
+    \item located (34)
+    \item season (33)
+    \item World (33)
+    \item years (31)
+    \item city (31)
+\end{enumerate}
+
+\subsection{Kookkurrenzgraphen häufig vorkommender Wörter}
+%Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
+%TODO: Threshold je nach Corpus verschieden
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Testkapitel mit Testgrafiken}
-Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
-TODO: Threshold je nach Corpus verschieden
-
-\subsection{pdf-Grafik}
-\includegraphics{testplot.pdf}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \newpage
 \begin{thebibliography}{9}
 	\bibitem{Hu2005} Yifan Hu, Efficient and High Quality Force-Directed Graph, Mathematica Journal, vol. 10, Issue 1, pp. 37-71, (2005)
         \bibitem{Newman2003} Newman, Mark EJ. "The structure and function of complex networks." SIAM review 45.2 (2003): 167-256.
 \end{thebibliography}
+
+\listoftables
+
+\listoffigures
+
 \end{document}
