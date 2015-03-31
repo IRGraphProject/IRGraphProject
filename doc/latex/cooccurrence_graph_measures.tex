@@ -1,7 +1,7 @@
 \documentclass[11pt, a4paper]{article}
 \usepackage{ifxetex}
 \usepackage{amsmath}
-\usepackage[hyperindex,colorlinks,citecolor=cyan,linkcolor=green,urlcolor=blue
+\usepackage[hyperindex,colorlinks,citecolor=cyan,linkcolor=gray,urlcolor=blue
 			]{hyperref}
 
 \ifxetex
@@ -182,7 +182,7 @@ gespeichert.
 Die errechneten Kookkurrenzen wurden in \texttt{graph-tool}-Objekte geparst.
 Subgraphen
 aus den Corpora wurden mittels eines \texttt{force-directed graph} nach
-\cite{Hu2005} gelayoutet.
+\cite{Hu2006} gelayoutet.
 Die relevanten Daten zur Erstellung der Histogramme wurden gespeichert,
 um sie anschließend nach R zu exportieren und dort mittels ggplot2 zu plotten.
 
@@ -362,8 +362,21 @@ hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig.
 Wir konnten sowohl die kurzen Weglängen, als auch hohe Clusteringkoeffizienten
 für alle Graphen nachweisen. TODO passt das? skalenfreiheit? 
 
+\begin{table}
 
-\subsection{Übersichtstabelle Graphenkenngrößen}
+    \begin{tabular}{l*{4}{r}}
+    \toprule
+    Kenngröße & nl & denews10k & wiki\_sim & wiki\_en \\
+    \midrule
+    $|V|$     &       &       &       &       \\
+    $|E|$     &       &       &       &       \\
+    Dichte (in $10^{-4}$) & 13,148876 & 9,998379 & 2,469035 & 2,109985 \\
+    Clusterkoeffizient &       &       &       &       \\
+    \dots     &       &       &       &       \\
+    \bottomrule
+    \end{tabular}
+    \caption{Übersichtstabelle Graphenkenngrößen}
+\end{table}
 
 \subsection{H\"aufigste W\"orter nach Corpus}
 
@@ -403,14 +416,13 @@ für alle Graphen nachweisen. TODO passt das? skalenfreiheit?
     \label{words-nachrichten}
 \end{table}
 
-Wie in Tabelle \ref{words-nachrichten} zu erkennen, gibt es nur wenig
-Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews10k.
+Wie in Tabelle \ref{words-nachrichten} zu erkennen, gibt es nur wenige Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews10k.
 Fett gedruckt sind diejenigen Worte, die in beiden Corpora vorkommen.
-Es handelt sich hierbei um das Wort Jahr.
+Es handelt sich hierbei nur um das Wort Jahr.
 Dies deutet bereits auf eine gewisse Inhomogenität der Corpora hin.
 Dieses Ergebnis ist insofern nicht überraschend, dass die Nachrichtendaten aus unterschiedlichen Quellen stammen (vgl. Abschnitt \ref{nrseiten}) und möglicherweise auch unterschiedlich normalisiert wurden.
 Auch ist die jeweilige Zielgruppe der Ursprungstexte eine andere.\\
-Darüber hinaus zeigt sich, dass Worte im nl-Corpus generell häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).\\
+Darüber hinaus zeigt sich, dass Worte im nachrichtenleicht-Corpus generell häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).\\
 Weiterhin scheint der nachrichtenleicht-Corpus einen Schwerpunkt auf Politik und Sport zu legen.
 Erkennbar ist dies an Worten wie Stadt, Partei, Land, Politiker bzw. Mannschaft, Spiel, Bayern, München, Verein.
 Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Prozent, Euro, Dollar oder Millionen auf.
@@ -452,8 +464,8 @@ Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Proze
 \end{table}
 
 Der Berechnung der häufigsten Worte der Wiki-Corpora (vgl. Tabelle \ref{words-wiki}) wurde ein Kookkurrenz-Threshold von $t=0.005$ zugrunde gelegt.
-Dies entspricht einem Kookkurrenzwert von 200.\\
-Die Ergebnisse zeigen eine große Übereinstimmung des Vokabulars zwischen beiden Wikipedia-Versionen, was für eine größere thematische und strukturelle Homogenität als bei den Nachrichtencorpora spricht.
+Dies entspricht einem Kookkurrenzwert von $\geq 200$.\\
+Die Ergebnisse zeigen eine hohe Übereinstimmung des Vokabulars zwischen beiden Wikipedia-Versionen, was für eine größere thematische und strukturelle Homogenität als bei den Nachrichtencorpora spricht.
 Die häufigsten vier Worte sind bei beiden Corpora identisch.
 Insgesamt stimmen über $50\%$ der Worte überein - lediglich die Rangfolge variiert leicht.
 Interessant ist, dass die Simple-English-Variante das Wort \textit{movie} favorisiert, während in der Standardsprache das Synonym \textit{film} verwendet wird.
@@ -469,12 +481,12 @@ Da die Standard-English-Wikipedia längere Sätze verwendet als die Einfache, si
 %Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
 %TODO: Threshold je nach Corpus verschieden
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \begin{thebibliography}{9}
-	\bibitem{Hu2005} Yifan Hu, Efficient and High Quality Force-Directed Graph, Mathematica Journal, vol. 10, Issue 1, pp. 37-71, (2005)
-        \bibitem{Newman2003} Newman, Mark EJ. "The structure and function of complex networks." SIAM review 45.2 (2003): 167-256.
+    \bibitem{Biemann2004} C. Biemann, S. Bordag, G. Heyer, U. Quasthoff, and C. Wolff, “Language-Independent Methods for Compiling Monolingual Lexical Data,” in Computational Linguistics and Intelligent Text Processing, vol. 2945, A. Gelbukh, Ed. Berlin, Heidelberg: Springer Berlin Heidelberg, 2004, pp. 217–228.
+	\bibitem{Hu2005} Y. Hu, “Efficient, High-Quality Force-Directed Graph Drawing,” The Mathematica Journal, vol. 10, no. 1, pp. 37–71, 2006.
+    \bibitem{Newman2003} M. E. J. Newman, “The Structure and Function of Complex Networks,” SIAM Review, vol. 45, no. 2, pp. 167–256, 2003.
 \end{thebibliography}
 
 \listoftables
