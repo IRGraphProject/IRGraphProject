@@ -32,6 +32,9 @@
 \usepackage{ngerman}
 \usepackage{booktabs}
 \usepackage{microtype}
+\usepackage{footnote}
+\makesavenoteenv{tabular} % I want footnotes in my tables
+\makesavenoteenv{table}
 
 \usepackage{svg}
 \usepackage{graphicx}
@@ -82,7 +85,7 @@ Sprachpraxis des Simple English. So sind z.B. i TODO ???
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Tools}
+\section{Werkzeuge}
 
 \subsection{Programmiersprache Python}
 Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der nativen Unicode-Unterstützung wurde Python 3 gewählt.
@@ -125,7 +128,7 @@ Als korrespondierende Datenquelle in Standardsprache wurde der
 deunews\-2010\_100K-Corpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
 der Universit\"at Leipzig gew\"ahlt. Dieser weist eine \"ahnliche Satzzahl zu
 den von nachrichtenleicht extrahierten Text aus und wurde bereits von der ASV
-normalisiert.
+normalisiert \cite{Quasthoff2006}.
 
 \subsection{Wikipedia (wiki\_sim bzw. wiki\_en)}
 
@@ -138,7 +141,7 @@ inhaltlich homogener Corpora gestattet.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Workflow}
+\section{Vorverarbeitung}
 
 \subsection{Datenextraktion und Erstellung der Corpora}
 \label{datextr}
@@ -179,7 +182,7 @@ gespeichert.
 
 \subsection{Erstellung der Graphen}
 
-Die errechneten Kookkurrenzen wurden in \texttt{graph-tool}-Objekte geparst.
+Die errechneten Kookkurrenz-Paare wurden in \texttt{graph-tool}-Objekte geparst.
 Subgraphen
 aus den Corpora wurden mittels eines \texttt{force-directed graph} nach
 \cite{Hu2006} gelayoutet.
@@ -262,10 +265,10 @@ Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
     \toprule
     Corpus            & Dichte          \\
     \midrule
-    nl                &  		0,0013148876 \\
-    denews10k         &  		0,0009998379 \\
-    wiki\_sim         &  		0,0002469035 \\
-    wiki\_en          &  		0,0002109985 \\
+    nl                &  		0,0015090239 \\
+    denews10k         &  		0,0007737342 \\
+    wiki\_sim         &  		0,0002844456 \\
+    wiki\_en          &  		0,0002489951 \\
     \bottomrule
   \end{tabular}
   \caption{\label{density_table} Die Graphdichten der Corpora}
@@ -362,21 +365,33 @@ hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig.
 Wir konnten sowohl die kurzen Weglängen, als auch hohe Clusteringkoeffizienten
 für alle Graphen nachweisen. TODO passt das? skalenfreiheit? 
 
+\subsection{Zusammenfassung der Berechnungen}
 \begin{table}
-
     \begin{tabular}{l*{4}{r}}
     \toprule
     Kenngröße & nl & denews10k & wiki\_sim & wiki\_en \\
     \midrule
-    $|V|$     &       &       &       &       \\
-    $|E|$     &       &       &       &       \\
-    Dichte (in $10^{-4}$) & 13,148876 & 9,998379 & 2,469035 & 2,109985 \\
-    Clusterkoeffizient &       &       &       &       \\
+    $|V|$     & 2946  & 3205 & 36582  & 45897  \\
+    $|E|$     & 11639 & 7669 & 371559 & 514489 \\
+    $|V|$\footnotemark[6] & 2766  & 3142 & 36131  & 45446  \\
+    $|E|$\footnotemark[6]    & 11541 & 7636 & 371319 & 514248 \\
+    Dichte (in $10^{-4}$) & 15,090239 & 7,737342 & 2,844456 & 2,489951 \\
+    Clusterkoeff. max ($10^{-2}$) & 6,451559 & 3,390617 & 4,040342 & 4,229930 \\
+    Clusterkoeff. min ($10^{-2}$) & 0,626338 & 0,470389 & 0,612476 & 0,481688 \\
     \dots     &       &       &       &       \\
     \bottomrule
     \end{tabular}
     \caption{Übersichtstabelle Graphenkenngrößen}
+    \label{tab-zsf}
 \end{table}
+% TODO: nach dem Endlayout sicherstellen, dass diese Fußnote an der richtigen
+% Stelle auftaucht
+\footnotetext[6]{größte Zusammenhangkomponente}
+
+In Tabelle \ref{tab-zsf} finden Sie eine Zusammenfassung der wichtigsten Graphenkenngrößen des Corpus.
+
+
+%\section{Graphen}
 
 \subsection{H\"aufigste W\"orter nach Corpus}
 
@@ -477,16 +492,19 @@ Da die Standard-English-Wikipedia längere Sätze verwendet als die Einfache, si
 
 
 
-\subsection{Kookkurrenzgraphen häufig vorkommender Wörter}
+\section{Kookkurrenzgraphen häufiger Wörter}
 %Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
 %TODO: Threshold je nach Corpus verschieden
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \begin{thebibliography}{9}
-    \bibitem{Biemann2004} C. Biemann, S. Bordag, G. Heyer, U. Quasthoff, and C. Wolff, “Language-Independent Methods for Compiling Monolingual Lexical Data,” in Computational Linguistics and Intelligent Text Processing, vol. 2945, A. Gelbukh, Ed. Berlin, Heidelberg: Springer Berlin Heidelberg, 2004, pp. 217–228.
-	\bibitem{Hu2005} Y. Hu, “Efficient, High-Quality Force-Directed Graph Drawing,” The Mathematica Journal, vol. 10, no. 1, pp. 37–71, 2006.
-    \bibitem{Newman2003} M. E. J. Newman, “The Structure and Function of Complex Networks,” SIAM Review, vol. 45, no. 2, pp. 167–256, 2003.
+    \bibitem{Newman2003} M. E. J. Newman, “The Structure and Function of Complex Networks,” \emph{SIAM Review}, vol. 45, no. 2, pp. 167–256, 2003.
+    \bibitem{Biemann2004} C. Biemann, S. Bordag, G. Heyer, U. Quasthoff, and C. Wolff, “Language-Independent Methods for Compiling Monolingual Lexical Data,” in \emph{Computational Linguistics and Intelligent Text Processing}, vol. 2945, A. Gelbukh, Ed. Berlin, Heidelberg: Springer Berlin Heidelberg, 2004, pp. 217–228.
+    \bibitem{Hu2005} Y. Hu, “Efficient, High-Quality Force-Directed Graph Drawing,” \emph{The Mathematica Journal}, vol. 10, no. 1, pp. 37–71, 2006.
+    \bibitem{Quasthoff2006}U. Quasthoff, M. Richter, and C. Biemann, “Corpus Portal for Search in Monolingual Corpora,” in \emph{Proceedings of LREC-06}, Genoa, Italy, 2006, pp. 1799–1802.
+    \bibitem{Telesford2011}Q. K. Telesford, K. E. Joyce, S. Hayasaka, J. H. Burdette, and P. J. Laurienti, “The Ubiquity of Small-World Networks,” \emph{Brain Connectivity}, vol. 1, no. 5, pp. 367–375, 2011.
+
 \end{thebibliography}
 
 \listoftables
