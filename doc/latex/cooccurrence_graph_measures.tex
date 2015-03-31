@@ -85,7 +85,7 @@ Sprachpraxis des Simple English. So sind z.B. i TODO ???
 \section{Tools}
 
 \subsection{Programmiersprache Python}
-Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der Unicodeunterstützung wurde Python 3 gewählt.
+Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der nativen Unicode-Unterstützung wurde Python 3 gewählt.
 
 \subsection{Graphen-Bibliothek \texttt{graph-tool}}
 \texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein Python-Modul,
@@ -109,6 +109,7 @@ semantische und logische N\"ahe auszeichnen, namentlich Nachrichtenseiten in
 deutscher und Wikipediaartikel in englischer Sprache.
 
 \subsection{Nachrichtenseiten}
+\label{nrseiten}
 
 \subsubsection{nachrichtenleicht.de (nl)}
 
@@ -140,11 +141,12 @@ inhaltlich homogener Corpora gestattet.
 \section{Workflow}
 
 \subsection{Datenextraktion und Erstellung der Corpora}
+\label{datextr}
 
 Mittels selbstgeschriebener Crawler wurden die relevanten Textmengen
 heruntergeladen, extrahiert und zu Corpora zusammengefasst.
 
-Nachrichtenleicht wurde rekursiv von der Startseite gequeriet
+Nachrichtenleicht wurde rekursiv von der Startseite aus gequeriet
 und die resultierenden Texte in einer MongoDB gespeichert.
 Dabei wurden Überschriften, Teaser und Nachrichtentext jeweils seperat erfasst
 und schließlich Teaser und Nachrichteninhalt zum Corpus hinzugefügt.
@@ -157,7 +159,7 @@ im Rohformat (mit eingebettetem MediaWiki-Markup) in einer JSON-Datei gespeicher
 Die Entfernung des Markups stellte sich als eine nichttriviale Aufgabe dar.
 Der vollständige MWParser\footnote{MediaWiki
 Parser from Hell (\url{http://mwparserfromhell.rtfd.org})} erwies sich für die
-entsprechende Datenmenge (ca. 2 GB Dateigröße des Dumps) als deutlich zu langsam
+entsprechende Datenmenge (ca. 2~GB Rohdaten) als deutlich zu langsam
 und somit unbrauchbar.
 \\
 Mit einem Python-Skript, das Markup mit Hilfe regul\"arer Ausdr\"ucke entfernt
@@ -363,113 +365,105 @@ für alle Graphen nachweisen. TODO passt das? skalenfreiheit?
 
 \subsection{Übersichtstabelle Graphenkenngrößen}
 
-\subsection{H\"aufigste W\"orter nach Sprache}
+\subsection{H\"aufigste W\"orter nach Corpus}
 
-\subsubsection{Nachrichtenleicht}
+\subsubsection{Nachrichten-Corpora}
 
-\begin{enumerate}
-    \item Menschen (87)
-    \item gewonnen (69)
-    \item Mannschaft (62)
-    \item Geld (54)
-    \item Stadt (51)
-    \item mehr (50)
-    \item Partei (45)
-    \item Land (45)
-    \item Dortmund (45)
-    \item Politiker (43)
-    \item Spiel (41)
-    \item bekommen (41)
-    \item Jahr (40)
-    \item viele (38)
-    \item Bayern (36)
-    \item Preis (34)
-    \item München (34)
-    \item Verein (33)
-    \item deutsche (33)
-    \item Film (32)
-    \item zusammen (32)
-\end{enumerate}
 
-\subsubsection{denews10k}
+\begin{table}
+    \begin{tabular}{l*{2}{lr}}
+    \toprule
+    Nr. & nl & Häufigkeit & denews10k & Häufikeit\\
+    \midrule
+    1  & Menschen    & 87 &  Prozent     & 48 \\
+    2  & gewonnen    & 69 &  Euro        & 47 \\
+    3  & Mannschaft  & 62 &  sagte       & 24 \\
+    4  & Geld        & 54 &  Uhr         & 23 \\
+    5  & Stadt       & 51 &  Jahren      & 23 \\
+    6  & mehr        & 50 &  sei         & 18 \\
+    7  & Partei      & 45 &  wurde       & 18 \\
+    8  & Land        & 45 &  einfach     & 17 \\
+    9  & Dortmund    & 45 &  Artikel     & 16 \\
+    10 & Politiker   & 43 &  \textbf{Jahr}        & 16 \\
+    11 & Spiel       & 41 &  Dollar      & 15 \\
+    12 & bekommen    & 41 &  verwenden   & 15 \\
+    13 & \textbf{Jahr}        & 40 &  unten       & 15 \\
+    14 & viele       & 38 &  Jahre       & 15 \\
+    15 & Bayern      & 36 &  stehenden   & 15 \\
+    16 & Preis       & 34 &  Link        & 14 \\
+    17 & München     & 34 &  möchten     & 14 \\
+    18 & Verein      & 33 &  verlinken   & 14 \\
+    19 & deutsche    & 33 &  kostenfrei  & 14 \\
+    20 & Film        & 32 &  seit        & 14 \\
+    21 & zusammen    & 32 &  dpa         & 14 \\
+    22 &             &    &  Millionen   & 14 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Häufigste Worte in den Nachrichten-Corpora}
+    \label{words-nachrichten}
+\end{table}
 
-\begin{enumerate}
-    \item Prozent (48)
-    \item Euro (47)
-    \item sagte (24)
-    \item Uhr (23)
-    \item Jahren (23)
-    \item sei (18)
-    \item wurde (18)
-    \item einfach (17)
-    \item Artikel (16)
-    \item Jahr (16)
-    \item Dollar (15)
-    \item verwenden (15)
-    \item unten (15)
-    \item Jahre (15)
-    \item stehenden (15)
-    \item Link (14)
-    \item möchten (14)
-    \item verlinken (14)
-    \item kostenfrei (14)
-    \item seit (14)
-    \item dpa (14)
-    \item Millionen (14)
-\end{enumerate}
+Wie in Tabelle \ref{words-nachrichten} zu erkennen, gibt es nur wenig
+Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews10k.
+Fett gedruckt sind diejenigen Worte, die in beiden Corpora vorkommen.
+Es handelt sich hierbei um das Wort Jahr.
+Dies deutet bereits auf eine gewisse Inhomogenität der Corpora hin.
+Dieses Ergebnis ist insofern nicht überraschend, dass die Nachrichtendaten aus unterschiedlichen Quellen stammen (vgl. Abschnitt \ref{nrseiten}) und möglicherweise auch unterschiedlich normalisiert wurden.
+Auch ist die jeweilige Zielgruppe der Ursprungstexte eine andere.\\
+Darüber hinaus zeigt sich, dass Worte im nl-Corpus generell häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).\\
+Weiterhin scheint der nachrichtenleicht-Corpus einen Schwerpunkt auf Politik und Sport zu legen.
+Erkennbar ist dies an Worten wie Stadt, Partei, Land, Politiker bzw. Mannschaft, Spiel, Bayern, München, Verein.
+Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Prozent, Euro, Dollar oder Millionen auf.
 
-\subsubsection{wiki\_sim (t=0.005)}
 
-\begin{enumerate}
-    \item born (71)
-    \item American (52)
-    \item commune (49)
-    \item France (47)
-    \item won (41)
-    \item department (41)
-    \item movie (36)
-    \item television (35)
-    \item died (33)
-    \item people (33)
-    \item NHL (31)
-    \item actor (31)
-    \item World (30)
-    \item United (29)
-    \item League (28)
-    \item National (28)
-    \item years (28)
-    \item released (28)
-    \item Award (27)
-    \item County (27)
-    \item played (27)
-    \item year (27)
-\end{enumerate}
+\subsubsection{Wikipedia-Corpora}
 
-\subsubsection{wiki\_en (t=0.005)}
+\begin{table}
+    \begin{tabular}{l*{2}{lr}}
+    \toprule
+    Nr. & wiki\_sim & Häufigkeit & wiki\_en & Häufikeit\\
+    \midrule
+     1 & \textbf{born}       & 71 & \textbf{born}         & 86\\
+     2 & \textbf{American}   & 52 & \textbf{American}     & 58\\
+     3 & \textbf{commune}    & 49 & \textbf{commune}      & 52\\
+     4 & \textbf{France}     & 47 & \textbf{France}       & 50\\
+     5 & \textbf{won}        & 41 & \textbf{department}   & 49\\
+     6 & \textbf{department} & 41 & film                  & 46\\
+     7 & movie               & 36 & \textbf{television}   & 43\\
+     8 & \textbf{television} & 35 & \textbf{won}          & 42\\
+     9 & died                & 33 & \textbf{League}       & 40\\
+    10 & people              & 33 & \textbf{County}       & 40\\
+    11 & NHL                 & 31 & \textbf{Award}        & 39\\
+    12 & actor               & 31 & University            & 39\\
+    13 & \textbf{World}      & 30 & series                & 38\\
+    14 & United              & 29 & \textbf{released}     & 38\\
+    15 & \textbf{League}     & 28 & album                 & 38\\
+    16 & National            & 28 & professional          & 35\\
+    17 & \textbf{years}      & 28 & located               & 34\\
+    18 & \textbf{released}   & 28 & season                & 33\\
+    19 & \textbf{Award}      & 27 & \textbf{World}        & 33\\
+    20 & \textbf{County}     & 27 & \textbf{years}        & 31\\
+    21 & played              & 27 & city                  & 31\\
+    22 & year                & 27 &                       & \\
+    \bottomrule
+    \end{tabular}
+    \caption{Häufigste Worte in den Wiki-Corpora}
+    \label{words-wiki}
+\end{table}
 
-\begin{enumerate}
-    \item born (86)
-    \item American (58)
-    \item commune (52)
-    \item France (50)
-    \item department (49)
-    \item film (46)
-    \item television (43)
-    \item won (42)
-    \item League (40)
-    \item County (40)
-    \item Award (39)
-    \item University (39)
-    \item series (38)
-    \item released (38)
-    \item album (38)
-    \item professional (35)
-    \item located (34)
-    \item season (33)
-    \item World (33)
-    \item years (31)
-    \item city (31)
-\end{enumerate}
+Der Berechnung der häufigsten Worte der Wiki-Corpora (vgl. Tabelle \ref{words-wiki}) wurde ein Kookkurrenz-Threshold von $t=0.005$ zugrunde gelegt.
+Dies entspricht einem Kookkurrenzwert von 200.\\
+Die Ergebnisse zeigen eine große Übereinstimmung des Vokabulars zwischen beiden Wikipedia-Versionen, was für eine größere thematische und strukturelle Homogenität als bei den Nachrichtencorpora spricht.
+Die häufigsten vier Worte sind bei beiden Corpora identisch.
+Insgesamt stimmen über $50\%$ der Worte überein - lediglich die Rangfolge variiert leicht.
+Interessant ist, dass die Simple-English-Variante das Wort \textit{movie} favorisiert, während in der Standardsprache das Synonym \textit{film} verwendet wird.
+
+Anders als bei den Nachrichten-Corpora sind hier bei der Leichte-Sprache-Variante geringere Worthäufigkeiten als bei der Standardsprache zu beobachten.
+Die Größenordnung dieses Unterschieds ist allerdings nicht so gravierend wie bei den ersteren.\\
+Eine mögliche Erklärung könnte sein, dass wir (wie in Abschnitt \ref{datextr} beschrieben) beim Erstellen des Corpus die Artikel nach Satzanzahl, nicht nach Wortanzahl normalisiert haben.
+Da die Standard-English-Wikipedia längere Sätze verwendet als die Einfache, sind in logischer Folge auch größere Worthäufigkeiten zu erwarten, denn längere Sätze bedeuten mehr Wörter.
+
+
 
 \subsection{Kookkurrenzgraphen häufig vorkommender Wörter}
 %Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
