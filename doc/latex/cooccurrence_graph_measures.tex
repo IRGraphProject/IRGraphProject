@@ -81,18 +81,22 @@ existieren verschiedene Modelle des Simple English, welche unterschiedliche
 Ziele erreichen sollen -- z.B. das \emph{Simplified Technical English}, eine
 kontrollierte Sprache f\"ur technische Handb\"ucher. Aufgrund dieser
 konkurrierenden Ans\"atze gibt es keine einheitliche Definition oder
-Sprachpraxis des Simple English. So sind z.B. i TODO ???
+Sprachpraxis des Simple English. %So sind z.B. i TODO ???
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Werkzeuge}
 
 \subsection{Programmiersprache Python}
-Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für die Programmiersprache Python\footnote{\url{https://www.python.org/}} entschieden. Wegen der nativen Unicode-Unterstützung wurde Python 3 gewählt.
+Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns
+wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für
+die Programmiersprache Python\footnote{\url{https://www.python.org/}}
+entschieden.
+Wegen der nativen Unicode-Unterstützung wurde Python 3 gewählt.
 
 \subsection{Graphen-Bibliothek \texttt{graph-tool}}
-\texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein Python-Modul,
-welches der Erstellung, Manipulation und statistischen
+\texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein
+Python-Modul, welches der Erstellung, Manipulation und statistischen
 Auswertung von Graphen dient. Es stellt im Kern ein C++-Wrapper um die Boost
 Graph Library dar, wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
 erreicht wird. Es ist zus\"atzlich in der Lage, Graphen mit modernen Techniken
@@ -100,8 +104,10 @@ zu visualisieren und \"ubliche Ma\ss{}e wie Clustering-Koeffizienten, Knoten-
 und Kantengrade und Durchmesser zu berechnen.
 
 \subsection{NLP-Framework NLTK}
-Das Natural Language Toolkit (NLTK\footnote{\url{http://www.nltk.org/}}) ist ein Framework f\"ur Sprachverarbeitung in Python.
-Die verwendeten Stopwortlisten für Deutsch und Englisch stammen aus der Bibliothek.
+Das Natural Language Toolkit (NLTK\footnote{\url{http://www.nltk.org/}}) ist
+ein Framework f\"ur die Verarbeitung natürlicher Sprache in Python.
+Die verwendeten Stopwortlisten für Deutsch und Englisch stammen aus der
+Bibliothek nltk-data.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -122,22 +128,23 @@ Sprache zusammenfasst. Er soll die mehreren Millionen Menschen in Deutschland
 erreichen, die aus verschiedenen Gr\"unden von konventionellen
 Nachrichtenangeboten ausgeschlossen sind.
 
-\subsubsection{deunews2010\_100K Corpus der ASV (denews10k)}
+\subsubsection{deunews2010\_10K Corpus der ASV (denews10k)}
 
 Als korrespondierende Datenquelle in Standardsprache wurde der
-deunews\-2010\_100K-Corpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
-der Universit\"at Leipzig gew\"ahlt. Dieser weist eine \"ahnliche Satzzahl zu
-den von nachrichtenleicht extrahierten Text aus und wurde bereits von der ASV
+deunews\-2010\_10K-Corpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
+(ASV) der Universit\"at Leipzig gew\"ahlt. Dieser weist eine \"ahnliche Satzzahl
+zu den von nachrichtenleicht extrahierten Text aus und wurde bereits von der ASV
 normalisiert \cite{Quasthoff2006}.
 
 \subsection{Wikipedia (wiki\_sim bzw. wiki\_en)}
-
+\label{corp-wiki}
 Die zweite Datenquelle sind Artikel aus der Wikipedia in \emph{Simple} und
 \emph{Standard English}. Mit fast 120.000 Lemmata stellt die Simple English
 Wikipedia eine der gr\"o\ss{}ten \"offentlich frei verf\"ugbaren Textsammlungen
-in einer einfachen Sprachvariante dar. Zus\"atzlich ist sie die
-einzige, welche Dokumentenalignment aufweist, was die einfache Erstellung zwei
-inhaltlich homogener Corpora gestattet.
+in einer einfachen Sprachvariante dar.
+Zus\"atzlich ist ein Dokumentenalignment zwischen den zwei Sprachvarianten
+vorhanden, was die einfache Erstellung zweier inhaltlich homogener Corpora
+gestattet.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -146,7 +153,7 @@ inhaltlich homogener Corpora gestattet.
 \subsection{Datenextraktion und Erstellung der Corpora}
 \label{datextr}
 
-Mittels selbstgeschriebener Crawler wurden die relevanten Textmengen
+Mittels eines selbstgeschriebenen Crawlers wurden die relevanten Textmengen
 heruntergeladen, extrahiert und zu Corpora zusammengefasst.
 
 Nachrichtenleicht wurde rekursiv von der Startseite aus gequeriet
@@ -158,16 +165,17 @@ Zur Erstellung der Wikipedia-Corpora wurde zunächst eine Liste aller
 in Simple English verfügbaren Artikel erstellt. Anschließend wurden diese und
 die jeweils korrespondierenden Artikel in Standard English heruntergeladen und
 im Rohformat (mit eingebettetem MediaWiki-Markup) in einer JSON-Datei gespeichert.
-\\
-Die Entfernung des Markups stellte sich als eine nichttriviale Aufgabe dar.
-Der vollständige MWParser\footnote{MediaWiki
+
+Die Entfernung des Markups stellte sich dabei als eine nichttriviale Aufgabe dar.
+Ein vollständiger Parser\footnote{MediaWiki
 Parser from Hell (\url{http://mwparserfromhell.rtfd.org})} erwies sich für die
 entsprechende Datenmenge (ca. 2~GB Rohdaten) als deutlich zu langsam
-und somit unbrauchbar.
+und somit nicht verwendbar.
 \\
 Mit einem Python-Skript, das Markup mit Hilfe regul\"arer Ausdr\"ucke entfernt
 bzw. umwandelt, konnten jedoch zufriedenstellende Ergebnisse mit vertretbarem
 Zeitaufwand erzielt werden.
+
 Nach Entfernen des Wiki-Markups wurden die Artikel auf die Satzanzahl
 des jweils k\"urzeren Artikels reduziert und anschliessend in einer MongoDB
 gespeichert.
@@ -182,22 +190,41 @@ gespeichert.
 
 \subsection{Erstellung der Graphen}
 
-Die errechneten Kookkurrenz-Paare wurden in \texttt{graph-tool}-Objekte geparst.
-Subgraphen
-aus den Corpora wurden mittels eines \texttt{force-directed graph} nach
-\cite{Hu2006} gelayoutet.
-Die relevanten Daten zur Erstellung der Histogramme wurden gespeichert,
-um sie anschließend nach R zu exportieren und dort mittels ggplot2 zu plotten.
+Die errechneten Kookkurrenz-Paare wurden zunächst gefiltert. Dabei wurden 
+\begin{itemize}
+    \item Lemmata, welche Leerzeichen, Kommata oder andere Satzzeichen enthalten
+    \item Lemmata der Länge 1
+    \item Kookkurrenzen zwischen zwei identischen Lemmata
+\end{itemize}
+entfernt.
+Außerdem wurden -- da wir mit einem ungerichteten Graphen arbeiten -- identische
+Kookkurrenzpaare entfernt, so dass am Ende jedes Paar nur einmal auftrat.
+Die verbleibenden Kookkurrenzpaare wurden in \texttt{graph-tool}-Objekte geparst
+und zu einem corpusumfassenden Kokkurrenzgraphen zusammengesetzt.
+Subgraphen aus den Corpora wurden mittels eines \texttt{force-directed graph}
+nach \cite{Hu2006} gelayoutet.
+
+Um sinnvolle Berechnungen von Weglängen etc. anzustellen, erwies es sich als
+notwendig, den so erzeugten Graphen auf die größte Zusammenhangskomponente zu
+reduzieren und nicht verbundene Subgraphen zu verwerfen.
+Die Kanten- und Knotenanzahl vor und nach diesem Schritt sind Tabelle
+\ref{tab-zsf} zu entnehmen.
+
+Anschließend wurden die relevanten Berechnungen (vgl. Abschnitt
+\ref{berechnung-ergebnisse}) durchgeführt und Ergebnisse ausgegeben.
+Auch die Daten zur Erstellung der Histogramme wurden in diesem Schritt gespeichert,
+um sie anschließend nach R zu importieren und dort mittels ggplot2 zu plotten.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Berechnung der Graphenkenngr\"o\ss{}en und Ergebnisse}
+\label{berechnung-ergebnisse}
 
-Nach Erstellung der Graphen wollen wir sie auf typische Kenngrößen untersuchen,
-anhand dieser charakterisieren sowie paarweise vergleichen. Für die
-verschiedenen Eigenschaften bietet \texttt{graph-tool} bereits implementierte
-Algorithmen an, die wir verwenden wollen. Im Folgenden werden die Kenngrößen
-kurz erläutert, unsere Erwartungen dargestellt und die Ergebnisse gezeigt.
+Nach Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
+anhand dieser charakterisiert sowie paarweise verglichen werden. Für
+verschiedene Eigenschaften bietet \texttt{graph-tool} bereits implementierte
+Algorithmen an. Im Folgenden werden die Kenngrößen kurz erläutert, unsere
+Erwartungen dargestellt und die Ergebnisse gezeigt.
 
 \subsection{Gr\"o\ss{}e (Knotenzahl)}
 
@@ -205,23 +232,24 @@ Schon in der Größe der Graphen sollten sich paarweise Unterschiede erkennen
 lassen. So sollten die beiden Corpora in einfacher Sprache wesentlich weniger
 verschiedene Wörter enthalten. Durch die Praxis, \emph{schwierige} Wörter
 durch leichter verständliche zu ersetzen, ist zu erwarten, dass erstere im einfachen
-Corpus nicht vorkommen. Die Anzahl der Knoten (ohne Stopw\"orter\footnote{Es wurde
-die deutsche bzw. englische Stopwortliste des NLTK benutzt. Erg\"anzt wurde
-diese durch das Wort "'dass"' in neuer Rechtschreibung}) lässt sich natürlich
-trivial zählen. Der \emph{deunews2010\_100K-Corpus} hat 3205 respektive 1812
+Corpus nicht vorkommen. Die Anzahl der Knoten lässt sich trivial auszählen.
+% TODO:
+% -Folgende Zahlen überprüfen!
+% -Wir verwenden nur die größte Zusammenhangskomponente. (Das hat mit
+%  Stopwörtern nichts zu tun!)
+Der \emph{deunews2010\_10K-Corpus} hat 3205 respektive 1812
 Knoten, \emph{nachrichtenleicht.de} 2946 (2305), die englische Wikipedia 45897
 (39212), und die \emph{simple english} Wikipedia 36582 (31045) Knoten. In der
 Tat l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung
-erf\"ullt ist. Des weiteren zeigt sich, dass keine bedeutsamen Unterschiede im
-Anteil der Stopw\"orter zwischen den Corpora auftreten.
+erf\"ullt ist.
 
 \subsection{Rang der Kantengewichte}
 
-TODO: Aussage verifizieren
+Siehe Abb. \ref{fig-vdeg}.
 
-Siehe Abb. \ref{fig-vdeg}
+%TODO: Folgende Aussage verifizieren
 
-Die Kantengewichte folgen dem zipfschen Gesetz wobei sich f\"ur Leichte Sprache
+Die Kantengewichte folgen dem Zipfschen Gesetz, wobei sich f\"ur Leichte Sprache
 feststellen l\"asst, dass die Verteilung gleichm\"a\ss{}iger ist, d.h. weniger
 Spezialvokabular im "'Long Tail"' der Verteilung auftritt.
 
@@ -246,10 +274,10 @@ $$
 
 $|E|$ ist die Anzahl der Kanten, $|V|$ die Anzahl der Knoten im Graphen. 
 
-TODO: ist es hier plausibel, dass die einfachen sprachen dichter sein sollten?
-es gibt ja (hoffentlich) weniger wörter, und diese wenigen sollten
-dementsprechend häufiger verwendet werden und sich untereinander so leichter
-verknüpfen.
+%TODO: ist es hier plausibel, dass die einfachen sprachen dichter sein sollten?
+%es gibt ja (hoffentlich) weniger wörter, und diese wenigen sollten
+%dementsprechend häufiger verwendet werden und sich untereinander so leichter
+%verknüpfen.
 
 Für die einfachen Sprachvarianten sollten die Graphen dichter sein als für
 Standardsprache.
@@ -258,12 +286,13 @@ weniger Knoten, die verbunden werden können. Die Vorhandenen kommen jedoch öft
 gemeinsam vor und sind enger Verknüpft. Die Ergebnisse in Tabelle \ref{density_table}
 zeigen genau dies. Der Nachrichtenleicht-Corpus ist über 31\% dichter als denews10k.
 Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
+% TODO: Obige Zahlen an die tatsächlichen Ergebnisse anpassen
 
 \begin{table}[h]
   \centering
   \begin{tabular}{ll}
     \toprule
-    Corpus            & Dichte          \\
+    Corpus            &         Dichte       \\
     \midrule
     nl                &  		0,0015090239 \\
     denews10k         &  		0,0007737342 \\
@@ -271,7 +300,7 @@ Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
     wiki\_en          &  		0,0002489951 \\
     \bottomrule
   \end{tabular}
-  \caption{\label{density_table} Die Graphdichten der Corpora}
+  \caption{\label{density_table} Graphdichte nach Corpus}
 \end{table}
 
 \subsection{Clusterkoeffizient}
@@ -279,9 +308,9 @@ Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
 Eng mit der Dichte verwandt ist der Clusterkoeffizient. Er beschreibt die
 Anzahl vorhandener Dreiecke im Graph im Verhältnis zu möglichen Dreiecken. Drei
 Knoten, die jeweils paarweise verbunden sind, bilden ein Dreieck. Ziel ist ein
-Messwert der Aussagt wie sehr die Knoten Cliquen bilden. Lokal betrachtet
-bedeutet der Wert die Wahrscheinlichkeit die Nachbarn eines Nachbarn zu kennen.
-Da wir die Graphen global miteinander vergleichen möchten verwenden wir den
+Messwert, der aussagt, wie sehr die Knoten Cliquen bilden. Lokal betrachtet
+bedeutet der Wert die Wahrscheinlichkeit, die Nachbarn eines Nachbarn zu kennen.
+Da wir die Graphen global miteinander vergleichen möchten, verwenden wir den
 globalen Clusterkoeffizienten $C$. Er berechnet sich wie folgt:
 
 $$
@@ -293,7 +322,7 @@ notwendigerweise ein Dreieck. Knoten A kann mit Knoten B und C verbunden sein,
 während B nicht mit C verbunden ist. In \emph{Small-World-Graphen} ist dieser
 Wert typischerweise hoch. 
 
-
+% TODO:
 % wir können für ausgewählte wörter vielleicht noch lokale clusterkoeffizienten
 % berechnen, vielleicht für die besonders hoch verbundenen? sollten diese dann
 % relativ klein sein? weil hubs ja verschiedene "teilgraphen" miteinander
@@ -303,7 +332,7 @@ Wert typischerweise hoch.
 % \paragraph{K\"urzeste Wegl\"ange}
 % die beiden fasse ich im folgendem punkt zusammen
 
-\subsection{Minimale Wegl\"angen}
+\subsection{Durchmesser und minimale Wegl\"angen}
 Um Small-World-Eigenschaften nachzuweisen, ist es außerdem interessant, die
 Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchmesser
 des Graphen, also der längste minimale Weg zwischen zwei Knoten. In einer
@@ -311,7 +340,7 @@ des Graphen, also der längste minimale Weg zwischen zwei Knoten. In einer
 erreichbar, typischerweise in 5 bis 7 Schritten. \texttt{graph-tool}
 erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, und zum
 anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
-kürzesten Wege zeigt.
+kürzesten Wege zeigt (siehe Abb. \ref{fig-mdh}).
 
 \begin{table}[h]
   \centering
@@ -328,10 +357,7 @@ kürzesten Wege zeigt.
   \caption{Anteil der Weglängen paarweiser kürzester Wege zwischen allen Knoten, in Prozent}
 \end{table}
 
-TODO, folgenden abschnitt an tatsächliche ergebnisse anpassen 
-
-Siehe Abb. \ref{fig-mdh}.
-
+% TODO: folgenden abschnitt an tatsächliche ergebnisse anpassen 
 In der Tat können wir die Schrittzahl bestätigen, beispielsweise für den
 nachrichtenleicht-Corpus haben wir einen Durchmesser von 6, und von
 allen paarweisen Pfaden kommt dieser sehr selten vor. Bei XXX Knoten gibt
@@ -341,7 +367,7 @@ Das gleiche Bild zeigt sich bei den englischen Wikipedia-Corpora. Sowohl in
 Simple als auch in Standard English sind über 90\% der paarweisen
 kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen 
 einige wenige Paare, die bis zu neun Sprünge auseinander liegen.
-TODO Welche sind das? stammen die womöglich von alle von wenigen einzelnen wörtern? evtl rechtschreibfehler? 
+% TODO: Welche sind das? stammen die womöglich von alle von wenigen einzelnen wörtern? evtl rechtschreibfehler? 
 
 \begin{figure}
     \centering
@@ -355,15 +381,17 @@ Skalenfreie Graphen zeichnen sich duch exponential verteilte Knotengrade aus.
 Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}.
 Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
 
-haben wir so etwas? wir können das mit \texttt{graph-tool} über die
-clustering algorithmen leicht ausrechnen!  skalieren die graphen paarweise um
-ein paar knoten, oder kommen neue wichtige (hubs) wörter hinzu?
+% TODO:
+%haben wir so etwas? wir können das mit \texttt{graph-tool} über die
+%clustering algorithmen leicht ausrechnen!  skalieren die graphen paarweise um
+%ein paar knoten, oder kommen neue wichtige (hubs) wörter hinzu?
 
 \subsection{Small-World-Eigenschaften}
 Zusammengefasst zeichnen sich Small-World-Graphen durch kleine Durchmesser und
 hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig.
 Wir konnten sowohl die kurzen Weglängen, als auch hohe Clusteringkoeffizienten
-für alle Graphen nachweisen. TODO passt das? skalenfreiheit? 
+für alle Graphen nachweisen.
+%TODO passt das? skalenfreiheit? 
 
 \subsection{Zusammenfassung der Berechnungen}
 \begin{table}
@@ -371,32 +399,30 @@ für alle Graphen nachweisen. TODO passt das? skalenfreiheit?
     \toprule
     Kenngröße & nl & denews10k & wiki\_sim & wiki\_en \\
     \midrule
-    $|V|$     & 2946  & 3205 & 36582  & 45897  \\
-    $|E|$     & 11639 & 7669 & 371559 & 514489 \\
-    $|V|$\footnotemark[6] & 2766  & 3142 & 36131  & 45446  \\
-    $|E|$\footnotemark[6]    & 11541 & 7636 & 371319 & 514248 \\
-    Dichte (in $10^{-4}$) & 15,090239 & 7,737342 & 2,844456 & 2,489951 \\
-    Clusterkoeff. max ($10^{-2}$) & 6,451559 & 3,390617 & 4,040342 & 4,229930 \\
-    Clusterkoeff. min ($10^{-2}$) & 0,626338 & 0,470389 & 0,612476 & 0,481688 \\
-    \dots     &       &       &       &       \\
+    $|V|$                       & 2946      & 3205      & 36582     & 45897  \\
+    $|E|$                       & 11639     & 7669      & 371559    & 514489 \\
+    $|V|$\footnotemark[6]       & 2766      & 3142      & 36131     & 45446  \\
+    $|E|$\footnotemark[6]       & 11541     & 7636      & 371319    & 514248 \\
+    Dichte (in $10^{-4}$)       & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
+    Clusterkoeff. max ($10^{-2}$) & 6,451559 & 3,390617 & 4,040342  & 4,229930 \\
+    Clusterkoeff. min ($10^{-2}$) & 0,626338 & 0,470389 & 0,612476  & 0,481688 \\
+    \dots                       &           &           &           &          \\
     \bottomrule
     \end{tabular}
     \caption{Übersichtstabelle Graphenkenngrößen}
     \label{tab-zsf}
 \end{table}
-% TODO: nach dem Endlayout sicherstellen, dass diese Fußnote an der richtigen
-% Stelle auftaucht
-\footnotetext[6]{größte Zusammenhangkomponente}
+% TODO: nach dem Endlayout sicherstellen, dass die folgene Fußnote an der richtigen
+% Stelle auftaucht!
+\footnotetext[6]{größte Zusammenhangskomponente}
 
-In Tabelle \ref{tab-zsf} finden Sie eine Zusammenfassung der wichtigsten Graphenkenngrößen des Corpus.
+In Tabelle \ref{tab-zsf} befindet sich eine Zusammenfassung der für die
+jeweiligen Corpora berechneten Kenngrößen.
 
 
-%\section{Graphen}
-
-\subsection{H\"aufigste W\"orter nach Corpus}
+\subsection{H\"aufige W\"orter}
 
 \subsubsection{Nachrichten-Corpora}
-
 
 \begin{table}
     \begin{tabular}{l*{2}{lr}}
@@ -431,16 +457,26 @@ In Tabelle \ref{tab-zsf} finden Sie eine Zusammenfassung der wichtigsten Graphen
     \label{words-nachrichten}
 \end{table}
 
-Wie in Tabelle \ref{words-nachrichten} zu erkennen, gibt es nur wenige Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews10k.
-Fett gedruckt sind diejenigen Worte, die in beiden Corpora vorkommen.
-Es handelt sich hierbei nur um das Wort Jahr.
-Dies deutet bereits auf eine gewisse Inhomogenität der Corpora hin.
-Dieses Ergebnis ist insofern nicht überraschend, dass die Nachrichtendaten aus unterschiedlichen Quellen stammen (vgl. Abschnitt \ref{nrseiten}) und möglicherweise auch unterschiedlich normalisiert wurden.
-Auch ist die jeweilige Zielgruppe der Ursprungstexte eine andere.\\
-Darüber hinaus zeigt sich, dass Worte im nachrichtenleicht-Corpus generell häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).\\
-Weiterhin scheint der nachrichtenleicht-Corpus einen Schwerpunkt auf Politik und Sport zu legen.
-Erkennbar ist dies an Worten wie Stadt, Partei, Land, Politiker bzw. Mannschaft, Spiel, Bayern, München, Verein.
-Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Prozent, Euro, Dollar oder Millionen auf.
+Wie in Tabelle \ref{words-nachrichten} zu erkennen, gibt es nur wenige
+Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews10k.
+Fett gedruckt sind in den Tabellen diejenigen Worte, die in beiden Corpora
+vorkommen.
+Bei den Nachrichten-Corpora handelt es sich nur um das Wort Jahr.
+Dies deutet bereits auf eine gewisse thematische Inhomogenität der Corpora hin.
+Dieses Ergebnis ist insofern nicht überraschend, dass die Nachrichtendaten aus
+unterschiedlichen Quellen stammen (vgl. Abschnitt \ref{nrseiten}) und
+möglicherweise auch unterschiedlich normalisiert wurden.
+Auch ist die jeweilige Zielgruppe der Ursprungstexte eine andere.
+
+Darüber hinaus zeigt sich, dass Worte im nachrichtenleicht-Corpus generell
+häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).
+Dies bestätigt die Vermutung aus Abschnitt \ref{???}\\
+Weiterhin wird ersichtlich, dass der nachrichtenleicht-Corpus einen Schwerpunkt
+auf Politik und Sport legt.
+Erkennbar ist dies am häufigen Auftreten der Worte wie Stadt, Partei, Land,
+Politiker bzw. Mannschaft, Spiel, Bayern, München, Verein.
+Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Prozent,
+Euro, Dollar oder Millionen auf.
 
 
 \subsubsection{Wikipedia-Corpora}
@@ -478,33 +514,50 @@ Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Proze
     \label{words-wiki}
 \end{table}
 
-Der Berechnung der häufigsten Worte der Wiki-Corpora (vgl. Tabelle \ref{words-wiki}) wurde ein Kookkurrenz-Threshold von $t=0.005$ zugrunde gelegt.
+Der Berechnung der häufigsten Worte der Wiki-Corpora (vgl. Tabelle
+\ref{words-wiki}) wurde ein Kookkurrenz-Threshold von $t=0.005$ zugrunde gelegt.
 Dies entspricht einem Kookkurrenzwert von $\geq 200$.\\
-Die Ergebnisse zeigen eine hohe Übereinstimmung des Vokabulars zwischen beiden Wikipedia-Versionen, was für eine größere thematische und strukturelle Homogenität als bei den Nachrichtencorpora spricht.
+Die Ergebnisse zeigen eine hohe Übereinstimmung des Vokabulars zwischen beiden
+Wikipedia-Versionen, was für eine größere thematische und strukturelle
+Homogenität als bei den Nachrichtencorpora spricht.
 Die häufigsten vier Worte sind bei beiden Corpora identisch.
-Insgesamt stimmen über $50\%$ der Worte überein - lediglich die Rangfolge variiert leicht.
-Interessant ist, dass die Simple-English-Variante das Wort \textit{movie} favorisiert, während in der Standardsprache das Synonym \textit{film} verwendet wird.
+Insgesamt stimmen über $50\%$ der Worte überein - lediglich die Rangfolge
+variiert leicht.
+Dies ist angesichts des Dokumentenalignments zwischen beiden Corpora (vgl.
+Abschnitt \ref{corp-wiki}) zu erwarten gewesen.
 
-Anders als bei den Nachrichten-Corpora sind hier bei der Leichte-Sprache-Variante geringere Worthäufigkeiten als bei der Standardsprache zu beobachten.
-Die Größenordnung dieses Unterschieds ist allerdings nicht so gravierend wie bei den ersteren.\\
-Eine mögliche Erklärung könnte sein, dass wir (wie in Abschnitt \ref{datextr} beschrieben) beim Erstellen des Corpus die Artikel nach Satzanzahl, nicht nach Wortanzahl normalisiert haben.
-Da die Standard-English-Wikipedia längere Sätze verwendet als die Einfache, sind in logischer Folge auch größere Worthäufigkeiten zu erwarten, denn längere Sätze bedeuten mehr Wörter.
+Interessant ist, dass die Simple-English-Variante etwa das Wort \textit{movie}
+favorisiert, während in der Standardsprache das Synonym \textit{film} verwendet
+wird.
+
+Anders als bei den Nachrichten-Corpora sind hier bei der Leichte-Sprache-Variante
+geringere Worthäufigkeiten als bei der Standardsprache zu beobachten.
+Die Größenordnung dieses Unterschieds ist allerdings nicht so gravierend wie bei
+den ersteren.\\
+Eine mögliche Erklärung könnte sein, dass wir (wie in Abschnitt \ref{datextr}
+beschrieben) beim Erstellen des Corpus die Artikel nach Satzanzahl, nicht nach
+Wortanzahl normalisiert haben.
+Da die Standard-English-Wikipedia längere Sätze verwendet als die Einfache,
+sind in logischer Folge auch größere Worthäufigkeiten zu erwarten, denn längere
+Sätze bedeuten mehr Wörter.
 
 
 
 \section{Kookkurrenzgraphen häufiger Wörter}
-%Zur Erzeugung der Grafiken wurde der Threshold auf 100 erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
+%Zur Erzeugung der Grafiken wurde der Threshold auf XYZ erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
 %TODO: Threshold je nach Corpus verschieden
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \begin{thebibliography}{9}
+% TODO:
+% - remove unused citations/bibitems
+% - sort remaining ones in order of appearance in the text
     \bibitem{Newman2003} M. E. J. Newman, “The Structure and Function of Complex Networks,” \emph{SIAM Review}, vol. 45, no. 2, pp. 167–256, 2003.
     \bibitem{Biemann2004} C. Biemann, S. Bordag, G. Heyer, U. Quasthoff, and C. Wolff, “Language-Independent Methods for Compiling Monolingual Lexical Data,” in \emph{Computational Linguistics and Intelligent Text Processing}, vol. 2945, A. Gelbukh, Ed. Berlin, Heidelberg: Springer Berlin Heidelberg, 2004, pp. 217–228.
-    \bibitem{Hu2005} Y. Hu, “Efficient, High-Quality Force-Directed Graph Drawing,” \emph{The Mathematica Journal}, vol. 10, no. 1, pp. 37–71, 2006.
+    \bibitem{Hu2006} Y. Hu, “Efficient, High-Quality Force-Directed Graph Drawing,” \emph{The Mathematica Journal}, vol. 10, no. 1, pp. 37–71, 2006.
     \bibitem{Quasthoff2006}U. Quasthoff, M. Richter, and C. Biemann, “Corpus Portal for Search in Monolingual Corpora,” in \emph{Proceedings of LREC-06}, Genoa, Italy, 2006, pp. 1799–1802.
     \bibitem{Telesford2011}Q. K. Telesford, K. E. Joyce, S. Hayasaka, J. H. Burdette, and P. J. Laurienti, “The Ubiquity of Small-World Networks,” \emph{Brain Connectivity}, vol. 1, no. 5, pp. 367–375, 2011.
-
 \end{thebibliography}
 
 \listoftables
