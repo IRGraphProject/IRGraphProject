@@ -65,12 +65,12 @@ def filter_main_component(graph):
     that are not connected to the main set.
     """
     print("filtering for main component...")
-    vertices_before = g.graph.num_vertices()
-    edges_before = g.graph.num_edges()
-    main_component = graph_tool.topology.label_largest_component(g.graph)
-    g.graph.set_vertex_filter(main_component)
-    vertices_after = g.graph.num_vertices()
-    edges_after = g.graph.num_edges()
+    vertices_before = graph.graph.num_vertices()
+    edges_before = graph.graph.num_edges()
+    main_component = graph_tool.topology.label_largest_component(graph.graph)
+    graph.graph.set_vertex_filter(main_component)
+    vertices_after = graph.graph.num_vertices()
+    edges_after = graph.graph.num_edges()
     print("vertices before: " + str(vertices_before))
     print("vertices after: " + str(vertices_after))  
     print("difference: " + str(vertices_before - vertices_after))
