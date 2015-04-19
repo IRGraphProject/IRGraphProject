@@ -71,15 +71,49 @@ names(nl_mdh) <- c("min.distance","count")
 nl_mdh$min.distance <- as.factor(nl_mdh$min.distance)
 nl_mdh
 
-q1 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
+q5 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
       data=wsi_mdh[wsi_mdh$count > 0,], log="y") + ggtitle("Wiki simple")
-q2 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
+q6 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
       data=wen_mdh[wen_mdh$count > 0,], log="y") + ggtitle("Wiki english")
-q3 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
+q7 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
       data=nl_mdh[nl_mdh$count > 0,], log="y") + ggtitle("Nachrichtenleicht")
-q4 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
+q8 <- qplot(min.distance, count, geom="bar", stat="identity", xlab="min. Distanz", ylab="Anzahl Knoten", 
       data=den_mdh[den_mdh$count > 0,], log="y") + ggtitle("denews10k")
 
 pdf("mdh_plots.pdf")
-grid.arrange(q1,q2,q3,q4,nrow=2,ncol=2)
+grid.arrange(q5,q6,q7,q8,nrow=2,ncol=2)
 dev.off()
+
+# cooccurrence values
+nms <- c("w1","w2","sig")
+
+wsi_coo <- read.csv("../cooc_wiki_sim.csv", sep=",", header = FALSE)
+names(wsi_coo) <- nms
+wsi_coo[wsi_coo$sig < 0,]
+
+wen_coo <- read.csv("../cooc_wiki_en.csv", sep=",", header = FALSE )
+names(wen_coo) <- nms
+wen_coo[wen_coo$sig < 0,]
+
+nl_coo <- read.csv("../cooc_nl.csv", sep=",", header = FALSE )
+names(nl_coo) <- nms
+nl_coo[nl_coo$sig < 0,]
+
+den_coo <- read.csv("../cooc_denews10k.csv", sep=",", header = FALSE )
+names(den_coo) <- nms
+den_coo[den_coo$sig < 0,]
+den_coo[den_coo$sig < -50,]
+
+# reshape data
+wsi_coo$id <- "wsi"
+wen_coo$id <- "wen"
+nl_coo$id <- "nl"
+den_coo$id <- "den"
+
+tst <- rbind(nl_coo[3:4],den_coo[3:4],wen_coo[3:4],wsi_coo[3:4])
+tst$id <- as.factor(tst$id)
+
+#boxplot
+qplot(id, sig, data=tst, geom="boxplot")
+# log poxplot
+qplot(id, sig, data=tst, geom="boxplot", log="y")
