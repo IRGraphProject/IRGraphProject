@@ -32,9 +32,6 @@
 \usepackage{ngerman}
 \usepackage{booktabs}
 \usepackage{microtype}
-\usepackage{footnote}
-\makesavenoteenv{tabular} % I want footnotes in my tables
-\makesavenoteenv{table}
 
 \usepackage{svg}
 \usepackage{graphicx}
@@ -88,7 +85,7 @@ Sprachpraxis des Simple English. %So sind z.B. i TODO ???
 \section{Werkzeuge}
 
 \subsection{Programmiersprache Python}
-Nach sprachunanbängigen Recherchen über verwendbare Bibliotheken haben wir uns
+Nach sprachunanbhängigen Recherchen über verwendbare Bibliotheken haben wir uns
 wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für
 die Programmiersprache Python\footnote{\url{https://www.python.org/}}
 entschieden.
@@ -97,7 +94,7 @@ Wegen der nativen Unicode-Unterstützung wurde Python 3 gewählt.
 \subsection{Graphen-Bibliothek \texttt{graph-tool}}
 \texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein
 Python-Modul, welches der Erstellung, Manipulation und statistischen
-Auswertung von Graphen dient. Es stellt im Kern ein C++-Wrapper um die Boost
+Auswertung von Graphen dient. Es stellt im Kern einen C++-Wrapper um die Boost
 Graph Library dar, wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
 erreicht wird. Es ist zus\"atzlich in der Lage, Graphen mit modernen Techniken
 zu visualisieren und \"ubliche Ma\ss{}e wie Clustering-Koeffizienten, Knoten-
@@ -342,20 +339,29 @@ erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, und zum
 anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
 kürzesten Wege zeigt (siehe Abb. \ref{fig-mdh}).
 
-\begin{table}[h]
-  \centering
-  \begin{tabular}{l*{10}{r}}
-    \toprule
-    Weglänge    & 1    & 2    & 3     & 4     & 5     & 6    & 7    & 8        & 9        & 10      \\
-    \midrule
-    nl          & 0,26 & 4,71 & 27,71 & 44,18 & 18,32 & 3,98 & 0,73 & 0,10     & $\sim$0  & $\sim$0 \\
-    denews10k   & 2,00 & 3,21 & 19,19 & 44,26 & 25,31 & 6,60 & 1,11 & 0,11     & 0,01     & $\sim$0 \\
-    wiki\_sim   & 0,05 & 6,01 & 47,77 & 40,20 & 5,60  & 0,36 & 0,01 & $\sim$0  & $\sim$0  & 0       \\
-    wiki\_en    & 0,04 & 5,30 & 47,36 & 41,43 & 5,50  & 0,34 & 0,01 & $\sim$0  & $\sim$0  & 0       \\
-  \bottomrule
-  \end{tabular}
-  \caption{Anteil der Weglängen paarweiser kürzester Wege zwischen allen Knoten, in Prozent}
+% latex table generated in R 3.2.0 by xtable 1.7-4 package
+% Mon Apr 20 13:50:42 2015
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{rrrrr}
+      \toprule
+    Weglänge & nl & denews10k & wiki\_sim & wiki\_en \\ 
+      \midrule
+      1 & 0.30      & 0.15      & 0.06      & 0.05 \\ 
+      2 & 10.66     & 6.69      & 14.94     & 12.95 \\ 
+      3 & 49.35     & 46.26     & 63.60     & 64.48 \\ 
+      4 & 34.55     & 41.83     & 20.25     & 21.30 \\ 
+      5 & 4.61      & 4.70      & 1.11      & 1.17 \\ 
+      6 & 0.47      & 0.35      & 0.04      & 0.04 \\ 
+      7 & 0.07      & 0.01      & $\sim$0.00  & $\sim$0.00 \\ 
+      8 & $\sim$0.00  & $\sim$0.00  & $\sim$0.00  & $\sim$0.00 \\ 
+      9 & $\sim$0.00  & 0         & 0         & 0 \\ 
+      Summe & 100.00  & 100.00    & 100.00    & 100.00 \\ 
+       \bottomrule
+    \end{tabular}
+    \caption{Anteil der Weglängen paarweiser kürzester Wege zwischen allen Knoten, in Prozent}
 \end{table}
+
 
 % TODO: folgenden abschnitt an tatsächliche ergebnisse anpassen 
 In der Tat können wir die Schrittzahl bestätigen, beispielsweise für den
