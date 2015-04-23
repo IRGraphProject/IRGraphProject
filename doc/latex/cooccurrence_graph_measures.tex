@@ -138,7 +138,7 @@ normalisiert \cite{Quasthoff2006}.
 Die zweite Datenquelle sind Artikel aus der Wikipedia in \emph{Simple} und
 \emph{Standard English}. Mit fast 120.000 Lemmata stellt die Simple English
 Wikipedia eine der gr\"o\ss{}ten \"offentlich frei verf\"ugbaren Textsammlungen
-in einer einfachen Sprachvariante dar.
+in einer Leichten Sprachvariante dar.
 Zus\"atzlich ist ein Dokumentenalignment zwischen den zwei Sprachvarianten
 vorhanden, was die einfache Erstellung zweier inhaltlich homogener Corpora
 gestattet.
@@ -155,23 +155,26 @@ heruntergeladen, extrahiert und zu Corpora zusammengefasst.
 
 Nachrichtenleicht wurde rekursiv von der Startseite aus gequeriet
 und die resultierenden Texte in einer MongoDB gespeichert.
-Dabei wurden Überschriften, Teaser und Nachrichtentext jeweils seperat erfasst
+Dabei wurden Überschriften, Teaser und Nachrichtentexte jeweils seperat erfasst
 und schließlich Teaser und Nachrichteninhalt zum Corpus hinzugefügt.
 
 Zur Erstellung der Wikipedia-Corpora wurde zunächst eine Liste aller
-in Simple English verfügbaren Artikel erstellt. Anschließend wurden diese und
-die jeweils korrespondierenden Artikel in Standard English heruntergeladen und
-im Rohformat (mit eingebettetem MediaWiki-Markup) in einer JSON-Datei gespeichert.
+in Simple English verfügbaren Artikel erstellt. Anschließend wurden diese
+zusammen mit dem jeweils korrespondierenden Artikel in Standard English
+heruntergeladen und im Rohformat (mit eingebettetem MediaWiki-Markup) in einer
+JSON-Datei gespeichert.
 
-Die Entfernung des Markups stellte sich dabei als eine nichttriviale Aufgabe dar.
-Ein vollständiger Parser\footnote{MediaWiki
-Parser from Hell (\url{http://mwparserfromhell.rtfd.org})} erwies sich für die
-entsprechende Datenmenge (ca. 2~GB Rohdaten) als deutlich zu langsam
-und somit nicht verwendbar.
+Die Entfernung des Mediawiki-Markups und die Überführung in Reintext stellte
+sich dabei als eine nichttriviale Aufgabe dar.
+Mit dem MediaWiki Parser from
+Hell\footnote{\url{http://mwparserfromhell.rtfd.org}} existiert ein vollständiger
+Parser für Mediawiki-Markup.
+Für die entsprechende Datenmenge (ca. 2~GB Rohdaten) erwies sich dieser jedoch
+als deutlich zu langsam und somit für die Bereinigung ungeeignet.
 \\
-Mit einem Python-Skript, das Markup mit Hilfe regul\"arer Ausdr\"ucke entfernt
-bzw. umwandelt, konnten jedoch zufriedenstellende Ergebnisse mit vertretbarem
-Zeitaufwand erzielt werden.
+Abhilfe schuf ein selbst entwickeltes Python-Skript, welches Markup mit Hilfe
+regul\"arer Ausdr\"ucke und rekursiver Funktionsaufrufe entfernt bzw. umwandelt.
+Dies gestattete zufrieden stellende Ergebnisse mit vertretbarem Zeitaufwand.
 
 Nach Entfernen des Wiki-Markups wurden die Artikel auf die Satzanzahl
 des jweils k\"urzeren Artikels reduziert und anschliessend in einer MongoDB
@@ -181,8 +184,8 @@ gespeichert.
 \subsection{Berechnung der Kookkurrenzen}
 
 Die Kookkurrenzen wurden von mittels der Pipeline des Lehrsstuhls f\"ur
-Automatische Sprachverarbeitung für uns berechnet und in eine MySQL-Datenbank
-gespeichert.
+Automatische Sprachverarbeitung für uns berechnet (siehe \cite{Quasthoff2006})
+und in eine MySQL-Datenbank eingepflegt.
 
 
 \subsection{Erstellung der Graphen}
@@ -190,16 +193,16 @@ gespeichert.
 Die errechneten Kookkurrenz-Paare wurden zunächst gefiltert. Dabei wurden 
 \begin{itemize}
     \item Lemmata, welche Leerzeichen, Kommata oder andere Satzzeichen enthalten
-    \item Lemmata der Länge 1
+    \item Lemmata der Zeichenlänge 1
     \item Kookkurrenzen zwischen zwei identischen Lemmata
 \end{itemize}
-entfernt.
+entfernt, so dass schließlich nur Kookkurrenzen zwischen einzelnen Wörtern
+zurückblieben.
 Außerdem wurden -- da wir mit einem ungerichteten Graphen arbeiten -- identische
 Kookkurrenzpaare entfernt, so dass am Ende jedes Paar nur einmal auftrat.
+
 Die verbleibenden Kookkurrenzpaare wurden in \texttt{graph-tool}-Objekte geparst
 und zu einem corpusumfassenden Kokkurrenzgraphen zusammengesetzt.
-Subgraphen aus den Corpora wurden mittels eines \texttt{force-directed graph}
-nach \cite{Hu2006} gelayoutet.
 
 Um sinnvolle Berechnungen von Weglängen etc. anzustellen, erwies es sich als
 notwendig, den so erzeugten Graphen auf die größte Zusammenhangskomponente zu
@@ -209,8 +212,13 @@ Die Kanten- und Knotenanzahl vor und nach diesem Schritt sind Tabelle
 
 Anschließend wurden die relevanten Berechnungen (vgl. Abschnitt
 \ref{berechnung-ergebnisse}) durchgeführt und Ergebnisse ausgegeben.
-Auch die Daten zur Erstellung der Histogramme wurden in diesem Schritt gespeichert,
-um sie anschließend nach R zu importieren und dort mittels ggplot2 zu plotten.
+Auch die Daten zur Erstellung der Histogramme wurden in diesem Schritt
+gespeichert, um sie anschließend nach R zu importieren und dort mittels ggplot2
+grafisch aufzubereiten.
+
+Um Kookkurrenzgraphen für einzelne Wörter auszugeben, wurden Subgraphen aus dem
+Corpusgraphen wurden mittels eines \texttt{force-directed graph} nach
+\cite{Hu2006} gelayoutet.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,39 +226,44 @@ um sie anschließend nach R zu importieren und dort mittels ggplot2 zu plotten.
 \label{berechnung-ergebnisse}
 
 Nach Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
-anhand dieser charakterisiert sowie paarweise verglichen werden. Für
-verschiedene Eigenschaften bietet \texttt{graph-tool} bereits implementierte
+anhand dieser charakterisiert sowie paarweise verglichen werden (deutsch vs.
+englisch, Leichte vs. Standardsprache).
+Für verschiedene Eigenschaften bietet \texttt{graph-tool} bereits implementierte
 Algorithmen an. Im Folgenden werden die Kenngrößen kurz erläutert, unsere
 Erwartungen dargestellt und die Ergebnisse gezeigt.
 
 \subsection{Gr\"o\ss{}e (Knotenzahl)}
+\label{groesse-knotenzahl}
 
 Schon in der Größe der Graphen sollten sich paarweise Unterschiede erkennen
-lassen. So sollten die beiden Corpora in einfacher Sprache wesentlich weniger
-verschiedene Wörter enthalten. Durch die Praxis, \emph{schwierige} Wörter
-durch leichter verständliche zu ersetzen, ist zu erwarten, dass erstere im einfachen
-Corpus nicht vorkommen. Die Anzahl der Knoten lässt sich trivial auszählen.
-% TODO:
-% -Folgende Zahlen überprüfen!
-% -Wir verwenden nur die größte Zusammenhangskomponente. (Das hat mit
-%  Stopwörtern nichts zu tun!)
-Der \emph{deunews2010\_10K-Corpus} hat 3205 respektive 1812
-Knoten, \emph{nachrichtenleicht.de} 2946 (2305), die englische Wikipedia 45897
-(39212), und die \emph{simple english} Wikipedia 36582 (31045) Knoten. In der
-Tat l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung
+lassen. So sollten die beiden Corpora in Leichter Sprache wesentlich weniger
+verschiedene Wörter enthalten. Durch die Praxis, schwierige Wörter
+durch leichter verständliche zu ersetzen, ist zu erwarten, dass erstere im
+Leichten Corpus nicht vorkommen. Die Anzahl der Knoten lässt sich trivial
+auszählen.
+
+Der deunews2010\_10K-Corpus hat 3205 Knoten, wovon 3142 auf die größte
+Zusammenhangkomponente entfallen.
+Nachrichtenleicht weist mit 2946 (resp. 2766) im Vergleich eine etwas geringere
+Knotenzahl auf.
+Die Wikipedia-Corpora enthielten mehr Text und somit sind auch die Graphen
+deutlich größer: 45897 (45446) Knoten entfallen auf die englische, 36582 (36131)
+auf die \emph{simple english} Variante.
+
+In der Tat l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
+leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
 erf\"ullt ist.
 
 \subsection{Rang der Kantengewichte}
 
-Siehe Abb. \ref{fig-vdeg}.
-
+Wie in Abb. \ref{fig-vdeg} dargestellt, folgt die Verteilung der Kantengewichte
+dem Zipfschen Gesetz.
 %TODO: Folgende Aussage verifizieren
+F\"ur die Leichten Sprachvarianten l\"asst sich feststellen, dass die Verteilung
+gleichm\"a\ss{}iger ist, d.h. weniger Spezialvokabular im "`Long Tail"' der
+Verteilung auftritt.
 
-Die Kantengewichte folgen dem Zipfschen Gesetz, wobei sich f\"ur Leichte Sprache
-feststellen l\"asst, dass die Verteilung gleichm\"a\ss{}iger ist, d.h. weniger
-Spezialvokabular im "'Long Tail"' der Verteilung auftritt.
-
-\begin{figure}
+\begin{figure}[ht]
     \centering
         \includegraphics[scale=.5]{vdeg_plots.pdf}
     \caption{Verteilung der Knotengrade nach Corpus}
@@ -261,12 +274,13 @@ Spezialvokabular im "'Long Tail"' der Verteilung auftritt.
 \subsection{Dichte}
 
 Die Dichte eines Graphen beschreibt das Verhältnis von vorhandenen Kanten zu
-potentiell möglichen Kanten in einem Graphen. Ein Wert von $1$ bedeutet, dass
-jeder Knoten mit jedem anderen Verbunden ist, dem gegenüber eine $0$, dass keine
-Kanten vorhanden sind. Die Dichte wird wie folgt berechnet:
+potentiell möglichen Kanten.
+Ein Wert von $1$ bedeutet, dass jeder Knoten mit jedem anderen Verbunden ist
+(vollständiger Graph), dem gegenüber eine $0$, dass keine Kanten vorhanden sind.
+Die Dichte wird wie folgt berechnet:
 
 $$
-    \frac{|E|}{|V|(|V|-1)}
+    \frac{|E|}{|V|\left(|V|-1\right)}
 $$
 
 $|E|$ ist die Anzahl der Kanten, $|V|$ die Anzahl der Knoten im Graphen. 
@@ -276,29 +290,44 @@ $|E|$ ist die Anzahl der Kanten, $|V|$ die Anzahl der Knoten im Graphen.
 %dementsprechend häufiger verwendet werden und sich untereinander so leichter
 %verknüpfen.
 
-Für die einfachen Sprachvarianten sollten die Graphen dichter sein als für
-Standardsprache.
+Für die einfachen Sprachvarianten sollten unseren Erwartungen zufolge die
+Graphen dichter sein als für Standardsprache.
 Wie bereits beschrieben, gibt es in ersteren weniger Vokabular, dementsprechend
-weniger Knoten, die verbunden werden können. Die Vorhandenen kommen jedoch öfter 
-gemeinsam vor und sind enger Verknüpft. Die Ergebnisse in Tabelle \ref{density_table}
-zeigen genau dies. Der Nachrichtenleicht-Corpus ist über 31\% dichter als denews10k.
-Bei den englischen Corpora beträgt der Unterschied knapp über 17\%
-% TODO: Obige Zahlen an die tatsächlichen Ergebnisse anpassen
+weniger Knoten, die potentiell verbunden werden können. Die Vorhandenen kommen
+jedoch öfter gemeinsam vor und sind somit enger verknüpft.
 
-\begin{table}[h]
+\begin{table}[ht]
   \centering
   \begin{tabular}{ll}
     \toprule
-    Corpus            &         Dichte       \\
+    Corpus            &         Dichte (in $10^{-4}$)\\
     \midrule
-    nl                &  		0,0015090239 \\
-    denews10k         &  		0,0007737342 \\
-    wiki\_sim         &  		0,0002844456 \\
-    wiki\_en          &  		0,0002489951 \\
+    nl                &  		15,090239 \\
+    denews10k         &  		7,737342 \\
+    wiki\_sim         &  		2,844456 \\
+    wiki\_en          &  		2,489951 \\
     \bottomrule
   \end{tabular}
   \caption{\label{density_table} Graphdichte nach Corpus}
 \end{table}
+
+Die Ergebnisse in Tabelle \ref{density_table} bestätigen diese Vermutung.
+Insgesamt haben alle Graphen eine Dichte von $<0,01$, was für
+Kookkurrenzgraphen in einem erwartbaren Rahmen liegt.
+
+Der nachrichtenleicht-Corpus weist mit $15,1\cdot 10^{-4}$ eine fast doppelt so
+hohe Dichte auf wie denews10k ($7,74\cdot 10^{-4}$).\\
+Bei den englischen Corpora fällt der Unterschied etwas geringer aus.
+Dennoch weist die reguläre Sprachvariante auch hier eine ca. 14\% geringere
+Dichte auf als die Leichte Sprache.
+
+Dass die Graphen der Wikipedia-Corpora eine geringere Dichte haben, lässt sich
+mit der in einer Enzyklopädie zu erwartenden höheren Themenvielfalt gegenüber
+den Nachrichteninhalten erklären.
+Dies bedeutet mehr potentiell auftretende unterschiedliche Wörter, die jedoch
+nicht alle in den gleichen Kontexten auftreten und somit nur in begrenztem
+Umfang Kanten zum Graphen hinzufügen.
+
 
 \subsection{Clusterkoeffizient}
 
@@ -314,10 +343,11 @@ $$
     C = \frac{3\cdot\text{Anzahl der Dreiecke}}{\text{Anzahl verbundener Tripel}}
 $$
 
-Ein Tripel bezeichnet drei miteinander Verbundener Knoten, nicht
+Ein Tripel bezeichnet drei miteinander verbundene Knoten, nicht
 notwendigerweise ein Dreieck. Knoten A kann mit Knoten B und C verbunden sein,
-während B nicht mit C verbunden ist. In \emph{Small-World-Graphen} ist dieser
-Wert typischerweise hoch. 
+während B nicht mit C verbunden ist.
+
+In \emph{Small-World-Graphen} ist der Clusterkoeffizient typischerweise hoch. 
 
 % TODO:
 % wir können für ausgewählte wörter vielleicht noch lokale clusterkoeffizienten
@@ -333,11 +363,11 @@ Wert typischerweise hoch.
 Um Small-World-Eigenschaften nachzuweisen, ist es außerdem interessant, die
 Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchmesser
 des Graphen, also der längste minimale Weg zwischen zwei Knoten. In einer
-\emph{small-world} sind alle Knoten von allen anderen in wenigen Schritten
+\emph{small world} sind alle Knoten von allen anderen in wenigen Schritten
 erreichbar, typischerweise in 5 bis 7 Schritten. \texttt{graph-tool}
 erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, und zum
-anderen die Ausgabe eines Histogramms, welches die Vorkommen der Längen aller
-kürzesten Wege zeigt (siehe Abb. \ref{fig-mdh}).
+anderen die Ausgabe eines Histogramms, welches die Häufigkeit der Längen aller
+kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh}).
 
 % latex table generated in R 3.2.0 by xtable 1.7-4 package
 % Mon Apr 20 13:50:42 2015
@@ -360,22 +390,24 @@ kürzesten Wege zeigt (siehe Abb. \ref{fig-mdh}).
        \bottomrule
     \end{tabular}
     \caption{Anteil der Weglängen paarweiser kürzester Wege zwischen allen Knoten, in Prozent}
+    \label{md-perc}
 \end{table}
 
 
 % TODO: folgenden abschnitt an tatsächliche ergebnisse anpassen 
-In der Tat können wir die Schrittzahl bestätigen, beispielsweise für den
-nachrichtenleicht-Corpus haben wir einen Durchmesser von 6, und von
+In der Tat können wir die Schrittzahl bestätigen (vgl. Tabelle \ref{md-perc}).
+Für den nachrichtenleicht-Corpus haben wir beispielsweise einen Durchmesser von
+6, und von
 allen paarweisen Pfaden kommt dieser sehr selten vor. Bei XXX Knoten gibt
 es YYY Pfade zu berechnen. Die meisten Knoten sind in drei bis vier Schritten
-miteinander verbunden.
+miteinander verbunden.\\
 Das gleiche Bild zeigt sich bei den englischen Wikipedia-Corpora. Sowohl in 
-Simple als auch in Standard English sind über 90\% der paarweisen
-kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen 
-einige wenige Paare, die bis zu neun Sprünge auseinander liegen.
+Simple als auch in Standard English sind weit über 90\% der paarweisen
+kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen nur
+einige wenige Paare, die bis zu acht Sprünge auseinander liegen.
 % TODO: Welche sind das? stammen die womöglich von alle von wenigen einzelnen wörtern? evtl rechtschreibfehler? 
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
         \includegraphics[scale=.75]{mdh_plots.pdf}
     \caption{Verteilung der minimalen Weglängen nach Corpus}
@@ -383,7 +415,7 @@ einige wenige Paare, die bis zu neun Sprünge auseinander liegen.
 \end{figure}
 
 \subsection{Skalenfreiheit}
-Skalenfreie Graphen zeichnen sich duch exponential verteilte Knotengrade aus.
+Skalenfreie Graphen zeichnen sich duch exponentialverteilte Knotengrade aus.
 Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}.
 Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
 
@@ -399,8 +431,8 @@ Wir konnten sowohl die kurzen Weglängen, als auch hohe Clusteringkoeffizienten
 für alle Graphen nachweisen.
 %TODO passt das? skalenfreiheit? 
 
-\subsection{Zusammenfassung der Berechnungen}
-\begin{table}
+\subsection{Übersicht der berechneten Größen}
+\begin{table}[ht]
     \begin{tabular}{l*{4}{r}}
     \toprule
     Kenngröße & nl & denews10k & wiki\_sim & wiki\_en \\
@@ -430,7 +462,7 @@ jeweiligen Corpora berechneten Kenngrößen.
 
 \subsubsection{Nachrichten-Corpora}
 
-\begin{table}
+\begin{table}[ht]
     \begin{tabular}{l*{2}{lr}}
     \toprule
     Nr. & nl & Häufigkeit & denews10k & Häufikeit\\
@@ -467,18 +499,19 @@ Wie in Tabelle \ref{words-nachrichten} zu erkennen, gibt es nur wenige
 Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews10k.
 Fett gedruckt sind in den Tabellen diejenigen Worte, die in beiden Corpora
 vorkommen.
-Bei den Nachrichten-Corpora handelt es sich nur um das Wort Jahr.
+Bei den Nachrichten-Corpora handelt es sich lediglich um das Wort "`Jahr"'.
 Dies deutet bereits auf eine gewisse thematische Inhomogenität der Corpora hin.
-Dieses Ergebnis ist insofern nicht überraschend, dass die Nachrichtendaten aus
+Dieses Ergebnis ist insofern nicht überraschend, dass die Corpora aus
 unterschiedlichen Quellen stammen (vgl. Abschnitt \ref{nrseiten}) und
-möglicherweise auch unterschiedlich normalisiert wurden.
-Auch ist die jeweilige Zielgruppe der Ursprungstexte eine andere.
+im Gegensatz zu den Wikipedia-Daten nicht aligniert wurden.
+Auch wurden die Ursprungstexte für unterschiedliche Zielgruppen verfasst.
 
 Darüber hinaus zeigt sich, dass Worte im nachrichtenleicht-Corpus generell
 häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).
-Dies bestätigt die Vermutung aus Abschnitt \ref{???}\\
-Weiterhin wird ersichtlich, dass der nachrichtenleicht-Corpus einen Schwerpunkt
-auf Politik und Sport legt.
+Dies bestätigt die Vermutung aus Abschnitt \ref{groesse-knotenzahl}.
+
+Weiterhin wird ersichtlich, dass der nachrichtenleicht-Corpus seinen
+thematischen Schwerpunkt auf Politik und Sport legt.
 Erkennbar ist dies am häufigen Auftreten der Worte wie Stadt, Partei, Land,
 Politiker bzw. Mannschaft, Spiel, Bayern, München, Verein.
 Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Prozent,
@@ -487,7 +520,7 @@ Euro, Dollar oder Millionen auf.
 
 \subsubsection{Wikipedia-Corpora}
 
-\begin{table}
+\begin{table}[ht]
     \begin{tabular}{l*{2}{lr}}
     \toprule
     Nr. & wiki\_sim & Häufigkeit & wiki\_en & Häufikeit\\
@@ -520,12 +553,9 @@ Euro, Dollar oder Millionen auf.
     \label{words-wiki}
 \end{table}
 
-Der Berechnung der häufigsten Worte der Wiki-Corpora (vgl. Tabelle
-\ref{words-wiki}) wurde ein Kookkurrenz-Threshold von $t=0.005$ zugrunde gelegt.
-Dies entspricht einem Kookkurrenzwert von $\geq 200$.\\
-Die Ergebnisse zeigen eine hohe Übereinstimmung des Vokabulars zwischen beiden
-Wikipedia-Versionen, was für eine größere thematische und strukturelle
-Homogenität als bei den Nachrichtencorpora spricht.
+Bei den Wikipedia-Corpora zeigen die Ergebnisse eine hohe Übereinstimmung des
+Vokabulars zwischen beiden Sprachvarianten, was für eine größere thematische
+und strukturelle Homogenität als bei den Nachrichtencorpora spricht.
 Die häufigsten vier Worte sind bei beiden Corpora identisch.
 Insgesamt stimmen über $50\%$ der Worte überein - lediglich die Rangfolge
 variiert leicht.
@@ -540,9 +570,9 @@ Anders als bei den Nachrichten-Corpora sind hier bei der Leichte-Sprache-Variant
 geringere Worthäufigkeiten als bei der Standardsprache zu beobachten.
 Die Größenordnung dieses Unterschieds ist allerdings nicht so gravierend wie bei
 den ersteren.\\
-Eine mögliche Erklärung könnte sein, dass wir (wie in Abschnitt \ref{datextr}
-beschrieben) beim Erstellen des Corpus die Artikel nach Satzanzahl, nicht nach
-Wortanzahl normalisiert haben.
+Eine mögliche Erklärung könnte sein, dass wir beim Erstellen des Corpus die
+Artikel nach Satzanzahl, nicht nach Wortanzahl normalisiert haben (wie in
+Abschnitt \ref{datextr} beschrieben).
 Da die Standard-English-Wikipedia längere Sätze verwendet als die Einfache,
 sind in logischer Folge auch größere Worthäufigkeiten zu erwarten, denn längere
 Sätze bedeuten mehr Wörter.
