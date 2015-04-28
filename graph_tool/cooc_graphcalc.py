@@ -137,7 +137,7 @@ g = graph_parser.file_to_graph(args.infile)
 print('graph created')
 
 # FILTER MAIN COMPONENT
-filter_main_component(g.graph)
+filter_main_component(g)
 
 # do calculations only if not in 'graph-only' mode
 if not args.graph:

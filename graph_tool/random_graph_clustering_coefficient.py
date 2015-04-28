@@ -1,6 +1,7 @@
 from graph_tool.generation import random_graph
 import graph_parser
 import graph_tool
+import numpy as np
 
 
 def filter_main_component(graph):
@@ -8,6 +9,13 @@ def filter_main_component(graph):
     graph.graph.set_vertex_filter(main_component)
     graph.graph.purge_vertices()
     
+def calc_L(graph):
+    counts, bins = graph_tool.stats.distance_histogram(graph,
+        float_count= False)
+    counts = np.append(counts, 0)
+    print(counts,bins)
+    return 0
+
 filepath = "../data/cooc_denews10k.csv"
 
 graph = graph_parser.file_to_graph(filepath)
@@ -20,7 +28,11 @@ def deg_sampler():
     return vertex_degrees.pop()
 
 r_graph = random_graph(len(vertex_degrees), deg_sampler, directed=False)
+print("clusterincoefficient")
 print(graph_tool.clustering.global_clustering(r_graph))
+print("average shortest path length")
+print(calc_L(r_graph))
+print(calc_L(graph.graph))
 
 # cooc_wiki_sim: (0.04836508152618817, 0.0064730643181345245)
 # cooc_wiki_en:  (0.04906310588836009, 0.004693714628953113)
