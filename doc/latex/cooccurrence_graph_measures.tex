@@ -343,6 +343,8 @@ Anzahl vorhandener Dreiecke im Graph im Verhältnis zu möglichen Dreiecken. Dre
 Knoten, die jeweils paarweise verbunden sind, bilden ein Dreieck. Ziel ist ein
 Messwert, der aussagt, wie sehr die Knoten Cliquen bilden. Lokal betrachtet
 bedeutet der Wert die Wahrscheinlichkeit, die Nachbarn eines Nachbarn zu kennen.
+Dies lässt sich realweltlicht sehr anschaulich beschreiben: Kennt ein Mensch die 
+Freunde seiner Freunde?
 Da wir die Graphen global miteinander vergleichen möchten, verwenden wir den
 globalen Clusterkoeffizienten $C$. Er berechnet sich wie folgt:
 
@@ -402,9 +404,10 @@ kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh}).
 
 
 % TODO: folgenden abschnitt an tatsächliche ergebnisse anpassen 
+
 In der Tat können wir die Schrittzahl bestätigen (vgl. Tabelle \ref{md-perc}).
 Für den nachrichtenleicht-Corpus haben wir beispielsweise einen Durchmesser von
-6, und von
+6, und von % TODO
 allen paarweisen Pfaden kommt dieser sehr selten vor. Bei XXX Knoten gibt
 es YYY Pfade zu berechnen. Die meisten Knoten sind in drei bis vier Schritten
 miteinander verbunden.\\
@@ -412,7 +415,8 @@ Das gleiche Bild zeigt sich bei den englischen Wikipedia-Corpora. Sowohl in
 Simple als auch in Standard English sind weit über 90\% der paarweisen
 kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen nur
 einige wenige Paare, die bis zu acht Sprünge auseinander liegen.
-% TODO: Welche sind das? stammen die womöglich von alle von wenigen einzelnen wörtern? evtl rechtschreibfehler? 
+% TODO: Welche sind das? → es tsellt sich heraus, dass dies vor allem namen sind
+% teilweise sogar fremdsprachige!
 
 \begin{figure}[ht]
     \centering
@@ -420,6 +424,31 @@ einige wenige Paare, die bis zu acht Sprünge auseinander liegen.
     \caption{Verteilung der minimalen Weglängen nach Corpus}
     \label{fig-mdh}
 \end{figure}
+
+\subsubsection{Small-World-Messwert}
+Humphries et al. benennen in \cite{Humphries2006} einen Messwert vor der deutlich
+machen soll, ob ein Graph ein Small-World-Graph ist oder nicht. Sie setzen hierzu
+die Weglängen und die globalen Clusterkoeffizienten von Graphen in Relation. 
+Dabei sind Clusterkoeffizienten insbesondere in gitterartigen Netzwerken hoch und
+kurze Weglängen zeichnen besonders Zufallsgraphen aus. Um diese Erkentnisse zu
+verbinden werden die beiden Messwerte des zu testenden Graphen mit denen eines
+vergleichbaren Zufallsgraphen relativiert. Der Zufallsgraph wird aus dem 
+Ursprünglichen durch zufallsbasiertes \emph{rewiring} gewonnen, es soll dabei die
+Verteilung der Knotengrade beibehalten werden. Die Kanten werden gleichverteilt
+neu verbunden, jede zu erstellende Verbindung hat die gleiche Wahrscheinlichkeit.
+Die Bibliothek \texttt{graph\_tool} stellt dazu den notwendigen Algorithmus zur 
+Verfügung\footnote{\url{http://graph-tool.skewed.de/static/doc/generation.html\#graph_tool.generation.random_rewire}},
+der eben die Knotengradverteilung beibehält.\\
+Das vorgeschlagene Maß setzt sich wie folgt zusammen:
+
+$$
+\sigma = \frac{C/C_{rand}}{ L/L_{rand}}
+$$
+
+Wobei $L$ der durchschnittliche kürzeste Abstand zwischen den Knoten ist und $C$
+der Clusterkoeffizient. Wichtigstes Kennzeichen für einen Small-World-Graphen
+ist hier dass $C \gg C_{rand}$, während $L \approx L_{rand}$, sodass $\sigma > 1$.\\
+Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen.
 
 \subsection{Skalenfreiheit}
 Skalenfreie Graphen zeichnen sich duch exponentialverteilte Knotengrade aus.
@@ -444,6 +473,9 @@ Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn.
     Dichte (in $10^{-4}$)       & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
     Clusterkoeff. max ($10^{-2}$) & 6,451559 & 3,390617 & 4,040342  & 4,229930 \\
     Clusterkoeff. min ($10^{-2}$) & 0,626338 & 0,470389 & 0,612476  & 0,481688 \\
+    $\sigma$                    &           &           &           &         \\
+    $C / C_{rand}$               &           &           &           &         \\
+    $L / L_{rand}$               &           &           &           &         \\
     \dots                       &           &           &           &          \\
     \bottomrule
     \end{tabular}
@@ -595,6 +627,7 @@ Sätze bedeuten mehr Wörter.
     \bibitem{Quasthoff2006}U. Quasthoff, M. Richter, and C. Biemann, “Corpus Portal for Search in Monolingual Corpora,” in \emph{Proceedings of LREC-06}, Genoa, Italy, 2006, pp. 1799–1802.
     \bibitem{Telesford2011}Q. K. Telesford, K. E. Joyce, S. Hayasaka, J. H. Burdette, and P. J. Laurienti, “The Ubiquity of Small-World Networks,” \emph{Brain Connectivity}, vol. 1, no. 5, pp. 367–375, 2011.
     \bibitem{nls_regeln} Das Netzwerk Leichte Sprache, “Die Regeln für Leichte Sprache”, 2013. \url{http://leichtesprache.org/images/Regeln_Leichte_Sprache.pdf} (zuletzt geprüft: 17. April 2015).
+    \bibitem{Humphries2006}M. Humphries, K. Gurney, and T. Prescott, “The brainstem reticular formation is a small-world, not scale-free, network,” in \emph{Proceedings of the Royal Society B: Biological Sciences}, vol. 273(1585), pp. 503–511, 2006.
 \end{thebibliography}
 
 \listoftables
