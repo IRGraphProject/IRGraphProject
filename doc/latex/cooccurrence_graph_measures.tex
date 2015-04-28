@@ -55,7 +55,7 @@ anderem spezielle Sprachregelungen, typographische Empfehlungen und
 Rechtschreibregeln. 
 
 Das \emph{Netzwerk Leichte Sprache} definiert folgende grundlegenden
-Eigenschaften Leichter Sprache\cite{nls_regeln}:
+Eigenschaften Leichter Sprache\cite{nls_regeln} (Auszug):
 
 \begin{enumerate}
 	\item Benutzen Sie einfache W\"orter
@@ -70,7 +70,6 @@ Eigenschaften Leichter Sprache\cite{nls_regeln}:
 	\item Benutzen Sie Ziffern anstatt von Worten
 	\item Schreiben Sie kurze S\"atze, die nur eine Aussage enthalten
 	\item Benutzen Sie einen einfachen Satzbau
-	\item Schreiben Sie jeden Satz in eine Zeile
 \end{enumerate}
 
 Das englische \"Aquivalent zu Leichter Sprache ist \emph{Simple English}. Es
@@ -78,7 +77,7 @@ existieren verschiedene Modelle des Simple English, welche unterschiedliche
 Ziele erreichen sollen -- z.B. das \emph{Simplified Technical English}, eine
 kontrollierte Sprache f\"ur technische Handb\"ucher. Aufgrund dieser
 konkurrierenden Ans\"atze gibt es keine einheitliche Definition oder
-Sprachpraxis des Simple English. %So sind z.B. i TODO ???
+Sprachpraxis des Simple English.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -250,18 +249,14 @@ Die Wikipedia-Corpora enthielten mehr Text und somit sind auch die Graphen
 deutlich größer: 45897 (45446) Knoten entfallen auf die englische, 36582 (36131)
 auf die \emph{simple english} Variante.
 
-In der Tat l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
+Es l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
 leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
 erf\"ullt ist.
 
-\subsection{Rang der Kantengewichte}
+\subsection{Rang der Knotengrade}
 
-Wie in Abb. \ref{fig-vdeg} dargestellt, folgt die Verteilung der Kantengewichte
+Wie in Abb. \ref{fig-vdeg} dargestellt, folgt die Verteilung der Knotengrade
 dem Zipfschen Gesetz.
-%TODO: Folgende Aussage verifizieren
-F\"ur die Leichten Sprachvarianten l\"asst sich feststellen, dass die Verteilung
-gleichm\"a\ss{}iger ist, d.h. weniger Spezialvokabular im "`Long Tail"' der
-Verteilung auftritt.
 
 \begin{figure}[ht]
     \centering
@@ -284,11 +279,6 @@ $$
 $$
 
 $|E|$ ist die Anzahl der Kanten, $|V|$ die Anzahl der Knoten im Graphen. 
-
-%TODO: ist es hier plausibel, dass die einfachen sprachen dichter sein sollten?
-%es gibt ja (hoffentlich) weniger wörter, und diese wenigen sollten
-%dementsprechend häufiger verwendet werden und sich untereinander so leichter
-%verknüpfen.
 
 Für die einfachen Sprachvarianten sollten unseren Erwartungen zufolge die
 Graphen dichter sein als für Standardsprache.
@@ -334,7 +324,6 @@ Small-World-Graphen zeichnen sich durch kleine Durchmesser und
 hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig.
 Wir konnten mit unseren Berechnungen sowohl die kurzen Weglängen, als auch hohe
 Clusteringkoeffizienten für alle Graphen nachweisen.
-%TODO passt das? skalenfreiheit? 
 
 \subsubsection{Clusterkoeffizient}
 
@@ -357,10 +346,6 @@ notwendigerweise ein Dreieck. Knoten A kann mit Knoten B und C verbunden sein,
 während B nicht mit C verbunden ist.
 
 In \emph{Small-World-Graphen} ist der Clusterkoeffizient typischerweise hoch. 
-
-% \paragraph{(Pseudo-)Diameter}
-% \paragraph{K\"urzeste Wegl\"ange}
-% die beiden fasse ich im folgendem punkt zusammen
 
 \subsubsection{Durchmesser und minimale Wegl\"angen}
 Um Small-World-Eigenschaften nachzuweisen, ist es außerdem interessant, die
@@ -409,6 +394,7 @@ Das gleiche Bild zeigt sich bei den englischen Wikipedia-Corpora. Sowohl in
 Simple als auch in Standard English sind weit über 90\% der paarweisen
 kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen nur
 einige wenige Paare, die bis zu acht Sprünge auseinander liegen.
+
 % TODO: Welche sind das? → es tsellt sich heraus, dass dies vor allem namen sind
 % teilweise sogar fremdsprachige!
 % Referenz auf das Bilderkapitel nicht vergessen
@@ -445,15 +431,6 @@ der Clusterkoeffizient. Wichtigstes Kennzeichen für einen Small-World-Graphen
 ist hier dass $C \gg C_{rand}$, während $L \approx L_{rand}$, sodass $\sigma > 1$.\\
 Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen.
 
-\subsection{Skalenfreiheit}
-Skalenfreie Graphen zeichnen sich duch exponentialverteilte Knotengrade aus.
-Es gibt wenige Knoten mit sehr vielen Nachbarn, sogenannte \emph{Hubs}.
-Dem gegenüber haben die anderen Knoten relativ wenige Nachbarn. 
-
-% TODO:
-%haben wir so etwas? wir können das mit \texttt{graph-tool} über die
-%clustering algorithmen leicht ausrechnen!  skalieren die graphen paarweise um
-%ein paar knoten, oder kommen neue wichtige (hubs) wörter hinzu?
 
 \subsection{Übersicht der berechneten Größen}
 \begin{table}[ht]
