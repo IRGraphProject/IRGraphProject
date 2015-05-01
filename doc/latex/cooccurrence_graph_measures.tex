@@ -318,14 +318,11 @@ mit der in einer Enzyklopädie zu erwartenden höheren Themenvielfalt gegenüber
 den Nachrichteninhalten erklären.
 Dies bedeutet mehr potentiell auftretende unterschiedliche Wörter, die jedoch
 nicht alle in den gleichen Kontexten auftreten und somit nur in begrenztem
-Umfang Kanten zum Graphen hinzufügen.
-
+Umfang Kanten zum Graphen hinzufügen, der Quadratische Zusammenhang der Dichte
+führt somit zu deutlich niedrigeren Werten. 
 
 \subsection{Small-World-Eigenschaften}
-Small-World-Graphen zeichnen sich durch kleine Durchmesser und
-hohe Clusterkoeffizienten aus. Skalenfreiheit ist nicht zwangsläufig wichtig.
-Wir konnten mit unseren Berechnungen sowohl die kurzen Weglängen, als auch hohe
-Clusteringkoeffizienten für alle Graphen nachweisen.
+Small-World-Graphen zeichnen sich durch kleine Durchmesser und hohe Clusterkoeffizienten aus. Diese Werte sind im Vergleich zu Zufallsgraphen zu betrachten. Dementsprechend gibt es Messwerte, die genau diese Relation versuchen in einem Wert zusammenzufassen um damit eine Aussage über Small-World-Eigenschaften zu machen. 
 
 \subsubsection{Clusterkoeffizient}
 
@@ -347,17 +344,21 @@ Ein Tripel bezeichnet drei miteinander verbundene Knoten, nicht
 notwendigerweise ein Dreieck. Knoten A kann mit Knoten B und C verbunden sein,
 während B nicht mit C verbunden ist.
 
-In \emph{Small-World-Graphen} ist der Clusterkoeffizient typischerweise hoch. 
+In \emph{Small-World-Graphen} ist der Clusterkoeffizient typischerweise hoch, 
+insbesondere verglichen mit Zufallsgraphen gleicher Größe, also gleicher Anzahl
+Knoten und Kanten\cite{Newman2003}.\\
+
 
 \subsubsection{Durchmesser und minimale Wegl\"angen}
 Um Small-World-Eigenschaften nachzuweisen, ist es außerdem interessant, die
 Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchmesser
 des Graphen, also der längste minimale Weg zwischen zwei Knoten. In einer
 \emph{small world} sind alle Knoten von allen anderen in wenigen Schritten
-erreichbar, typischerweise in 5 bis 7 Schritten. \texttt{graph-tool}
-erlaubt zum einen die Ausgabe eines Durchmessers, wie oben beschrieben, und zum
-anderen die Ausgabe eines Histogramms, welches die Häufigkeit der Längen aller
-kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh}).
+erreichbar, typischerweise in etwa 6 Schritten, die sogenannten 
+\emph{six degrees of separation}(siehe beispielsweise \cite{Newman2003}). 
+\texttt{graph-tool} erlaubt zum einen die Ausgabe eines Durchmessers, wie oben
+ beschrieben, und zum anderen die Ausgabe eines Histogramms, welches die 
+Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh}).
 
 % latex table generated in R 3.2.0 by xtable 1.7-4 package
 % Mon Apr 20 13:50:42 2015
@@ -365,41 +366,24 @@ kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh}).
     \centering
     \begin{tabular}{rrrrr}
       \toprule
-    Weglänge & nl & denews10k & wiki\_sim & wiki\_en \\ 
+    Weglänge       & nl          & denews10k   & wiki\_sim   & wiki\_en     \\ 
       \midrule
-      1 & 0.30      & 0.15      & 0.06      & 0.05 \\ 
-      2 & 10.66     & 6.69      & 14.94     & 12.95 \\ 
-      3 & 49.35     & 46.26     & 63.60     & 64.48 \\ 
-      4 & 34.55     & 41.83     & 20.25     & 21.30 \\ 
-      5 & 4.61      & 4.70      & 1.11      & 1.17 \\ 
-      6 & 0.47      & 0.35      & 0.04      & 0.04 \\ 
-      7 & 0.07      & 0.01      & $\sim$0.00  & $\sim$0.00 \\ 
-      8 & $\sim$0.00  & $\sim$0.00  & $\sim$0.00  & $\sim$0.00 \\ 
-      9 & $\sim$0.00  & 0         & 0         & 0 \\ 
-      Summe & 100.00  & 100.00    & 100.00    & 100.00 \\ 
+      1            & 0.30        & 0.15        & 0.06        & 0.05         \\ 
+      2            & 10.66       & 6.69        & 14.94       & 12.95        \\ 
+      3            & 49.35       & 46.26       & 63.60       & 64.48        \\ 
+      4            & 34.55       & 41.83       & 20.25       & 21.30        \\ 
+      5            & 4.61        & 4.70        & 1.11        & 1.17         \\ 
+      6            & 0.47        & 0.35        & 0.04        & 0.04         \\ 
+      7            & 0.07        & 0.01        & $\sim$0.00  & $\sim$0.00   \\ 
+      8            & $\sim$0.00  & $\sim$0.00  & $\sim$0.00  & $\sim$0.00   \\ 
+      9            & $\sim$0.00  & 0           & 0           & 0            \\ 
+      Summe        & 100.00      & 100.00      & 100.00      & 100.00       \\ 
+      Durchschnitt & 3,34        & 3,45        & 3,08        & 3,11         \\
        \bottomrule
     \end{tabular}
     \caption{Anteil der Weglängen paarweiser kürzester Wege zwischen allen Knoten, in Prozent}
     \label{md-perc}
 \end{table}
-
-
-% TODO: folgenden abschnitt an tatsächliche ergebnisse anpassen 
-
-In der Tat können wir die Schrittzahl bestätigen (vgl. Tabelle \ref{md-perc}).
-Für den nachrichtenleicht-Corpus haben wir beispielsweise einen Durchmesser von
-6, und von % TODO
-allen paarweisen Pfaden kommt dieser sehr selten vor. Bei XXX Knoten gibt
-es YYY Pfade zu berechnen. Die meisten Knoten sind in drei bis vier Schritten
-miteinander verbunden.\\
-Das gleiche Bild zeigt sich bei den englischen Wikipedia-Corpora. Sowohl in 
-Simple als auch in Standard English sind weit über 90\% der paarweisen
-kürzesten Strecken vier oder weniger Schritte lang. Es gibt in beiden Fällen nur
-einige wenige Paare, die bis zu acht Sprünge auseinander liegen.
-
-% TODO: Welche sind das? → es tsellt sich heraus, dass dies vor allem namen sind
-% teilweise sogar fremdsprachige!
-% Referenz auf das Bilderkapitel nicht vergessen
 
 \begin{figure}[ht]
     \centering
@@ -431,26 +415,42 @@ $$
 Wobei $L$ der durchschnittliche kürzeste Abstand zwischen den Knoten ist und $C$
 der Clusterkoeffizient. Wichtigstes Kennzeichen für einen Small-World-Graphen
 ist hier dass $C \gg C_{rand}$, während $L \approx L_{rand}$, sodass $\sigma > 1$.\\
-Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen.
 
+
+\subsubsection{Ergebnisse}
+\paragraph{Clusteringkoeffizient}
+In Tabelle \ref{tab-zsf} sind die Ergebnisse der vorgestellten Maße aufgelistet, darunter die Clusteringkoeffizienten der Graphen. Paarweise bezüglich Corpussprache verglichen zeigt sich, dass die beiden englischen Corpora sehr ähnliche Koeffizienten aufweisen, beide knapp über $0,04$. Größer ist der Unterschied zwischen den beiden deutschen Sammlungen, in leichter Sprache ergibt sich ein Wert von etwa $0,06$, wogegen dieser bei normaler Sprache lediglich $0,03$ beträgt. Die leichte Sprache ist hier also deutlich stärker geclustert. Jedoch verglichen mit Graphen aus \cite[S. 182]{Newman2003} sind die Werte alle sehr klein. Insbesondere der Vergleich zu Zufallsgraphen gleicher Größe ist interessant, die Tabelle liefert auch dafür die Ergebnisse: Der Quotient aus $C/C_{rand}$ ist in allen Fällen unter $1$, für \texttt{nachrichtenleicht} liegt er bei $0,96$, der ursprüngliche Graph und sein Zufällig verändertes Pendant haben also beinahe den selben Clusteringkoeffizienten. Zusammengefasst ist deutlich erkennbar, dass die Clusteringkoeffizienten nicht in Wertebereichen liegen, die für Small-World-Eigenschaften notwendig wären.
+
+\paragraph{Durchmesser und Weglängen}
+Für die Graphdurchmesser zeigen sich jedoch andere Ergebnisse. Typischerweise lassen sich alle Knoten innerhalb von etwa 6 Schritten von jedem anderen Knoten erreichen. Tabelle \ref{md-perc} bestätigt diese These. Es sind nur wenige Wortpaare ausserhalb dieser Grenze, diese werden im nächsten Abschnitt und Kapitel \ref{sec:aussen_liegende} mit Hilfe von Visualisierungen detailiert betrachtet. Es zeigt sich bei allen Graphen, dass die Ränder dieser aus selten verwendeten Namen bestehen.
+Die Tabelle zeigt sehr deutlich, dass die meisten Paare innerhalb von 3-4 Schritten verbunden sind, es gibt kaum Pfade, die länger sind. Die Durchschnittswerte liegen bei allen vier Graphen knapp über 3. Für Small-World-Graphen wäre ein etwas höherer Durchschnitt typischer gewesen(vgl \cite{Newman2003}), die sich bei sozialen Netzwerken um $5$-$7$ bewegen (für den dort ebenfalls erwähnten Wortkookkurrenzgraphen ist kein Wert angegeben).   
+
+\paragraph{Aussen liegende Wörter}
+Wie beschrieben machen Namen den äußeren Rand der Graphen aus, so sind etwa \emph{Seymour} und \emph{Hoffman} im \texttt{nachrichtenleicht}-Corpus lediglich ein mal vorgekommen, im Zuge der Todesnachricht des Schauspielers. Des öfteren ist zu beobachten, dass Fremdsprachige Namen die Graphgrenzen ausmachen, so liegen im englischsprachigen \texttt{wiki-sim}-Corpus \emph{Che Guevara}, \emph{Kamui Kobayashi}, \emph{Kazimir Malevich} und die \emph{Frankfurter Allgemeine Zeitung} ganz aussen. Bei \texttt{denews10k} sind \emph{Microsoft}, \emph{Windows}, und \emph{Phone} in Zusammenhang aussen, oder auch \emph{Financial} und \emph{Times}, jedoch auch \emph{Christoph Metzelder} oder \emph{St. Pauli} und \emph{Christoph Metzelder}. Bei größen von 10.000 Sätzen ist es bei den Nachrichtencorpora nicht verwunderlich, dass aufgrund der Unterschiedlichkeit von behandelten Themen selten genannte Personen am Rand des Graphen erscheinen. Da die Nachrichten auch in sehr begrenzten Zeiträumen gesammelt wurden verstärkt sich dieser Effekt. Das gleiche Problem ergibt sich bei den Wikipediaartikeln, welche unabhängig voneinander gesammelt wurden, es ergibt sich also nicht eine Zusammenhangskomponente an Artikeln sondern aus allen verschiedenen Themengebieten.\\
+Namen von Personen, die mehr im Fokus der Öffentlichkeit stehen, etwa \emph{Angela}, \emph{Merkel}, \emph{Obama}, sind verglichen zu den oben genannten deutlich stärker im Graph verbunden. Auch die dort verbundenen Wörter sind Schlüssel dafür, ob ein Wort am Rand oder im Graphen liegt, Verben wie \emph{sagt} verbinden sehr schnell zum Zentrum.
+
+\paragraph{Small-World-Messwert}
+Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten lassen sich mit dem verwendeten Maß nicht nachweisen, dass es sich um Small-World-Graphen handelt. Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen. Zwar sind die durchschnittlichen Weglängen bei den Zufallsgraphen beinahe identisch zu denen der Ursprungsgraphen, jedoch bilden die Wortcorpora nicht genügend Cluster um die Anforderungen zu erfüllen. $C/C_{rand}$ liegt teilweise derart nah beieinander, dass den Graphen lediglich Ähnlichkeit zu Zufallsgraphen nachweisbar ist. Bei denews10k liegt er sogar unter $0,5$, was auch von der geringen Dichte her rührt.
+
+TODO tabelle vielleicht nicht in eigene section, reicht als objekt im irgendwo :)
 
 \subsection{Übersicht der berechneten Größen}
 \begin{table}[ht]
     \begin{tabular}{l*{4}{r}}
     \toprule
-    Kenngröße & nl & denews10k & wiki\_sim & wiki\_en \\
+    Kenngröße                     & nl        & denews10k & wiki\_sim & wiki\_en \\
     \midrule
-    $|V|$                       & 2946      & 3205      & 36582     & 45897  \\
-    $|E|$                       & 11639     & 7669      & 371559    & 514489 \\
-    $|V|$\footnotemark[6]       & 2766      & 3142      & 36131     & 45446  \\
-    $|E|$\footnotemark[6]       & 11541     & 7636      & 371319    & 514248 \\
-    Dichte (in $10^{-4}$)       & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
-    Clusterkoeffizient ($10^{-2}$) & 6,451559 & 3,390617 & 4,040342  & 4,229930 \\
-    CK stdev ($10^{-2}$)        & 0,626338 & 0,470389 & 0,612476  & 0,481688 \\
-    $\sigma$                    &           &           &           &         \\
-    $C / C_{rand}$               &           &           &           &         \\
-    $L / L_{rand}$               &           &           &           &         \\
-    \dots                       &           &           &           &          \\
+    $|V|$                         & 2946      & 3205      & 36582     & 45897  \\
+    $|E|$                         & 11639     & 7669      & 371559    & 514489 \\
+    $|V|$\footnotemark[6]         & 2766      & 3142      & 36131     & 45446  \\
+    $|E|$\footnotemark[6]         & 11541     & 7636      & 371319    & 514248 \\
+    Dichte (in $10^{-4}$)          & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
+    Clusterkoeffizient            & 0,064516  & 0,033906  & 0,040403  & 0,042299 \\
+    CK stdev ($10^{-2}$)           & 0,626338  & 0,470389  & 0,612476  & 0,481688 \\
+    $\sigma$                      & 0,970016  & 0,451959  & 0,857932  &         \\
+    $C / C_{rand}$                 & 0,961374  & 0,474512  & 0,832651  &         \\
+    $L / L_{rand}$                 & 0,991090  & 1,049900  & 0,970532  &         \\
+    \dots                         &           &           &           &          \\
     \bottomrule
     \end{tabular}
     \caption{Übersichtstabelle Graphenkenngrößen}
@@ -593,6 +593,8 @@ Sätze bedeuten mehr Wörter.
 
 
 \section{Weit außen liegende Wörter}
+\label{sec:aussen_liegende}
+
 
 
 
