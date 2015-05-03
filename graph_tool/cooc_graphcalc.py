@@ -101,8 +101,25 @@ def write_topn_vertices(words_graph, out_file):
             f.write('\n')
     return [t[0] for t in tops]
 
+def write_graphfiles(word,tdir):
+    """Create cooccurrence graph for word and write to 3 different files
+    """
+    print(' - drawing subgraph ' + word)
+    # pdf files
+    t1 = os.path.basename(''.join(['graph_', word, '.pdf']))
+    t1 = os.path.join(tdir,t1)
+    draw_wordsgraph(word, g, args.d, t1)
+    # svg files
+    t2 = os.path.basename(''.join(['graph_', word, '.svg']))
+    t2 = os.path.join(tdir,t2)
+    draw_wordsgraph(word, g, args.d, t2)
+    # png files
+    t3 = os.path.basename(''.join(['graph_', word, '.png']))
+    t3 = os.path.join(tdir,t3)
+    draw_wordsgraph(word, g, args.d, t3)
 
 ##############################################################################
+
 
 ## handle command line arguments
 parser = argparse.ArgumentParser(description='Create a cooccurrence graph and \
@@ -115,6 +132,7 @@ parser.add_argument('-t', type=float, default=1/12,
     help="Cooccurrence threshold for graphs (default: 1/12)")
 parser.add_argument("-g", "--graph", action="store_true",
     help="draw only graph/s (omit calculations)")
+parser.add_argument('-o', action="store_true", help="omit drawing of top words")
 parser.add_argument('-n', type=int, default=10,
     help="maximum number of words to draw graphs of (default: 10)")
 parser.add_argument('-w','--words', help="list of words to retrieve \
@@ -157,7 +175,7 @@ if not args.graph:
 print('cooc. threshold filter applied (='+str(args.t)+")")
 g.filter_cooccurrence_threshold(args.t)
 
-if args.n:
+if not args.o:
     tdir = os.path.join(args.outdir,'topwords')
     os.mkdir(tdir)
     # save top words to file
@@ -167,28 +185,14 @@ if args.n:
     print('drawing '+str(len(topwords))+' cooccurrence graph/s with max. depth '
         +str(args.d))
     for word in topwords:
-        print(' - drawing subgraph ' + word)
-        # pdf files
-        t1 = os.path.basename(''.join(['graph_', word, '.pdf']))
-        t1 = os.path.join(tdir,t1)
-        draw_wordsgraph(word, g, args.d, t1)
-        # svg files
-        t2 = os.path.basename(''.join(['graph_', word, '.svg']))
-        t2 = os.path.join(tdir,t2)
-        draw_wordsgraph(word, g, args.d, t2)
-        # png files
-        t3 = os.path.basename(''.join(['graph_', word, '.png']))
-        t3 = os.path.join(tdir,t3)
-        draw_wordsgraph(word, g, args.d, t3)
+        write_graphfiles(word,tdir)
 
 if args.words:
     # save subgraph for each word given
+    tdir = args.outdir
     print('drawing '+str(len(args.words))+' cooccurrence graph/s with  max.'
         +'depth '+str(args.d))
     for word in args.words:
-        print(' - drawing subgraph ' + word)
-        t = os.path.basename('_'.join(['graph', word, '.png']))
-        t = os.path.join(args.outdir,t)
-        draw_wordsgraph(word, g, args.d, t)
+        write_graphfiles(word,tdir)
 
 print('done')
