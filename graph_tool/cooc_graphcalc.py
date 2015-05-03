@@ -104,6 +104,10 @@ def write_topn_vertices(words_graph, out_file):
 def write_graphfiles(word,tdir):
     """Create cooccurrence graph for word and write to 3 different files
     """
+    # remove punctuation to ensure a valid file name
+    punct = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
+    word = re.sub(punct,'',word)
+
     print(' - drawing subgraph ' + word)
     # pdf files
     t1 = os.path.basename(''.join(['graph_', word, '.pdf']))
