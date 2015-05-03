@@ -102,23 +102,23 @@ def write_topn_vertices(words_graph, out_file):
     return [t[0] for t in tops]
 
 def write_graphfiles(word,tdir):
-    """Create cooccurrence graph for word and write to 3 different files
+    """Create cooccurrence graph for a word and write it to pdf, svg, png
     """
     # remove punctuation to ensure a valid file name
-    punct = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:]+')
-    word = re.sub(punct,'',word)
+    punct = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.:’]+')
+    fword = re.sub(punct,'',word)
 
     print(' - drawing subgraph ' + word)
     # pdf files
-    t1 = os.path.basename(''.join(['graph_', word, '.pdf']))
+    t1 = os.path.basename(''.join(['graph_', fword, '.pdf']))
     t1 = os.path.join(tdir,t1)
     draw_wordsgraph(word, g, args.d, t1)
     # svg files
-    t2 = os.path.basename(''.join(['graph_', word, '.svg']))
+    t2 = os.path.basename(''.join(['graph_', fword, '.svg']))
     t2 = os.path.join(tdir,t2)
     draw_wordsgraph(word, g, args.d, t2)
     # png files
-    t3 = os.path.basename(''.join(['graph_', word, '.png']))
+    t3 = os.path.basename(''.join(['graph_', fword, '.png']))
     t3 = os.path.join(tdir,t3)
     draw_wordsgraph(word, g, args.d, t3)
 
@@ -132,8 +132,8 @@ parser.add_argument('infile', help="input file containing cooccurrences")
 parser.add_argument('outdir', help="output file directory")
 parser.add_argument('-d', type=int, default=1,
     help="iteration depth; maximum distance to word (default: 1)")
-parser.add_argument('-t', type=float, default=1/12,
-    help="Cooccurrence threshold for graphs (default: 1/12)")
+parser.add_argument('-t', type=float, default=0.1,
+    help="Cooccurrence threshold for graphs (default: 0.1)")
 parser.add_argument("-g", "--graph", action="store_true",
     help="draw only graph/s (omit calculations)")
 parser.add_argument('-o', action="store_true", help="omit drawing of top words")
@@ -194,7 +194,7 @@ if not args.o:
 if args.words:
     # save subgraph for each word given
     tdir = args.outdir
-    print('drawing '+str(len(args.words))+' cooccurrence graph/s with  max.'
+    print('drawing '+str(len(args.words))+' cooccurrence graph/s with  max. '
         +'depth '+str(args.d))
     for word in args.words:
         write_graphfiles(word,tdir)
