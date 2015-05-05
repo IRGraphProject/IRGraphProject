@@ -37,7 +37,6 @@
 \usepackage{graphicx}
 \graphicspath{{../img/}}
 
-
 \title{Grapheigenschaften auf Kookkurrenzgraphen in Leichter und
     Standardsprache auf Wikipedia- und Nachrichtencorpora}
 \author{Author 1, Author 2, Author 3\\
@@ -453,7 +452,7 @@ Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten lassen sich mit 
     $|E|$\footnotemark[6]         & 11541     & 7636      & 371319    & 514248 \\
     Dichte (in $10^{-4}$)          & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
     Clusterkoeffizient            & 0,064516  & 0,033906  & 0,040403  & 0,042299 \\
-    CK stdev ($10^{-2}$)           & 0,626338  & 0,470389  & 0,612476  & 0,481688 \\
+    Clusterkoeff. stdev ($10^{-2}$)           & 0,626338  & 0,470389  & 0,612476  & 0,481688 \\
     $\sigma$                      & 0,970016  & 0,451959  & 0,857932  &         \\
     $C / C_{rand}$                 & 0,961374  & 0,474512  & 0,832651  &         \\
     $L / L_{rand}$                 & 0,991090  & 1,049900  & 0,970532  &         \\
@@ -521,7 +520,8 @@ Auch wurden die Ursprungstexte für unterschiedliche Zielgruppen verfasst.
 
 Darüber hinaus zeigt sich, dass Worte im nachrichtenleicht-Corpus generell
 häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).
-Dies bestätigt die Vermutung aus Abschnitt \ref{groesse-knotenzahl}.
+Dies bestätigt die Vermutung aus Abschnitt \ref{groesse-knotenzahl} bzgl. der
+Knotenanzahl.
 
 Weiterhin wird ersichtlich, dass der nachrichtenleicht-Corpus seinen
 thematischen Schwerpunkt auf Politik und Sport legt.
@@ -607,18 +607,104 @@ In diesen Graphen sind jeweils nur die direkten Nachbarknoten des gesuchten
 Wortes dargestellt, d.h. die Knotendistanz beträgt immer 1.
 
 \subsubsection{nachrichtenleicht.de}
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_nl/topwords/graph_Menschen.pdf}
+    \caption{Kookkurrenzgraph Menschen (Distanz 1, Schwellwert 1/12, Häufigkeit 87)}
+    \label{fig:hw-menschen}
+\end{figure}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_nl/topwords/graph_gewonnen.pdf}
+    \caption{Kookkurrenzgraph gewonnen (Distanz 1, Schwellwert 1/12, Häufigkeit 69)}
+    \label{fig:hw-gewonnen}
+\end{figure}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_nl/topwords/graph_Mannschaft.pdf}
+    \caption{Kookkurrenzgraph Mannschaft (Distanz 1, Schwellwert 1/12, Häufigkeit 62)}
+    \label{fig:hw-mannschaft}
+\end{figure}
+
+%\begin{figure}[hp!]
+%    \centering
+%        \includegraphics[scale=.4]{../../data/results/cooc_nl/topwords/graph_Geld.pdf}
+%    \caption{Kookkurrenzgraph Geld (Distanz 1, Schwellwert 1/12, Häufigkeit 54)}
+%    \label{fig:hw-geld}
+%\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_nl/topwords/graph_Stadt.pdf}
+    \caption{Kookkurrenzgraph Stadt (Distanz 1, Schwellwert 1/12, Häufigkeit 51)}
+    \label{fig:hw-stadt}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_nl/topwords/graph_mehr.pdf}
+    \caption{Kookkurrenzgraph mehr (Distanz 1, Schwellwert 1/12, Häufigkeit 50)}
+    \label{fig:hw-mehr}
+\end{figure}
+
+\pagebreak
 \subsubsection{deunews2010\_10K}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_denews10k/topwords/graph_sagte.pdf}
+    \caption{Kookkurrenzgraph sagte (Distanz 1, Schwellwert 1/12, Häufigkeit 24)}
+    \label{fig:hw-sagte}
+\end{figure}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_denews10k/topwords/graph_Uhr.pdf}
+    \caption{Kookkurrenzgraph Uhr (Distanz 1, Schwellwert 1/12, Häufigkeit 23)}
+    \label{fig:hw-uhr}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_denews10k/topwords/graph_sei.pdf}
+    \caption{Kookkurrenzgraph sei (Distanz 1, Schwellwert 1/12, Häufigkeit 18)}
+    \label{fig:hw-sei}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_denews10k/topwords/graph_wurde.pdf}
+    \caption{Kookkurrenzgraph wurde (Distanz 1, Schwellwert 1/12, Häufigkeit 24)}
+    \label{fig:hw-wurde}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/cooc_denews10k/topwords/graph_Jahr.pdf}
+    \caption{Kookkurrenzgraph Jahr (Distanz 1, Schwellwert 1/12, Häufigkeit 16)}
+    \label{fig:hw-jahr}
+\end{figure}
+
+\pagebreak
 \subsubsection{Simple English und Standard English Wikipedia}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_born.pdf}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_born.pdf}
+    \caption{Kookkurrenzgraph born (Distanz 1, Schwellwert 0,005, Häufigkeit 71 (simple)/86 (standard))}
+    \label{fig:hw-born}
+\end{figure}
 
+
+
+\pagebreak
 \subsection{Weit außen liegende Wörter}
 
 Zur Erstellung dieser Subgraphen wurden weit außen liegende Wörter ermittelt,
-d.h. solche Wörter, die Bestandteil eines der längsten Pfade im Graphen sind.
+d.h. solche Wörter, von denen die längsten Pfade im Graphen ausgehen.
 
 Zusätzlich zum Kookkurrenz-Schwellwert wurde hier bei der Graphenerzeugung
 die Knotendistanz variiert, d.h. die Anzahl der `hops' ausgehend vom Zielwort,
@@ -638,76 +724,87 @@ Auch hier sind die jeweiligen Parameter in der Legende der Grafik angegeben.
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_America.pdf}
     \caption{Kookkurrenzgraph America (Distanz 4, Schwellwert 0,1)}
+    \label{fig:lp-america}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_Bowie.pdf}
     \caption{Kookkurrenzgraph Bowie (Distanz 3, Schwellwert 0,12)}
+    \label{fig:lp-bowie}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_Hoffman.pdf}
     \caption{Kookkurrenzgraph Hoffman (Distanz 5, Schwellwert 0,1)}
+    \label{fig:lp-hoffman}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_Israelis.pdf}
     \caption{Kookkurrenzgraph Israelis (Distanz 3, Schwellwert 0,1)}
+    \label{fig:lp-israelis}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_OToole.pdf}
     \caption{Kookkurrenzgraph O’Toole (Distanz 5, Schwellwert 0,05)}
+    \label{fig:lp-otoole}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_stellt.pdf}
     \caption{Kookkurrenzgraph stellt (Distanz 3, Schwellwert 0,05)}
+    \label{fig:lp-stellt}
 \end{figure}
 
 \pagebreak
-
 \subsubsection{deunews2010\_10K}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Aigner.pdf}
     \caption{Kookkurrenzgraph Aigner (Distanz 3, Schwellwert 0,1)}
+    \label{fig:lp-aigner}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Bommel.pdf}
     \caption{Kookkurrenzgraph Bommel (Distanz 3, Schwellwert 0,1)}
+    \label{fig:lp-bommel}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Erwachsenen.pdf}
     \caption{Kookkurrenzgraph Erwachsenen (Distanz 3, Schwellwert 0,5)}
+    \label{fig:lp-erwachsenen}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Guido.pdf}
     \caption{Kookkurrenzgraph Guido (Distanz 3, Schwellwert 0,1)}
+    \label{fig:lp-guido}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_HansRudolf.pdf}
     \caption{Kookkurrenzgraph Hans-Rudolf (Distanz 4, Schwellwert 0,1)}
+    \label{fig:lp-hansrudolf}
 \end{figure}
 
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Pauli.pdf}
     \caption{Kookkurrenzgraph Pauli (Distanz 3, Schwellwert 0,1)}
+    \label{fig:lp-pauli}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
