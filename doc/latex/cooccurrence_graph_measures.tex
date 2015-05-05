@@ -1,9 +1,10 @@
 \documentclass[11pt, a4paper]{article}
-\usepackage{ifxetex}
 \usepackage{amsmath}
-\usepackage[hyperindex,colorlinks,citecolor=cyan,linkcolor=gray,urlcolor=blue
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[hyperindex,colorlinks,citecolor=Aquamarine,linkcolor=gray,urlcolor=NavyBlue
 			]{hyperref}
 
+\usepackage{ifxetex}
 \ifxetex
 	\usepackage{fontspec}
 	\usepackage{unicode-math}
@@ -33,8 +34,9 @@
 \usepackage{booktabs}
 \usepackage{microtype}
 
-\usepackage{svg}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \graphicspath{{../img/}}
 
 \title{Grapheigenschaften auf Kookkurrenzgraphen in Leichter und
@@ -607,6 +609,7 @@ In diesen Graphen sind jeweils nur die direkten Nachbarknoten des gesuchten
 Wortes dargestellt, d.h. die Knotendistanz beträgt immer 1.
 
 \subsubsection{nachrichtenleicht.de}
+
 \begin{figure}[hp!]
     \centering
         \includegraphics[scale=.4]{../../data/results/cooc_nl/topwords/graph_Menschen.pdf}
@@ -649,6 +652,7 @@ Wortes dargestellt, d.h. die Knotendistanz beträgt immer 1.
     \label{fig:hw-mehr}
 \end{figure}
 
+
 \pagebreak
 \subsubsection{deunews2010\_10K}
 
@@ -687,21 +691,112 @@ Wortes dargestellt, d.h. die Knotendistanz beträgt immer 1.
     \label{fig:hw-jahr}
 \end{figure}
 
+
 \pagebreak
-\subsubsection{Simple English und Standard English Wikipedia}
+\subsubsection{Simple und Standard English Wikipedia}
 
 \begin{figure}[hp!]
     \centering
+    \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_born.pdf}
+        \caption{Simple English, Häufigkeit 71}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
         \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_born.pdf}
-    \caption{Kookkurrenzgraph born (Distanz 1, Schwellwert 0,005, Häufigkeit 71 (simple)/86 (standard))}
+        \caption{Standard English, Häufigkeit 86}
+    \end{subfigure}
+    \caption{Kookkurrenzgraph born (Distanz 1, Schwellwert 0,005)}
     \label{fig:hw-born}
 \end{figure}
 
+\begin{figure}[hp!]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_American.pdf}
+        \caption{Simple English, Häufigkeit 52}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_American.pdf}
+        \caption{Standard English, Häufigkeit 58}
+    \end{subfigure}
+    \caption{Kookkurrenzgraph American (Distanz 1, Schwellwert 0,005)}
+    \label{fig:hw-american}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_commune.pdf}
+        \caption{Simple English, Häufigkeit 49}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_commune.pdf}
+        \caption{Standard English, Häufigkeit 52}
+    \end{subfigure}
+    \caption{Kookkurrenzgraph commune (Distanz 1, Schwellwert 0,005)}
+    \label{fig:hw-commune}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_France.pdf}
+        \caption{Simple English, Häufigkeit 47}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_France.pdf}
+        \caption{Standard English, Häufigkeit 50}
+    \end{subfigure}
+    \caption{Kookkurrenzgraph France (Distanz 1, Schwellwert 0,005)}
+    \label{fig:hw-france}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_won.pdf}
+        \caption{Simple English, Häufigkeit 41}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_won.pdf}
+        \caption{Standard English, Häufigkeit 42}
+    \end{subfigure}
+    \caption{Kookkurrenzgraph won (Distanz 1, Schwellwert 0,005)}
+    \label{fig:hw-won}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_television.pdf}
+        \caption{Simple English, Häufigkeit 35}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_television.pdf}
+        \caption{Standard English, Häufigkeit 43}
+    \end{subfigure}
+    \caption{Kookkurrenzgraph television (Distanz 1, Schwellwert 0,005)}
+    \label{fig:hw-television}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_sim/topwords-t0005/graph_years.pdf}
+        \caption{Simple English, Häufigkeit 28}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.5\textwidth}
+        \includegraphics[scale=.25]{../../data/results/cooc_wiki_en/topwords-t0005/graph_years.pdf}
+        \caption{Standard English, Häufigkeit 31}
+    \end{subfigure}
+    \caption{Kookkurrenzgraph years (Distanz 1, Schwellwert 0,005)}
+    \label{fig:hw-years}
+\end{figure}
 
 
 \pagebreak
 \subsection{Weit außen liegende Wörter}
+\label{sec:aussen_liegende}
 
 Zur Erstellung dieser Subgraphen wurden weit außen liegende Wörter ermittelt,
 d.h. solche Wörter, von denen die längsten Pfade im Graphen ausgehen.
@@ -715,8 +810,6 @@ auftretende Querverbindungen) einbezogen werden, bei kommen 2 zusätzlich deren
 Nachbarn hinzu, usw.
 
 Auch hier sind die jeweiligen Parameter in der Legende der Grafik angegeben.
-
-\label{sec:aussen_liegende}
 
 \subsubsection{nachrichtenleicht.de}
 
@@ -761,6 +854,7 @@ Auch hier sind die jeweiligen Parameter in der Legende der Grafik angegeben.
     \caption{Kookkurrenzgraph stellt (Distanz 3, Schwellwert 0,05)}
     \label{fig:lp-stellt}
 \end{figure}
+
 
 \pagebreak
 \subsubsection{deunews2010\_10K}
@@ -807,8 +901,9 @@ Auch hier sind die jeweiligen Parameter in der Legende der Grafik angegeben.
     \label{fig:lp-pauli}
 \end{figure}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
+\pagebreak
 \begin{thebibliography}{9}
 % TODO:
 % - remove unused citations/bibitems
