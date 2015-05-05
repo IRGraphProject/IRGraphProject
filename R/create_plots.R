@@ -7,6 +7,7 @@ setwd("../python/IRGraphProject/data/results")
 load(".RData")
 require(ggplot2)
 require(gridExtra)
+require(xtable)
 
 # vertex degree
 wen_vdeg <- read.csv("cooc_wiki_en/v_degree_hist.csv", sep=",", header = FALSE )
@@ -104,10 +105,15 @@ table2 <- rbind(table2, colSums(table2))
 row.names(table2) <- c(row.names(table2)[-11],"sum")
 
 # divide each cell by sum
-a <- apply(table2,1,function(x) x / table2["sum",])
+a <- apply(table2,1,function(x) x*100 / table2["sum",])
 # results to dataframe
 table2 <- do.call(rbind.data.frame, a)
 rm(a)
+
+table2_table_t <- xtable(t(table2)[,c(-1,-11)])
+table2_tablet <- xtable(table2[-1,])
+
+
 
 # cooccurrence values
 nms <- c("w1","w2","sig")

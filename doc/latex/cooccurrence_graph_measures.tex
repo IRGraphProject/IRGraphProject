@@ -38,8 +38,10 @@
 \graphicspath{{../img/}}
 
 
-\title{Grapheigenschaften auf Kookkurrenzgraphen in Leichter und Standardsprache auf Wikipedia- und Nachrichtencorpora}
-\author{Author 1, Author 2, Author 3\\Modul "`Fortgeschrittene Methoden des Information Retrieval"'}
+\title{Grapheigenschaften auf Kookkurrenzgraphen in Leichter und
+    Standardsprache auf Wikipedia- und Nachrichtencorpora}
+\author{Author 1, Author 2, Author 3\\
+    Modul "`Fortgeschrittene Methoden des Information Retrieval"'}
 \date{\today}
 
 \begin{document}
@@ -233,6 +235,7 @@ Für verschiedene Eigenschaften bietet \texttt{graph-tool} bereits implementiert
 Algorithmen an. Im Folgenden werden die Kenngrößen kurz erläutert, unsere
 Erwartungen dargestellt und die Ergebnisse gezeigt.
 
+
 \subsection{Gr\"o\ss{}e (Knotenzahl)}
 \label{groesse-knotenzahl}
 
@@ -254,6 +257,7 @@ auf die \emph{simple english} Variante.
 Es l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
 leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
 erf\"ullt ist.
+
 
 \subsection{Rang der Knotengrade}
 
@@ -321,8 +325,10 @@ nicht alle in den gleichen Kontexten auftreten und somit nur in begrenztem
 Umfang Kanten zum Graphen hinzufügen, der Quadratische Zusammenhang der Dichte
 führt somit zu deutlich niedrigeren Werten. 
 
+
 \subsection{Small-World-Eigenschaften}
 Small-World-Graphen zeichnen sich durch kleine Durchmesser und hohe Clusterkoeffizienten aus. Diese Werte sind im Vergleich zu Zufallsgraphen zu betrachten. Dementsprechend gibt es Messwerte, die genau diese Relation versuchen in einem Wert zusammenzufassen um damit eine Aussage über Small-World-Eigenschaften zu machen. 
+
 
 \subsubsection{Clusterkoeffizient}
 
@@ -392,6 +398,7 @@ Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh
     \label{fig-mdh}
 \end{figure}
 
+
 \subsubsection{Small-World-Messwert}
 Humphries et al. benennen in \cite{Humphries2006} einen Messwert vor der deutlich
 machen soll, ob ein Graph ein Small-World-Graph ist oder nicht. Sie setzen hierzu
@@ -432,7 +439,7 @@ Namen von Personen, die mehr im Fokus der Öffentlichkeit stehen, etwa \emph{Ang
 \paragraph{Small-World-Messwert}
 Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten lassen sich mit dem verwendeten Maß nicht nachweisen, dass es sich um Small-World-Graphen handelt. Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen. Zwar sind die durchschnittlichen Weglängen bei den Zufallsgraphen beinahe identisch zu denen der Ursprungsgraphen, jedoch bilden die Wortcorpora nicht genügend Cluster um die Anforderungen zu erfüllen. $C/C_{rand}$ liegt teilweise derart nah beieinander, dass den Graphen lediglich Ähnlichkeit zu Zufallsgraphen nachweisbar ist. Bei denews10k liegt er sogar unter $0,5$, was auch von der geringen Dichte her rührt.
 
-TODO tabelle vielleicht nicht in eigene section, reicht als objekt im irgendwo :)
+%TODO tabelle vielleicht nicht in eigene section, reicht als objekt im irgendwo :)
 
 \subsection{Übersicht der berechneten Größen}
 \begin{table}[ht]
@@ -588,16 +595,120 @@ Sätze bedeuten mehr Wörter.
 \section{Kookkurrenzgraphen}
 
 \subsection{Häufige Wörter}
-%Zur Erzeugung der Grafiken wurde der Threshold auf XYZ erhöht, damit unwichtige Kanten die Grafiken nicht überladen.
-%TODO: Threshold je nach Corpus verschieden
+
+Zur Erzeugung der folgenden Kookkurrenzgraphen der häufigsten Wörter
+wurde der Kookkurrenz-Schwellwert individuell auf den jeweiligen Corpus
+angepasst, damit unwichtige Kanten und Knoten die Graphen nicht überladen.
+Es zeigte sich, dass je nach Corpus unterschiedliche Schwellwerte gewählt werden
+mussten, um gut lesbare, nicht überfrachtete Graphen mit einer übersichtlichen
+Anzahl an Knoten zu erzeugen.
+
+In diesen Graphen sind jeweils nur die direkten Nachbarknoten des gesuchten
+Wortes dargestellt, d.h. die Knotendistanz beträgt immer 1.
+
+\subsubsection{nachrichtenleicht.de}
+
+
+\subsubsection{deunews2010\_10K}
+
+
+\subsubsection{Simple English und Standard English Wikipedia}
 
 
 \subsection{Weit außen liegende Wörter}
+
+Zur Erstellung dieser Subgraphen wurden weit außen liegende Wörter ermittelt,
+d.h. solche Wörter, die Bestandteil eines der längsten Pfade im Graphen sind.
+
+Zusätzlich zum Kookkurrenz-Schwellwert wurde hier bei der Graphenerzeugung
+die Knotendistanz variiert, d.h. die Anzahl der `hops' ausgehend vom Zielwort,
+die in den Graphen mit einbezogen werden (und deren evtl. auftretende
+Querverbindungen untereinander).
+Eine Distanz von 1 bedeutet, dass nur die direkten Nachbarn (und evtl.
+auftretende Querverbindungen) einbezogen werden, bei kommen 2 zusätzlich deren
+Nachbarn hinzu, usw.
+
+Auch hier sind die jeweiligen Parameter in der Legende der Grafik angegeben.
+
 \label{sec:aussen_liegende}
 
+\subsubsection{nachrichtenleicht.de}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_America.pdf}
+    \caption{Kookkurrenzgraph America (Distanz 4, Schwellwert 0,1)}
+\end{figure}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_Bowie.pdf}
+    \caption{Kookkurrenzgraph Bowie (Distanz 3, Schwellwert 0,12)}
+\end{figure}
 
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_Hoffman.pdf}
+    \caption{Kookkurrenzgraph Hoffman (Distanz 5, Schwellwert 0,1)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_Israelis.pdf}
+    \caption{Kookkurrenzgraph Israelis (Distanz 3, Schwellwert 0,1)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_OToole.pdf}
+    \caption{Kookkurrenzgraph O’Toole (Distanz 5, Schwellwert 0,05)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/nl/graph_stellt.pdf}
+    \caption{Kookkurrenzgraph stellt (Distanz 3, Schwellwert 0,05)}
+\end{figure}
+
+\pagebreak
+
+\subsubsection{deunews2010\_10K}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Aigner.pdf}
+    \caption{Kookkurrenzgraph Aigner (Distanz 3, Schwellwert 0,1)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Bommel.pdf}
+    \caption{Kookkurrenzgraph Bommel (Distanz 3, Schwellwert 0,1)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Erwachsenen.pdf}
+    \caption{Kookkurrenzgraph Erwachsenen (Distanz 3, Schwellwert 0,5)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Guido.pdf}
+    \caption{Kookkurrenzgraph Guido (Distanz 3, Schwellwert 0,1)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_HansRudolf.pdf}
+    \caption{Kookkurrenzgraph Hans-Rudolf (Distanz 4, Schwellwert 0,1)}
+\end{figure}
+
+\begin{figure}[hp!]
+    \centering
+        \includegraphics[scale=.4]{../../data/results/longpath_wordgraphs/den/graph_Pauli.pdf}
+    \caption{Kookkurrenzgraph Pauli (Distanz 3, Schwellwert 0,1)}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
