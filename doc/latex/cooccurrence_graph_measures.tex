@@ -49,6 +49,7 @@
 \maketitle
 \tableofcontents
 \newpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motivation und Ziel}
 
@@ -180,6 +181,8 @@ Nachrichtenleicht wurde rekursiv von der Startseite aus gequeriet
 und die resultierenden Texte in einer MongoDB gespeichert.
 Dabei wurden Überschriften, Teaser und Nachrichtentexte jeweils seperat erfasst
 und schließlich Teaser und Nachrichteninhalt zum Corpus hinzugefügt.
+Der resultierende Corpus umfasst den Text aus 845 Artikeln mit ca. 141.000
+Wörtern in 15.500 Sätzen.
 
 Zur Erstellung der Wikipedia-Corpora wurde zunächst eine Liste aller
 in Simple English verfügbaren Artikel erstellt. Anschließend wurden diese
@@ -202,6 +205,21 @@ Dies lieferte zufriedenstellende Ergebnisse mit vertretbarem Zeitaufwand.
 Nach Entfernen des Wiki-Markups wurden die Artikel auf die Satzanzahl
 des jweils k\"urzeren Artikels reduziert und anschliessend in einer MongoDB
 gespeichert.
+Die beiden Wikipedia-Corpora umfassen jeweils ca. 30.800 Sätze.
+
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{lrrr}
+    \toprule
+                &  nachrichtenleicht & Wiki simple   & Wiki english\\
+    \midrule
+    Artikel     & 845                & 2095          & 2095\\
+    Sätze       & ca. 15.500         & ca. 308.000   & ca. 308.000\\
+    Wörter      & ca. 141.000        & ca. 4.820.000 & ca. 6.360.000\\
+    \bottomrule
+  \end{tabular}
+  \caption{\label{tab:corpora} Selbst erstellte Corpora im Überblick}
+\end{table}
 
 
 \subsection{Berechnung der Kookkurrenzen}
@@ -314,7 +332,7 @@ jedoch öfter gemeinsam vor und sind somit enger verknüpft.
 
 \begin{table}[ht]
   \centering
-  \begin{tabular}{ll}
+  \begin{tabular}{lr}
     \toprule
     Corpus            &         Dichte (in $10^{-4}$)\\
     \midrule
@@ -477,7 +495,7 @@ Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten lassen sich mit 
     $\sigma$                      & 0,970016  & 0,451959  & 0,857932  &         \\
     $C / C_{rand}$                 & 0,961374  & 0,474512  & 0,832651  &         \\
     $L / L_{rand}$                 & 0,991090  & 1,049900  & 0,970532  &         \\
-    \dots                         &           &           &           &          \\
+%    \dots                         &           &           &           &          \\
     \bottomrule
     \end{tabular}
     \caption{Übersichtstabelle Graphenkenngrößen}
@@ -604,7 +622,7 @@ Anders als bei den Nachrichten-Corpora sind hier bei der Leichte-Sprache-Variant
 geringere Worthäufigkeiten als bei der Standardsprache zu beobachten.
 Die Größenordnung dieses Unterschieds ist allerdings nicht so gravierend wie bei
 den ersteren.\\
-Eine mögliche Erklärung könnte sein, dass wir beim Erstellen des Corpus die
+Eine mögliche Erklärung ist, dass wir beim Erstellen des Corpus die
 Artikel nach Satzanzahl, nicht nach Wortanzahl normalisiert haben (wie in
 Abschnitt \ref{datextr} beschrieben).
 Da die Standard-English-Wikipedia längere Sätze verwendet als die Einfache,
