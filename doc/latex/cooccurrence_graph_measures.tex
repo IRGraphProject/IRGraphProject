@@ -52,7 +52,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motivation und Ziel}
 
-Leichte oder auch Einfache Sprache ist eine Untermenge der deutschen Sprache,
+\paragraph{Leichte oder auch Einfache Sprache} ist eine Untermenge der deutschen Sprache,
 die auf besonders leichte Verst\"andlichkeit optimiert ist. Sie umfasst unter
 anderem spezielle Sprachregelungen, typographische Empfehlungen und
 Rechtschreibregeln. 
@@ -83,6 +83,21 @@ konkurrierenden Ans\"atze gibt es keine einheitliche Definition oder
 Sprachpraxis des Simple English.
 
 % TODO: Was war nochmal Motivation und Ziel?
+\paragraph{Ziel unseres Projekts} ist es, Kookkurrenzgraphen in Leichter und
+Standardsprache miteinander zu vergleichen und die Unterschiede mit Hilfe
+mathematischer Grapheigenschaften und -kenngrößen zu untersuchen.
+
+Das Projekt beginnt dazu zunächst mit der Extraktion entsprechender Corpora
+(vgl. Abschnitt \ref{sec:datenbasis} zur Datenbasis),
+deren Bereinigung und Vorverarbeitung mit den Mitteln des NLP\footnote{
+\emph{natural language processing}, dt. automatische Sprachverarbeitung}
+(Abschnitt \ref{sec:vorverarb}) und der
+Berechnung der Kookkurrenzwerte zwischen Wortpaaren, aus denen schließlich die
+Graphen generiert werden, auf denen die Berechnungen
+(Abschnitt \ref{sec:berechnung-ergebnisse}) stattfinden.\\
+Schließlich werden der Anschaulichkeit halber einige Wort-Kookkurrenzgraphen
+visualisiert, was einen direkten Vergleich zwischen den Sprachvarianten gestattet
+(Abschnitt \ref{sec:graphen}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -90,10 +105,18 @@ Sprachpraxis des Simple English.
 
 \subsection{Programmiersprache Python}
 Nach sprachunanbhängigen Recherchen über verwendbare Bibliotheken haben wir uns
-wegen der bereits implementierten Graphalgorithmen in \texttt{graph-tool} für
-die Programmiersprache Python\footnote{\url{https://www.python.org/}}
+für die Programmiersprache Python\footnote{\url{https://www.python.org/}}
 entschieden.
-Wegen der nativen Unicode-Unterstützung wurde Python 3 gewählt.
+Ausschlag gebend waren sowohl das umfangreiche und vielfach erprobte
+Python-NLP-Toolkit \texttt{nltk} als auch die bereits implementierten
+Graphalgorithmen in \texttt{graph-tool}.
+Wegen der nativen Unicode-Unterstützung wurde überwiegend in Python 3 gearbeitet.
+
+\subsection{NLP-Framework \texttt{nltk}}
+Das Natural Language Toolkit\footnote{\url{http://www.nltk.org/}} (\texttt{nltk}) ist
+ein Framework f\"ur die Verarbeitung natürlicher Sprache in Python.
+Die verwendeten Stopwortlisten für Deutsch und Englisch stammen aus der
+Bibliothek \texttt{nltk-data}.
 
 \subsection{Graphen-Bibliothek \texttt{graph-tool}}
 \texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein
@@ -104,19 +127,14 @@ erreicht wird. Es ist zus\"atzlich in der Lage, Graphen mit modernen Techniken
 zu visualisieren und \"ubliche Ma\ss{}e wie Clustering-Koeffizienten, Knoten-
 und Kantengrade und Durchmesser zu berechnen.
 
-\subsection{NLP-Framework NLTK}
-Das Natural Language Toolkit (NLTK\footnote{\url{http://www.nltk.org/}}) ist
-ein Framework f\"ur die Verarbeitung natürlicher Sprache in Python.
-Die verwendeten Stopwortlisten für Deutsch und Englisch stammen aus der
-Bibliothek nltk-data.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Datenbasis}
+\label{sec:datenbasis}
 
 Als Datenbasis wurden Quellen gew\"ahlt, die sich durch eine gro\ss{}e
-semantische und logische N\"ahe auszeichnen, namentlich Nachrichtenseiten in
-deutscher und Wikipediaartikel in englischer Sprache.
+semantische und logische N\"ahe zueinander auszeichnen, namentlich
+Nachrichtenseiten in deutscher und Wikipediaartikel in englischer Sprache.
 
 \subsection{Nachrichtenseiten}
 \label{nrseiten}
@@ -150,6 +168,7 @@ gestattet.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Vorverarbeitung}
+\label{sec:vorverarb}
 
 \subsection{Datenextraktion und Erstellung der Corpora}
 \label{datextr}
@@ -171,8 +190,8 @@ JSON-Datei gespeichert.
 Die Entfernung des Mediawiki-Markups und die Überführung in Reintext stellte
 sich dabei als eine nichttriviale Aufgabe dar.
 Mit dem MediaWiki Parser from
-Hell\footnote{\url{http://mwparserfromhell.rtfd.org}} existiert ein vollständiger
-Parser für Mediawiki-Markup.
+Hell\footnote{\url{http://mwparserfromhell.rtfd.org/}} existiert ein
+vollständiger Parser für Mediawiki-Markup.
 Für die entsprechende Datenmenge (ca. 2~GB Rohdaten) erwies sich dieser jedoch
 als deutlich zu langsam und somit für die Bereinigung ungeeignet.
 \\
@@ -215,7 +234,7 @@ Die Kanten- und Knotenanzahl vor und nach diesem Schritt sind Tabelle
 \ref{tab-zsf} zu entnehmen.
 
 Anschließend wurden die relevanten Berechnungen (vgl. Abschnitt
-\ref{berechnung-ergebnisse}) durchgeführt und Ergebnisse ausgegeben.
+\ref{sec:berechnung-ergebnisse}) durchgeführt und Ergebnisse ausgegeben.
 Auch die Daten zur Erstellung der Histogramme wurden in diesem Schritt
 gespeichert, um sie anschließend nach R zu importieren und dort mittels ggplot2
 grafisch aufzubereiten.
@@ -227,7 +246,7 @@ Corpusgraphen wurden mittels eines \texttt{force-directed graph} nach
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Berechnung der Graphenkenngr\"o\ss{}en und Ergebnisse}
-\label{berechnung-ergebnisse}
+\label{sec:berechnung-ergebnisse}
 
 Nach Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
 anhand dieser charakterisiert sowie paarweise verglichen werden (deutsch vs.
@@ -595,6 +614,7 @@ Sätze bedeuten mehr Wörter.
 
 
 \section{Kookkurrenzgraphen}
+\label{sec:graphen}
 
 \subsection{Häufige Wörter}
 
