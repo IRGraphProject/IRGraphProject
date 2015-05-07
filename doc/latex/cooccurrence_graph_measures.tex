@@ -89,16 +89,17 @@ Standardsprache miteinander zu vergleichen und die Unterschiede mit Hilfe
 mathematischer Grapheigenschaften und -kenngrößen zu untersuchen.
 
 Das Projekt beginnt dazu zunächst mit der Extraktion entsprechender Corpora
-(vgl. Abschnitt \ref{sec:datenbasis} zur Datenbasis),
+(vgl. Abschnitt \ref{sec:datenbasis} zur Datenbasis) und
 deren Bereinigung und Vorverarbeitung mit den Mitteln des NLP\footnote{
 \emph{natural language processing}, dt. automatische Sprachverarbeitung}
-(Abschnitt \ref{sec:vorverarb}) und der
-Berechnung der Kookkurrenzwerte zwischen Wortpaaren, aus denen schließlich die
-Graphen generiert werden, auf denen die Berechnungen
-(Abschnitt \ref{sec:berechnung-ergebnisse}) stattfinden.\\
+(Abschnitt \ref{sec:vorverarb}).
+Aus den vorverarbeiteten Daten werden anschließend die Kookkurrenzwerte
+zwischen benachbarten Wortpaaren ermittelt, aus denen
+dann die Graphen generiert werden, die im Mittelpunkt der Berechnungen
+(Abschnitt \ref{sec:berechnung-ergebnisse}) stehen.\\
 Schließlich werden der Anschaulichkeit halber einige Wort-Kookkurrenzgraphen
-visualisiert, was einen direkten Vergleich zwischen den Sprachvarianten gestattet
-(Abschnitt \ref{sec:graphen}).
+grafisch dargestellt, was einen direkten Vergleich zwischen den Sprachvarianten
+gestattet (Abschnitt \ref{sec:graphen}).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,13 +112,14 @@ entschieden.
 Ausschlag gebend waren sowohl das umfangreiche und vielfach erprobte
 Python-NLP-Toolkit \texttt{nltk} als auch die bereits implementierten
 Graphalgorithmen in \texttt{graph-tool}.
-Wegen der nativen Unicode-Unterstützung wurde überwiegend in Python 3 gearbeitet.
+Wegen der nativen Unicode-Unterstützung wurde überwiegend in Python~3 gearbeitet.
 
 \subsection{NLP-Framework \texttt{nltk}}
 Das Natural Language Toolkit\footnote{\url{http://www.nltk.org/}} (\texttt{nltk}) ist
 ein Framework f\"ur die Verarbeitung natürlicher Sprache in Python.
 Die verwendeten Stopwortlisten für Deutsch und Englisch stammen aus der
 Bibliothek \texttt{nltk-data}.
+Ebenso wurden Satz-Tokenizer aus diesem Framework verwendet.
 
 \subsection{Graphen-Bibliothek \texttt{graph-tool}}
 \texttt{graph-tool}\footnote{\url{http://graph-tool.skewed.de/}} ist ein
@@ -142,7 +144,7 @@ Nachrichtenseiten in deutscher und Wikipediaartikel in englischer Sprache.
 
 \subsubsection{nachrichtenleicht.de (nl)}
 
-Nachrichtenleicht ist ein Dienst des Deutschlandfunks, welcher einmal
+Nachrichtenleicht.de ist ein Dienst des Deutschlandfunks, welcher einmal
 w\"ochentlich die wichtigsten Nachrichten der vorangegangenen Woche in Leichter
 Sprache zusammenfasst. Er soll die mehreren Millionen Menschen in Deutschland
 erreichen, die aus verschiedenen Gr\"unden von konventionellen
@@ -162,7 +164,7 @@ Die zweite Datenquelle sind Artikel aus der Wikipedia in \emph{Simple} und
 \emph{Standard English}. Mit fast 120.000 Lemmata stellt die Simple English
 Wikipedia eine der gr\"o\ss{}ten \"offentlich frei verf\"ugbaren Textsammlungen
 in einer Leichten Sprachvariante dar.
-Zus\"atzlich ist ein Dokumentenalignment zwischen den zwei Sprachvarianten
+Zus\"atzlich ist ein Dokumentenalignment zwischen den beiden Sprachvarianten
 vorhanden, was die einfache Erstellung zweier inhaltlich homogener Corpora
 gestattet.
 
@@ -177,7 +179,7 @@ gestattet.
 Mittels eines selbstgeschriebenen Crawlers wurden die relevanten Textmengen
 heruntergeladen, extrahiert und zu Corpora zusammengefasst.
 
-Nachrichtenleicht wurde rekursiv von der Startseite aus gequeriet
+Nachrichtenleicht.de wurde rekursiv von der Startseite aus gequeriet
 und die resultierenden Texte in einer MongoDB gespeichert.
 Dabei wurden Überschriften, Teaser und Nachrichtentexte jeweils seperat erfasst
 und schließlich Teaser und Nachrichteninhalt zum Corpus hinzugefügt.
@@ -190,21 +192,24 @@ zusammen mit dem jeweils korrespondierenden Artikel in Standard English
 heruntergeladen und im Rohformat (mit eingebettetem MediaWiki-Markup) in einer
 JSON-Datei gespeichert.
 
-Die Entfernung des Mediawiki-Markups und die Überführung in Reintext stellte
-sich dabei als eine nichttriviale Aufgabe dar.
-Mit dem MediaWiki Parser from
-Hell\footnote{\url{http://mwparserfromhell.rtfd.org/}} existiert ein
-vollständiger Parser für Mediawiki-Markup.
+Die Entfernung des Markups und die Überführung in Reintext stellte
+sich dabei als eine nicht triviale Aufgabe dar.
+Mit dem \emph{MediaWiki Parser from
+Hell}\footnote{\url{http://mwparserfromhell.rtfd.org/}} existiert zwar ein
+vollständiger Parser für MediaWiki-Markup.
 Für die entsprechende Datenmenge (ca. 2~GB Rohdaten) erwies sich dieser jedoch
 als deutlich zu langsam und somit für die Bereinigung ungeeignet.
 \\
 Abhilfe schuf ein selbst entwickeltes Python-Skript, welches Markup mit Hilfe
-regul\"arer Ausdr\"ucke und rekursiver Funktionsaufrufe entfernt bzw. umwandelt.
-Dies lieferte zufriedenstellende Ergebnisse mit vertretbarem Zeitaufwand.
+regul\"arer Ausdr\"ucke und rekursiver Funktionsaufrufe entfernt bzw. in
+Reintext umwandelt.
+Dies lieferte sehr zufriedenstellende Ergebnisse mit überschaubarem
+Rechenaufwand.
 
-Nach Entfernen des Wiki-Markups wurden die Artikel auf die Satzanzahl
+Nach Entfernen des MediaWiki-Markups wurden die Artikel auf die Satzanzahl
 des jweils k\"urzeren Artikels reduziert und anschliessend in einer MongoDB
 gespeichert.
+
 Die beiden Wikipedia-Corpora umfassen jeweils ca. 30.800 Sätze.
 
 \begin{table}[ht]
@@ -231,7 +236,8 @@ und in eine MySQL-Datenbank eingepflegt.
 
 \subsection{Erstellung der Graphen}
 
-Die errechneten Kookkurrenz-Paare wurden zunächst gefiltert. Dabei wurden 
+Zur Graphenerstellung mussten die Kookkurrenz-Paare zunächst gefiltert werden.
+Dabei wurden 
 \begin{itemize}
     \item Lemmata, welche Leerzeichen, Kommata oder andere Satzzeichen enthalten
     \item Lemmata der Zeichenlänge 1
@@ -239,12 +245,14 @@ Die errechneten Kookkurrenz-Paare wurden zunächst gefiltert. Dabei wurden
 \end{itemize}
 entfernt, so dass schließlich nur Kookkurrenzen zwischen einzelnen Wörtern
 zurückblieben.
-Außerdem wurden -- da wir mit einem ungerichteten Graphen arbeiten -- identische
+Außerdem wurden -- da es sich bei Kookkurrenzgraphen um ungerichteten Graphen
+handelt -- identische
 Kookkurrenzpaare entfernt, so dass am Ende jedes Paar nur einmal auftrat.
 
 Die verbleibenden Kookkurrenzpaare wurden in \texttt{graph-tool}-Objekte geparst
 und zu einem corpusumfassenden Kokkurrenzgraphen zusammengesetzt.
 
+Die so erstellten Graphen waren jedoch nicht zusammenhängend.
 Um sinnvolle Berechnungen von Weglängen etc. anzustellen, erwies es sich als
 notwendig, den so erzeugten Graphen auf die größte Zusammenhangskomponente zu
 reduzieren und nicht verbundene Subgraphen zu verwerfen.
@@ -255,10 +263,10 @@ Anschließend wurden die relevanten Berechnungen (vgl. Abschnitt
 \ref{sec:berechnung-ergebnisse}) durchgeführt und Ergebnisse ausgegeben.
 Auch die Daten zur Erstellung der Histogramme wurden in diesem Schritt
 gespeichert, um sie anschließend nach \texttt{R} zu importieren und dort mittels
-\texttt{ggplot2} grafisch aufzubereiten.
+\texttt{ggplot2} grafisch darzustellen.
 
 Um Kookkurrenzgraphen für einzelne Wörter auszugeben, wurden Subgraphen aus dem
-Corpusgraphen wurden mittels eines \texttt{force-directed graph} nach
+Corpusgraphen mittels eines \texttt{force-directed graph} nach
 \cite{Hu2006} gelayoutet.
 
 
@@ -266,12 +274,12 @@ Corpusgraphen wurden mittels eines \texttt{force-directed graph} nach
 \section{Berechnung der Graphenkenngr\"o\ss{}en und Ergebnisse}
 \label{sec:berechnung-ergebnisse}
 
-Nach Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
+Nach der Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
 anhand dieser charakterisiert sowie paarweise verglichen werden.
 
-Als Vergleichskategorien bieten sich deutsch vs. englisch und Leichte vs.
-Standardsprache an, wobei jedoch die unterschiedlichen Eigenschaften der
-Ausgangscorpora jeweils zu berücksichtigen sind.
+Als Vergleichskategorien bieten sich einerseits deutsch vs. englisch und andererseits Leichte vs.
+Standardsprache an, wobei jedoch die unterschiedlichen Größen und Eigenschaften der
+jeweiligen Ausgangscorpora zu berücksichtigen sind.
 
 Für verschiedene Eigenschaften bietet \texttt{graph-tool} bereits implementierte
 Algorithmen an. Im Folgenden werden die Kenngrößen kurz erläutert, unsere
@@ -311,11 +319,11 @@ Nachrichtenleicht weist mit 2946 (resp. 2766) eine etwas geringere
 Knotenzahl auf.
 
 Die Wikipedia-Corpora enthielten mehr Text und somit sind auch die Graphen
-deutlich größer: 45897 (45446) Knoten entfallen auf die \emph{standard},
-36582 (36131) auf die \emph{simple english} Variante.
+deutlich größer: 45.897 (45.446) Knoten entfallen auf die \emph{standard},
+36.582 (36.131) auf die \emph{simple english} Variante.
 
 Es l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
-leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
+Leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
 erf\"ullt ist.
 
 
@@ -410,32 +418,33 @@ $$
     C = \frac{3\cdot\text{Anzahl der Dreiecke}}{\text{Anzahl verbundener Tripel}}
 $$
 
-Ein Tripel bezeichnet drei miteinander verbundene Knoten, nicht
-notwendigerweise ein Dreieck. Knoten A kann mit Knoten B und C verbunden sein,
+Ein Tripel bezeichnet drei beliebig miteinander verbundene Knoten (nicht
+notwendigerweise ein Dreieck). Knoten A kann mit Knoten B und C verbunden sein,
 während B nicht mit C verbunden ist.
 
 In \emph{Small-World-Graphen} ist der Clusterkoeffizient typischerweise hoch, 
 insbesondere verglichen mit Zufallsgraphen gleicher Größe, also gleicher Anzahl
-Knoten und Kanten\cite{Newman2003}.\\
+Knoten und Kanten \cite{Newman2003}.
 
 
 \subsubsection{Durchmesser und minimale Wegl\"angen}
-Um Small-World-Eigenschaften nachzuweisen, ist es außerdem interessant, die
-Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchmesser
+
+Auch die Betrachtung von Weglängen erlaubt Rückschlüsse auf die Small-World-Eigenschaften.
+Eine gute Kenngröße ist dabei der Durchmesser
 des Graphen, also der längste minimale Weg zwischen zwei Knoten. In einer
 \emph{small world} sind alle Knoten von allen anderen in wenigen Schritten
-erreichbar, typischerweise in etwa 6 Schritten, die sogenannten 
-\emph{six degrees of separation} (vgl. bspw. \cite{Newman2003}).
+erreichbar\footnote{typischerweise sind dies bei realen Netzwerken etwa 6 Schritte, die sogenannten 
+\emph{six degrees of separation}\cite{Newman2003}}.
 
 \texttt{graph-tool} erlaubt zum einen die Ausgabe eines Durchmessers, wie oben
- beschrieben, und zum anderen die Ausgabe eines Histogramms, welches die 
+beschrieben, und zum anderen die Ausgabe eines Histogramms, welches die 
 Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh}).
 
 % latex table generated in R 3.2.0 by xtable 1.7-4 package
 % Mon Apr 20 13:50:42 2015
 \begin{table}[ht]
     \centering
-    \begin{tabular}{rrrrr}
+    \begin{tabular}{*{5}{r}}
       \toprule
     Weglänge       & nl          & denews      & wiki\_sim   & wiki\_en     \\ 
       \midrule
@@ -465,23 +474,23 @@ Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh
 
 
 \subsubsection{Small-World-Messwert}
+
 Humphries et al. führen in \cite{Humphries2006} einen Messwert ein, der deutlich
 machen soll, ob ein Graph ein Small-World-Graph ist oder nicht. Sie setzen hierzu
-die Weglängen und die globalen Clusterkoeffizienten von Graphen in Relation.
+die Weglängen und die globalen Clusterkoeffizienten von Graphen zueinander in Relation.
 
 Dabei sind Clusterkoeffizienten insbesondere in gitterartigen Netzwerken hoch und
 kurze Weglängen zeichnen besonders Zufallsgraphen aus. Um diese Erkentnisse zu
 verbinden, werden die beiden Messwerte des zu testenden Graphen mit denen eines
 vergleichbaren Zufallsgraphen relativiert. Der Zufallsgraph wird aus dem 
 Ursprünglichen durch zufallsbasiertes \emph{rewiring} gewonnen.
-Die Kanten werden neu verbunden, wobei die Verteilung der Knotengrade
-beizubehalten ist.
+Dabei werden Kanten jeweils neu verbunden, unter Beibehaltung der Verteilung
+der Knotengrade.
 Jede neu zu erstellende Verbindung hat dabei die gleiche Wahrscheinlichkeit.
 
-Das \texttt{graph\_tool}-Framework stellt den notwendigen Algorithmus zur 
-Verfügung\footnote{\url{http://graph-tool.skewed.de/static/doc/generation.html\#graph_tool.generation.random_rewire}}.
+Auch dieses Verfahren wird von \texttt{graph\_tool} unterstützt\footnote{vgl. Algorithmus unter \url{http://graph-tool.skewed.de/static/doc/generation.html\#graph_tool.generation.random_rewire}}.
 
-Das vorgeschlagene Maß setzt sich wie folgt zusammen:
+Das Small-World-Maß setzt sich wie folgt zusammen:
 
 $$
 \sigma = \frac{C/C_{rand}}{ L/L_{rand}}
@@ -489,21 +498,24 @@ $$
 
 Dabei ist $L$ der durchschnittliche kürzeste Abstand zwischen den Knoten und $C$
 der Clusterkoeffizient.
-Wichtigstes Kennzeichen für einen Small-World-Graphen ist lt. \cite{Humphries2006},
-dass $C \gg C_{rand}$, während $L \approx L_{rand}$, so dass $\sigma > 1$.\\
-
+Wichtigstes Kennzeichen für einen Small-World-Graphen ist,
+dass $C \gg C_{rand}$, während $L \approx L_{rand}$, so dass $\sigma > 1$.\cite{Humphries2006}
 
 \subsubsection{Ergebnisse}
+Tabelle \ref{tab-zsf} enthält die Ergebnisse der Berechnungen.
+
 \paragraph{Clusterkoeffizient}
-In Tabelle \ref{tab-zsf} sind die Ergebnisse der vorgestellten Maße aufgelistet, darunter die Clusterkoeffizienten der Graphen.
-Der paarweise Vergleich bezüglich Corpussprache zeigt, dass die beiden englischen Corpora sehr ähnliche Koeffizienten aufweisen, beide knapp über $0,04$.
-Größer ist der Unterschied zwischen den beiden deutschen Sammlungen.
+Zwischen den beiden deutschen Corpora bestehen große Unterschiede.
 In Leichter Sprache ergibt sich ein Wert von etwa $0,06$, wogegen dieser bei normaler Sprache lediglich $0,03$ beträgt.
 Die Leichte Sprache ist hier also deutlich stärker geclustert.
+
+Die Wikipedia-Graphen weisen zueinander ähnliche Werte auf, die beide knapp über 0,04 liegen.
+
 Verglichen mit Graphen aus \cite[S. 182]{Newman2003} sind die Werte jedoch alle sehr klein.
 Insbesondere der Vergleich zu Zufallsgraphen gleicher Größe ist interessant:
 Der Quotient aus $C/C_{rand}$ ist in allen Fällen unter $1$, für den nachrichtenleicht-Graphen liegt er bei $0,96$.
 Der ursprüngliche Graph und sein zufällig verändertes Pendant haben also beinahe denselben Clusterkoeffizienten.
+
 Zusammengefasst ist deutlich erkennbar, dass die Clusterkoeffizienten nicht in Wertebereichen liegen, die für Small-World-Eigenschaften notwendig wären.
 
 \paragraph{Durchmesser und Weglängen}
@@ -513,21 +525,23 @@ Tabelle \ref{md-perc} bestätigt diese These.
 Es befinden sich nur wenige Wortpaare außerhalb dieser Grenze.
 Diese werden im nächsten Abschnitt und Kapitel \ref{sec:aussen_liegende} mit Hilfe von Visualisierungen detailierter betrachtet.
 
-Es zeigt sich bei allen untersuchten Graphen, dass die Ränder dieser aus selten verwendeten Namen bestehen.
+Es zeigt sich bei allen untersuchten Graphen, dass deren Ränder aus selten verwendeten Namen bestehen.
 Die Tabelle zeigt sehr deutlich, dass die meisten Paare innerhalb von 3-4 Schritten verbunden sind.
 Längere Pfade treten nur selten auf.
 Die durchschnittlichen Weglängen liegen bei allen vier Graphen knapp über 3.
-Für Small-World-Graphen wäre ein etwas höherer Durchschnitt typischer gewesen (vgl. \cite{Newman2003}).
-Bei sozialen Netzwerken bewegen sich die Weglängen typischerweise um $5$-$7$.
+Für Small-World-Graphen wäre lt. Newmann ein etwas höherer Durchschnitt typischer gewesen (vgl. \cite{Newman2003}).
+Bei sozialen Netzwerken bewegen sich die Weglängen nach seinen Angaben typischerweise um $5$-$7$.
 Für den dort ebenfalls erwähnten Wortkookkurrenzgraphen ist leider kein Wert angegeben.
 
 \paragraph{Außen liegende Wörter}
-Wie oben beschrieben, machen Namen den äußeren Rand der Graphen aus.
-So sind etwa \emph{Seymour} und \emph{Hoffman} im nachrichtenleicht-Graphen lediglich ein mal vorgekommen, im Zuge der Todesnachricht des Schauspielers.
-Des öfteren ist zu beobachten, dass insbesondere fremdsprachige Eigennamen die Graphgrenzen ausmachen:
-So liegen im englischsprachigen wiki\_sim-Graphen \emph{Che Guevara}, \emph{Kamui Kobayashi}, \emph{Kazimir Malevich} und die \emph{Frankfurter Allgemeine Zeitung} ganz außen.
+Wie oben beschrieben, machen überwiegend Namen den äußeren Rand der Graphen aus.
+So sind etwa \emph{Seymour} und \emph{Hoffman} (Abb. \ref{fig:lp-hoffman}) im nachrichtenleicht-Graphen lediglich ein mal vorgekommen, im Zuge der Todesnachricht des Schauspielers.
 
-Beim denews-Graphen sind \emph{Microsoft}, \emph{Windows}, und \emph{Phone} in Zusammenhang außen, oder auch \emph{Financial} und \emph{Times}, jedoch auch \emph{Christoph Metzelder} und \emph{St. Pauli}.
+Im englischsprachigen wiki\_sim-Graphen liegen \emph{(Che) Guevara}, \emph{Kamui (Kobayashi)}, \emph{Kazimir Malevich} und die \emph{Frankfurter Allgemeine Zeitung} ganz außen.
+Auch hier ist also zu beobachten, dass Eigennamen -- insbesondere fremdsprachige -- die Graphgrenzen ausmachen.
+
+Beim denews-Graphen sind \emph{Microsoft}, \emph{Windows}, und \emph{Phone} in Zusammenhang außen, oder auch \emph{Financial} und \emph{Times}, jedoch auch \emph{Metzelder} und \emph{(St.) Pauli} (Abb. \ref{fig:lp-pauli}).
+
 Bei Größen von 10.000 Sätzen ist es bei den Nachrichtencorpora nicht verwunderlich, dass aufgrund der Unterschiedlichkeit von behandelten Themen selten genannte Personen am Rand des Graphen erscheinen.
 Da die Nachrichten in sehr begrenzten Zeiträumen gesammelt wurden, verstärkt sich dieser Effekt.
 
@@ -616,8 +630,8 @@ Bei den Nachrichten-Corpora handelt es sich lediglich um das Wort "`Jahr"'.
 Dies deutet bereits auf eine gewisse thematische Inhomogenität der Corpora hin.
 Dieses Ergebnis ist insofern nicht überraschend, dass die Corpora aus
 unterschiedlichen Quellen stammen (vgl. Abschnitt \ref{nrseiten}) und
-im Gegensatz zu den Wikipedia-Daten nicht aligniert wurden.
-Auch wurden die Ursprungstexte für unterschiedliche Zielgruppen verfasst.
+im Gegensatz zu den Wikipedia-Daten kein Dokumenten-Alignment vorliegt.
+Auch wurden die Ursprungstexte für jeweils unterschiedliche Zielgruppen verfasst.
 
 Darüber hinaus zeigt sich, dass Worte im nachrichtenleicht-Corpus generell
 häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).
@@ -626,10 +640,10 @@ Knotenanzahl.
 
 Weiterhin wird ersichtlich, dass der nachrichtenleicht-Corpus seinen
 thematischen Schwerpunkt auf Politik und Sport legt.
-Erkennbar ist dies am häufigen Auftreten der Worte wie Stadt, Partei, Land,
-Politiker bzw. Mannschaft, Spiel, Bayern, München, Verein.
-Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie Prozent,
-Euro, Dollar oder Millionen auf.
+Erkennbar ist dies am häufigen Auftreten der Worte wie \textit{Stadt}, \textit{Partei}, \textit{Land},
+\textit{Politiker} bzw. \textit{Mannschaft}, \textit{Spiel}, \textit{Bayern}, \textit{München}, \textit{Verein}.
+Im denews-Corpus treten hingegen häufiger wirtschaftsbezogene Wörter wie \textit{Prozent},
+\textit{Euro}, \textit{Dollar} oder \textit{Millionen} auf.
 
 
 \subsubsection{Wikipedia-Corpora}
@@ -793,7 +807,7 @@ Wortes dargestellt, d.h. die Knotendistanz beträgt immer 1.
 
 
 \pagebreak
-\subsubsection{Simple und Standard English Wikipedia}
+\subsubsection{\emph{Simple} und \emph{Standard English} Wikipedia}
 
 \begin{figure}[hp!]
     \centering
