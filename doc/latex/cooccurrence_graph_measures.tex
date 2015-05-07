@@ -254,8 +254,8 @@ Die Kanten- und Knotenanzahl vor und nach diesem Schritt sind Tabelle
 Anschließend wurden die relevanten Berechnungen (vgl. Abschnitt
 \ref{sec:berechnung-ergebnisse}) durchgeführt und Ergebnisse ausgegeben.
 Auch die Daten zur Erstellung der Histogramme wurden in diesem Schritt
-gespeichert, um sie anschließend nach R zu importieren und dort mittels ggplot2
-grafisch aufzubereiten.
+gespeichert, um sie anschließend nach \texttt{R} zu importieren und dort mittels
+\texttt{ggplot2} grafisch aufzubereiten.
 
 Um Kookkurrenzgraphen für einzelne Wörter auszugeben, wurden Subgraphen aus dem
 Corpusgraphen wurden mittels eines \texttt{force-directed graph} nach
@@ -267,8 +267,12 @@ Corpusgraphen wurden mittels eines \texttt{force-directed graph} nach
 \label{sec:berechnung-ergebnisse}
 
 Nach Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
-anhand dieser charakterisiert sowie paarweise verglichen werden (deutsch vs.
-englisch, Leichte vs. Standardsprache).
+anhand dieser charakterisiert sowie paarweise verglichen werden.
+
+Als Vergleichskategorien bieten sich deutsch vs. englisch und Leichte vs.
+Standardsprache an, wobei jedoch die unterschiedlichen Eigenschaften der
+Ausgangscorpora jeweils zu berücksichtigen sind.
+
 Für verschiedene Eigenschaften bietet \texttt{graph-tool} bereits implementierte
 Algorithmen an. Im Folgenden werden die Kenngrößen kurz erläutert, unsere
 Erwartungen dargestellt und die Ergebnisse gezeigt.
@@ -278,19 +282,37 @@ Erwartungen dargestellt und die Ergebnisse gezeigt.
 \label{groesse-knotenzahl}
 
 Schon in der Größe der Graphen sollten sich paarweise Unterschiede erkennen
-lassen. So sollten die beiden Corpora in Leichter Sprache wesentlich weniger
-verschiedene Wörter enthalten. Durch die Praxis, schwierige Wörter
+lassen. So sollten die beiden Corpora in Leichter Sprache weniger
+unterschiedliche Wörter enthalten, als die standardsprachlichen Corpora.
+Durch die Praxis, schwierige Wörter
 durch leichter verständliche zu ersetzen, ist zu erwarten, dass erstere im
 Leichten Corpus nicht vorkommen. Die Anzahl der Knoten lässt sich trivial
 auszählen.
 
-Der deunews2010\_10K-Corpus hat 3205 Knoten, wovon 3142 auf die größte
-Zusammenhangkomponente entfallen.
-Nachrichtenleicht weist mit 2946 (resp. 2766) im Vergleich eine etwas geringere
+\subsection{Übersicht der berechneten Größen}
+\begin{table}[ht]
+    \begin{tabular}{*{5}{r}}
+    \toprule
+    Kenngröße                     & nl        & denews10k & wiki\_sim & wiki\_en \\
+    \midrule
+    $|V|$                         & 2946      & 3205      & 36582     & 45897  \\
+    $|E|$                         & 11639     & 7669      & 371559    & 514489 \\
+    größte ZHK: $|V|$             & 2766      & 3142      & 36131     & 45446  \\
+    größte ZHK: $|E|$             & 11541     & 7636      & 371319    & 514248 \\
+    \bottomrule
+    \end{tabular}
+    \caption{Kanten- und Knotenanzahl der Kookkurrenzgraphen}
+    \label{tab-zsf}
+\end{table}
+
+Der denews-Corpus hat 3205 Knoten, wovon 3142 auf die größte
+Zusammenhangkomponente (ZHK) entfallen.
+Nachrichtenleicht weist mit 2946 (resp. 2766) eine etwas geringere
 Knotenzahl auf.
+
 Die Wikipedia-Corpora enthielten mehr Text und somit sind auch die Graphen
-deutlich größer: 45897 (45446) Knoten entfallen auf die englische, 36582 (36131)
-auf die \emph{simple english} Variante.
+deutlich größer: 45897 (45446) Knoten entfallen auf die \emph{standard},
+36582 (36131) auf die \emph{simple english} Variante.
 
 Es l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
 leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
@@ -314,21 +336,21 @@ dem Zipfschen Gesetz.
 
 Die Dichte eines Graphen beschreibt das Verhältnis von vorhandenen Kanten zu
 potentiell möglichen Kanten.
-Ein Wert von $1$ bedeutet, dass jeder Knoten mit jedem anderen Verbunden ist
-(vollständiger Graph), dem gegenüber eine $0$, dass keine Kanten vorhanden sind.
+Ein Wert von $1$ bedeutet, dass jeder Knoten mit jedem anderen verbunden ist
+(vollständiger Graph).
+Dem gegenüber bedeutet eine $0$, dass keine Kanten vorhanden sind.
 Die Dichte wird wie folgt berechnet:
 
 $$
     \frac{|E|}{|V|\left(|V|-1\right)}
 $$
-
 $|E|$ ist die Anzahl der Kanten, $|V|$ die Anzahl der Knoten im Graphen. 
 
 Für die einfachen Sprachvarianten sollten unseren Erwartungen zufolge die
 Graphen dichter sein als für Standardsprache.
 Wie bereits beschrieben, gibt es in ersteren weniger Vokabular, dementsprechend
 weniger Knoten, die potentiell verbunden werden können. Die Vorhandenen kommen
-jedoch öfter gemeinsam vor und sind somit enger verknüpft.
+jedoch öfter gemeinsam vor und wären somit enger verknüpft.
 
 \begin{table}[ht]
   \centering
@@ -349,7 +371,7 @@ Die Ergebnisse in Tabelle \ref{density_table} bestätigen diese Vermutung.
 Insgesamt haben alle Graphen eine Dichte von $<0,01$, was für
 Kookkurrenzgraphen in einem erwartbaren Rahmen liegt.
 
-Der nachrichtenleicht-Corpus weist mit $15,1\cdot 10^{-4}$ eine fast doppelt so
+Der nl-Corpus weist mit $15,1\cdot 10^{-4}$ eine fast doppelt so
 hohe Dichte auf wie denews10k ($7,74\cdot 10^{-4}$).\\
 Bei den englischen Corpora fällt der Unterschied etwas geringer aus.
 Dennoch weist die reguläre Sprachvariante auch hier eine ca. 14\% geringere
@@ -360,23 +382,27 @@ mit der in einer Enzyklopädie zu erwartenden höheren Themenvielfalt gegenüber
 den Nachrichteninhalten erklären.
 Dies bedeutet mehr potentiell auftretende unterschiedliche Wörter, die jedoch
 nicht alle in den gleichen Kontexten auftreten und somit nur in begrenztem
-Umfang Kanten zum Graphen hinzufügen, der Quadratische Zusammenhang der Dichte
+Umfang Kanten zum Graphen hinzufügen.
+Der Quadratische Zusammenhang der Dichte
 führt somit zu deutlich niedrigeren Werten. 
 
 
 \subsection{Small-World-Eigenschaften}
-Small-World-Graphen zeichnen sich durch kleine Durchmesser und hohe Clusterkoeffizienten aus. Diese Werte sind im Vergleich zu Zufallsgraphen zu betrachten. Dementsprechend gibt es Messwerte, die genau diese Relation versuchen in einem Wert zusammenzufassen um damit eine Aussage über Small-World-Eigenschaften zu machen. 
+
+Small-World-Graphen zeichnen sich durch kleine Durchmesser und hohe Clusterkoeffizienten aus.
+Diese Werte sind im Vergleich zu Zufallsgraphen zu betrachten.
+Dementsprechend gibt es Messwerte, die versuchen, genau diese Relation in einem Wert zusammenzufassen, um damit eine Aussage über Small-World-Eigenschaften zu machen. 
 
 
 \subsubsection{Clusterkoeffizient}
 
-Eng mit der Dichte verwandt ist der Clusterkoeffizient. Er beschreibt die
+Der Clusterkoeffizient ist eng mit der Dichte verwandt. Er beschreibt die
 Anzahl vorhandener Dreiecke im Graph im Verhältnis zu möglichen Dreiecken. Drei
 Knoten, die jeweils paarweise verbunden sind, bilden ein Dreieck. Ziel ist ein
 Messwert, der aussagt, wie sehr die Knoten Cliquen bilden. Lokal betrachtet
-bedeutet der Wert die Wahrscheinlichkeit, die Nachbarn eines Nachbarn zu kennen.
-Dies lässt sich realweltlicht sehr anschaulich beschreiben: Kennt ein Mensch die 
-Freunde seiner Freunde?
+kennzeichnet dieser Wert die Wahrscheinlichkeit, dass ein Knoten mit den
+Nachbarknoten seiner Nachbarknoten verbunden ist.
+
 Da wir die Graphen global miteinander vergleichen möchten, verwenden wir den
 globalen Clusterkoeffizienten $C$. Er berechnet sich wie folgt:
 
@@ -399,7 +425,8 @@ Weglängen im Graphen zu untersuchen. Eine gute Kenngröße ist dabei der Durchm
 des Graphen, also der längste minimale Weg zwischen zwei Knoten. In einer
 \emph{small world} sind alle Knoten von allen anderen in wenigen Schritten
 erreichbar, typischerweise in etwa 6 Schritten, die sogenannten 
-\emph{six degrees of separation}(siehe beispielsweise \cite{Newman2003}). 
+\emph{six degrees of separation} (vgl. bspw. \cite{Newman2003}).
+
 \texttt{graph-tool} erlaubt zum einen die Ausgabe eines Durchmessers, wie oben
  beschrieben, und zum anderen die Ausgabe eines Histogramms, welches die 
 Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh}).
@@ -438,48 +465,86 @@ Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh
 
 
 \subsubsection{Small-World-Messwert}
-Humphries et al. benennen in \cite{Humphries2006} einen Messwert vor der deutlich
+Humphries et al. führen in \cite{Humphries2006} einen Messwert ein, der deutlich
 machen soll, ob ein Graph ein Small-World-Graph ist oder nicht. Sie setzen hierzu
-die Weglängen und die globalen Clusterkoeffizienten von Graphen in Relation. 
+die Weglängen und die globalen Clusterkoeffizienten von Graphen in Relation.
+
 Dabei sind Clusterkoeffizienten insbesondere in gitterartigen Netzwerken hoch und
 kurze Weglängen zeichnen besonders Zufallsgraphen aus. Um diese Erkentnisse zu
-verbinden werden die beiden Messwerte des zu testenden Graphen mit denen eines
+verbinden, werden die beiden Messwerte des zu testenden Graphen mit denen eines
 vergleichbaren Zufallsgraphen relativiert. Der Zufallsgraph wird aus dem 
-Ursprünglichen durch zufallsbasiertes \emph{rewiring} gewonnen, es soll dabei die
-Verteilung der Knotengrade beibehalten werden. Die Kanten werden gleichverteilt
-neu verbunden, jede zu erstellende Verbindung hat die gleiche Wahrscheinlichkeit.
-Die Bibliothek \texttt{graph\_tool} stellt dazu den notwendigen Algorithmus zur 
-Verfügung\footnote{\url{http://graph-tool.skewed.de/static/doc/generation.html\#graph_tool.generation.random_rewire}},
-der eben die Knotengradverteilung beibehält.\\
+Ursprünglichen durch zufallsbasiertes \emph{rewiring} gewonnen.
+Die Kanten werden neu verbunden, wobei die Verteilung der Knotengrade
+beizubehalten ist.
+Jede neu zu erstellende Verbindung hat dabei die gleiche Wahrscheinlichkeit.
+
+Das \texttt{graph\_tool}-Framework stellt den notwendigen Algorithmus zur 
+Verfügung\footnote{\url{http://graph-tool.skewed.de/static/doc/generation.html\#graph_tool.generation.random_rewire}}.
+
 Das vorgeschlagene Maß setzt sich wie folgt zusammen:
 
 $$
 \sigma = \frac{C/C_{rand}}{ L/L_{rand}}
 $$
 
-Wobei $L$ der durchschnittliche kürzeste Abstand zwischen den Knoten ist und $C$
-der Clusterkoeffizient. Wichtigstes Kennzeichen für einen Small-World-Graphen
-ist hier dass $C \gg C_{rand}$, während $L \approx L_{rand}$, sodass $\sigma > 1$.\\
+Dabei ist $L$ der durchschnittliche kürzeste Abstand zwischen den Knoten und $C$
+der Clusterkoeffizient.
+Wichtigstes Kennzeichen für einen Small-World-Graphen ist lt. \cite{Humphries2006},
+dass $C \gg C_{rand}$, während $L \approx L_{rand}$, so dass $\sigma > 1$.\\
 
 
 \subsubsection{Ergebnisse}
 \paragraph{Clusteringkoeffizient}
-In Tabelle \ref{tab-zsf} sind die Ergebnisse der vorgestellten Maße aufgelistet, darunter die Clusteringkoeffizienten der Graphen. Paarweise bezüglich Corpussprache verglichen zeigt sich, dass die beiden englischen Corpora sehr ähnliche Koeffizienten aufweisen, beide knapp über $0,04$. Größer ist der Unterschied zwischen den beiden deutschen Sammlungen, in leichter Sprache ergibt sich ein Wert von etwa $0,06$, wogegen dieser bei normaler Sprache lediglich $0,03$ beträgt. Die leichte Sprache ist hier also deutlich stärker geclustert. Jedoch verglichen mit Graphen aus \cite[S. 182]{Newman2003} sind die Werte alle sehr klein. Insbesondere der Vergleich zu Zufallsgraphen gleicher Größe ist interessant, die Tabelle liefert auch dafür die Ergebnisse: Der Quotient aus $C/C_{rand}$ ist in allen Fällen unter $1$, für \texttt{nachrichtenleicht} liegt er bei $0,96$, der ursprüngliche Graph und sein Zufällig verändertes Pendant haben also beinahe den selben Clusteringkoeffizienten. Zusammengefasst ist deutlich erkennbar, dass die Clusteringkoeffizienten nicht in Wertebereichen liegen, die für Small-World-Eigenschaften notwendig wären.
+In Tabelle \ref{tab-zsf} sind die Ergebnisse der vorgestellten Maße aufgelistet, darunter die Clusteringkoeffizienten der Graphen.
+Der paarweise Vergleich bezüglich Corpussprache zeigt, dass die beiden englischen Corpora sehr ähnliche Koeffizienten aufweisen, beide knapp über $0,04$.
+Größer ist der Unterschied zwischen den beiden deutschen Sammlungen.
+In Leichter Sprache ergibt sich ein Wert von etwa $0,06$, wogegen dieser bei normaler Sprache lediglich $0,03$ beträgt.
+Die Leichte Sprache ist hier also deutlich stärker geclustert.
+Verglichen mit Graphen aus \cite[S. 182]{Newman2003} sind die Werte jedoch alle sehr klein.
+Insbesondere der Vergleich zu Zufallsgraphen gleicher Größe ist interessant:
+Der Quotient aus $C/C_{rand}$ ist in allen Fällen unter $1$, für den nl-Graphen liegt er bei $0,96$.
+Der ursprüngliche Graph und sein zufällig verändertes Pendant haben also beinahe denselben Clusteringkoeffizienten.
+Zusammengefasst ist deutlich erkennbar, dass die Clusteringkoeffizienten nicht in Wertebereichen liegen, die für Small-World-Eigenschaften notwendig wären.
 
 \paragraph{Durchmesser und Weglängen}
-Für die Graphdurchmesser zeigen sich jedoch andere Ergebnisse. Typischerweise lassen sich alle Knoten innerhalb von etwa 6 Schritten von jedem anderen Knoten erreichen. Tabelle \ref{md-perc} bestätigt diese These. Es sind nur wenige Wortpaare ausserhalb dieser Grenze, diese werden im nächsten Abschnitt und Kapitel \ref{sec:aussen_liegende} mit Hilfe von Visualisierungen detailiert betrachtet. Es zeigt sich bei allen Graphen, dass die Ränder dieser aus selten verwendeten Namen bestehen.
-Die Tabelle zeigt sehr deutlich, dass die meisten Paare innerhalb von 3-4 Schritten verbunden sind, es gibt kaum Pfade, die länger sind. Die Durchschnittswerte liegen bei allen vier Graphen knapp über 3. Für Small-World-Graphen wäre ein etwas höherer Durchschnitt typischer gewesen(vgl \cite{Newman2003}), die sich bei sozialen Netzwerken um $5$-$7$ bewegen (für den dort ebenfalls erwähnten Wortkookkurrenzgraphen ist kein Wert angegeben).   
+Für die Graphdurchmesser zeigen sich jedoch andere Ergebnisse.
+Typischerweise lassen sich alle Knoten innerhalb von etwa 6 Schritten von jedem anderen Knoten aus erreichen.
+Tabelle \ref{md-perc} bestätigt diese These.
+Es befinden sich nur wenige Wortpaare außerhalb dieser Grenze.
+Diese werden im nächsten Abschnitt und Kapitel \ref{sec:aussen_liegende} mit Hilfe von Visualisierungen detailierter betrachtet.
 
-\paragraph{Aussen liegende Wörter}
-Wie beschrieben machen Namen den äußeren Rand der Graphen aus, so sind etwa \emph{Seymour} und \emph{Hoffman} im \texttt{nachrichtenleicht}-Corpus lediglich ein mal vorgekommen, im Zuge der Todesnachricht des Schauspielers. Des öfteren ist zu beobachten, dass Fremdsprachige Namen die Graphgrenzen ausmachen, so liegen im englischsprachigen \texttt{wiki-sim}-Corpus \emph{Che Guevara}, \emph{Kamui Kobayashi}, \emph{Kazimir Malevich} und die \emph{Frankfurter Allgemeine Zeitung} ganz aussen. Bei \texttt{denews10k} sind \emph{Microsoft}, \emph{Windows}, und \emph{Phone} in Zusammenhang aussen, oder auch \emph{Financial} und \emph{Times}, jedoch auch \emph{Christoph Metzelder} oder \emph{St. Pauli} und \emph{Christoph Metzelder}. Bei größen von 10.000 Sätzen ist es bei den Nachrichtencorpora nicht verwunderlich, dass aufgrund der Unterschiedlichkeit von behandelten Themen selten genannte Personen am Rand des Graphen erscheinen. Da die Nachrichten auch in sehr begrenzten Zeiträumen gesammelt wurden verstärkt sich dieser Effekt. Das gleiche Problem ergibt sich bei den Wikipediaartikeln, welche unabhängig voneinander gesammelt wurden, es ergibt sich also nicht eine Zusammenhangskomponente an Artikeln sondern aus allen verschiedenen Themengebieten.\\
-Namen von Personen, die mehr im Fokus der Öffentlichkeit stehen, etwa \emph{Angela}, \emph{Merkel}, \emph{Obama}, sind verglichen zu den oben genannten deutlich stärker im Graph verbunden. Auch die dort verbundenen Wörter sind Schlüssel dafür, ob ein Wort am Rand oder im Graphen liegt, Verben wie \emph{sagt} verbinden sehr schnell zum Zentrum.
+Es zeigt sich bei allen untersuchten Graphen, dass die Ränder dieser aus selten verwendeten Namen bestehen.
+Die Tabelle zeigt sehr deutlich, dass die meisten Paare innerhalb von 3-4 Schritten verbunden sind.
+Längere Pfade treten nur selten auf.
+Die durchschnittlichen Weglängen liegen bei allen vier Graphen knapp über 3.
+Für Small-World-Graphen wäre ein etwas höherer Durchschnitt typischer gewesen (vgl. \cite{Newman2003}).
+Bei sozialen Netzwerken bewegen sich die Weglängen typischerweise um $5$-$7$.
+Für den dort ebenfalls erwähnten Wortkookkurrenzgraphen ist leider kein Wert angegeben.
+
+\paragraph{Außen liegende Wörter}
+Wie oben beschrieben, machen Namen den äußeren Rand der Graphen aus.
+So sind etwa \emph{Seymour} und \emph{Hoffman} im nl-Corpus lediglich ein mal vorgekommen, im Zuge der Todesnachricht des Schauspielers.
+Des öfteren ist zu beobachten, dass insbesondere fremdsprachige Eigennamen die Graphgrenzen ausmachen:
+So liegen im englischsprachigen wiki\_sim-Corpus \emph{Che Guevara}, \emph{Kamui Kobayashi}, \emph{Kazimir Malevich} und die \emph{Frankfurter Allgemeine Zeitung} ganz aussen.
+
+Beim denews10k-Graphen sind \emph{Microsoft}, \emph{Windows}, und \emph{Phone} in Zusammenhang aussen, oder auch \emph{Financial} und \emph{Times}, jedoch auch \emph{Christoph Metzelder} und \emph{St. Pauli}.
+Bei Größen von 10.000 Sätzen ist es bei den Nachrichtencorpora nicht verwunderlich, dass aufgrund der Unterschiedlichkeit von behandelten Themen selten genannte Personen am Rand des Graphen erscheinen.
+Da die Nachrichten in sehr begrenzten Zeiträumen gesammelt wurden, verstärkt sich dieser Effekt.
+
+Ein ähnliches Phänomen ist bei den Wikipediaartikeln zu beobachten, welche thematisch unabhängig voneinander sind.
+Hier sind stark vernetzte Cluster aus verschiedenen Themengebieten zu erwarten, die wenig mit anderen, thematisch anders gelagerten, Clustern verbunden sind.
+
+Namen von Personen, die stärker im Fokus der Öffentlichkeit stehen, etwa \emph{Angela}, \emph{Merkel} und \emph{Obama}, sind verglichen zu den oben genannten deutlich stärker im Graph verbunden.
+Auch die dort verbundenen Wörter sind ein Hinweis darauf, ob ein Wort am Rand oder im Graphen liegt.
+Verben wie \emph{sagt} verbinden sehr schnell zum Zentrum.
 
 \paragraph{Small-World-Messwert}
-Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten lassen sich mit dem verwendeten Maß nicht nachweisen, dass es sich um Small-World-Graphen handelt. Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen. Zwar sind die durchschnittlichen Weglängen bei den Zufallsgraphen beinahe identisch zu denen der Ursprungsgraphen, jedoch bilden die Wortcorpora nicht genügend Cluster um die Anforderungen zu erfüllen. $C/C_{rand}$ liegt teilweise derart nah beieinander, dass den Graphen lediglich Ähnlichkeit zu Zufallsgraphen nachweisbar ist. Bei denews10k liegt er sogar unter $0,5$, was auch von der geringen Dichte her rührt.
+Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten, lässt sich mit dem verwendeten Maß leider nicht nachweisen, dass es sich bei den Kookkurrenzgraphen um Small-World-Graphen handelt.
+Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen.
+Zwar sind die durchschnittlichen Weglängen bei den Zufallsgraphen beinahe identisch zu denen der Ursprungsgraphen, jedoch bilden die Wortcorpora nicht genügend Cluster, um die Anforderungen an Small-World-Graphen zu erfüllen.
+$C/C_{rand}$ liegt teilweise derart nah beieinander, dass den Graphen lediglich Ähnlichkeit zu Zufallsgraphen nachweisbar ist.
+Bei denews10k liegt er -- bedingt durch die geringe Dichte -- sogar unter $0,5$.
 
-%TODO tabelle vielleicht nicht in eigene section, reicht als objekt im irgendwo :)
-
-\subsection{Übersicht der berechneten Größen}
 \begin{table}[ht]
     \begin{tabular}{l*{4}{r}}
     \toprule
@@ -504,9 +569,6 @@ Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten lassen sich mit 
 % TODO: nach dem Endlayout sicherstellen, dass die folgene Fußnote an der richtigen
 % Stelle auftaucht!
 \footnotetext[6]{größte Zusammenhangskomponente}
-
-In Tabelle \ref{tab-zsf} befindet sich eine Zusammenfassung der für die
-jeweiligen Corpora berechneten Kenngrößen.
 
 
 \subsection{H\"aufige W\"orter}
