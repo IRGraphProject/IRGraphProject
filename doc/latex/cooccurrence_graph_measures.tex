@@ -125,7 +125,7 @@ Python-Modul, welches der Erstellung, Manipulation und statistischen
 Auswertung von Graphen dient. Es stellt im Kern einen C++-Wrapper um die Boost
 Graph Library dar, wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
 erreicht wird. Es ist zus\"atzlich in der Lage, Graphen mit modernen Techniken
-zu visualisieren und \"ubliche Ma\ss{}e wie Clustering-Koeffizienten, Knoten-
+zu visualisieren und \"ubliche Ma\ss{}e wie Clusterkoeffizienten, Knoten-
 und Kantengrade und Durchmesser zu berechnen.
 
 
@@ -148,7 +148,7 @@ Sprache zusammenfasst. Er soll die mehreren Millionen Menschen in Deutschland
 erreichen, die aus verschiedenen Gr\"unden von konventionellen
 Nachrichtenangeboten ausgeschlossen sind.
 
-\subsubsection{deunews2010\_10K Corpus der ASV (denews10k)}
+\subsubsection{deunews2010\_10K Corpus der ASV (denews)}
 
 Als korrespondierende Datenquelle in Standardsprache wurde der
 deunews\-2010\_10K-Corpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
@@ -293,7 +293,7 @@ auszählen.
 \begin{table}[ht]
     \begin{tabular}{*{5}{r}}
     \toprule
-    Kenngröße                     & nl        & denews10k & wiki\_sim & wiki\_en \\
+    Kenngröße                     & nl        & denews    & wiki\_sim & wiki\_en \\
     \midrule
     $|V|$                         & 2946      & 3205      & 36582     & 45897  \\
     $|E|$                         & 11639     & 7669      & 371559    & 514489 \\
@@ -305,7 +305,7 @@ auszählen.
     \label{tab-zsf}
 \end{table}
 
-Der denews-Corpus hat 3205 Knoten, wovon 3142 auf die größte
+Der denews-Graph hat 3205 Knoten, wovon 3142 auf die größte
 Zusammenhangkomponente (ZHK) entfallen.
 Nachrichtenleicht weist mit 2946 (resp. 2766) eine etwas geringere
 Knotenzahl auf.
@@ -359,7 +359,7 @@ jedoch öfter gemeinsam vor und wären somit enger verknüpft.
     Corpus            &         Dichte (in $10^{-4}$)\\
     \midrule
     nl                &  		15,090239 \\
-    denews10k         &  		7,737342 \\
+    denews            &  		7,737342 \\
     wiki\_sim         &  		2,844456 \\
     wiki\_en          &  		2,489951 \\
     \bottomrule
@@ -371,8 +371,8 @@ Die Ergebnisse in Tabelle \ref{density_table} bestätigen diese Vermutung.
 Insgesamt haben alle Graphen eine Dichte von $<0,01$, was für
 Kookkurrenzgraphen in einem erwartbaren Rahmen liegt.
 
-Der nl-Corpus weist mit $15,1\cdot 10^{-4}$ eine fast doppelt so
-hohe Dichte auf wie denews10k ($7,74\cdot 10^{-4}$).\\
+Der nachrichtenleicht-Graph weist mit $15,1\cdot 10^{-4}$ eine fast doppelt so
+hohe Dichte auf wie denews ($7,74\cdot 10^{-4}$).\\
 Bei den englischen Corpora fällt der Unterschied etwas geringer aus.
 Dennoch weist die reguläre Sprachvariante auch hier eine ca. 14\% geringere
 Dichte auf als die Leichte Sprache.
@@ -437,7 +437,7 @@ Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh
     \centering
     \begin{tabular}{rrrrr}
       \toprule
-    Weglänge       & nl          & denews10k   & wiki\_sim   & wiki\_en     \\ 
+    Weglänge       & nl          & denews      & wiki\_sim   & wiki\_en     \\ 
       \midrule
       1            & 0,30        & 0,15        & 0,06        & 0,05         \\ 
       2            & 10,66       & 6,69        & 14,94       & 12,95        \\ 
@@ -494,17 +494,17 @@ dass $C \gg C_{rand}$, während $L \approx L_{rand}$, so dass $\sigma > 1$.\\
 
 
 \subsubsection{Ergebnisse}
-\paragraph{Clusteringkoeffizient}
-In Tabelle \ref{tab-zsf} sind die Ergebnisse der vorgestellten Maße aufgelistet, darunter die Clusteringkoeffizienten der Graphen.
+\paragraph{Clusterkoeffizient}
+In Tabelle \ref{tab-zsf} sind die Ergebnisse der vorgestellten Maße aufgelistet, darunter die Clusterkoeffizienten der Graphen.
 Der paarweise Vergleich bezüglich Corpussprache zeigt, dass die beiden englischen Corpora sehr ähnliche Koeffizienten aufweisen, beide knapp über $0,04$.
 Größer ist der Unterschied zwischen den beiden deutschen Sammlungen.
 In Leichter Sprache ergibt sich ein Wert von etwa $0,06$, wogegen dieser bei normaler Sprache lediglich $0,03$ beträgt.
 Die Leichte Sprache ist hier also deutlich stärker geclustert.
 Verglichen mit Graphen aus \cite[S. 182]{Newman2003} sind die Werte jedoch alle sehr klein.
 Insbesondere der Vergleich zu Zufallsgraphen gleicher Größe ist interessant:
-Der Quotient aus $C/C_{rand}$ ist in allen Fällen unter $1$, für den nl-Graphen liegt er bei $0,96$.
-Der ursprüngliche Graph und sein zufällig verändertes Pendant haben also beinahe denselben Clusteringkoeffizienten.
-Zusammengefasst ist deutlich erkennbar, dass die Clusteringkoeffizienten nicht in Wertebereichen liegen, die für Small-World-Eigenschaften notwendig wären.
+Der Quotient aus $C/C_{rand}$ ist in allen Fällen unter $1$, für den nachrichtenleicht-Graphen liegt er bei $0,96$.
+Der ursprüngliche Graph und sein zufällig verändertes Pendant haben also beinahe denselben Clusterkoeffizienten.
+Zusammengefasst ist deutlich erkennbar, dass die Clusterkoeffizienten nicht in Wertebereichen liegen, die für Small-World-Eigenschaften notwendig wären.
 
 \paragraph{Durchmesser und Weglängen}
 Für die Graphdurchmesser zeigen sich jedoch andere Ergebnisse.
@@ -523,11 +523,11 @@ Für den dort ebenfalls erwähnten Wortkookkurrenzgraphen ist leider kein Wert a
 
 \paragraph{Außen liegende Wörter}
 Wie oben beschrieben, machen Namen den äußeren Rand der Graphen aus.
-So sind etwa \emph{Seymour} und \emph{Hoffman} im nl-Corpus lediglich ein mal vorgekommen, im Zuge der Todesnachricht des Schauspielers.
+So sind etwa \emph{Seymour} und \emph{Hoffman} im nachrichtenleicht-Graphen lediglich ein mal vorgekommen, im Zuge der Todesnachricht des Schauspielers.
 Des öfteren ist zu beobachten, dass insbesondere fremdsprachige Eigennamen die Graphgrenzen ausmachen:
-So liegen im englischsprachigen wiki\_sim-Corpus \emph{Che Guevara}, \emph{Kamui Kobayashi}, \emph{Kazimir Malevich} und die \emph{Frankfurter Allgemeine Zeitung} ganz aussen.
+So liegen im englischsprachigen wiki\_sim-Graphen \emph{Che Guevara}, \emph{Kamui Kobayashi}, \emph{Kazimir Malevich} und die \emph{Frankfurter Allgemeine Zeitung} ganz außen.
 
-Beim denews10k-Graphen sind \emph{Microsoft}, \emph{Windows}, und \emph{Phone} in Zusammenhang aussen, oder auch \emph{Financial} und \emph{Times}, jedoch auch \emph{Christoph Metzelder} und \emph{St. Pauli}.
+Beim denews-Graphen sind \emph{Microsoft}, \emph{Windows}, und \emph{Phone} in Zusammenhang außen, oder auch \emph{Financial} und \emph{Times}, jedoch auch \emph{Christoph Metzelder} und \emph{St. Pauli}.
 Bei Größen von 10.000 Sätzen ist es bei den Nachrichtencorpora nicht verwunderlich, dass aufgrund der Unterschiedlichkeit von behandelten Themen selten genannte Personen am Rand des Graphen erscheinen.
 Da die Nachrichten in sehr begrenzten Zeiträumen gesammelt wurden, verstärkt sich dieser Effekt.
 
@@ -539,27 +539,27 @@ Auch die dort verbundenen Wörter sind ein Hinweis darauf, ob ein Wort am Rand o
 Verben wie \emph{sagt} verbinden sehr schnell zum Zentrum.
 
 \paragraph{Small-World-Messwert}
-Wie die Ergebnisse der Clusteringkoeffizienten bereits andeuten, lässt sich mit dem verwendeten Maß leider nicht nachweisen, dass es sich bei den Kookkurrenzgraphen um Small-World-Graphen handelt.
+Wie die Ergebnisse der Clusterkoeffizienten bereits andeuten, lässt sich mit dem verwendeten Maß leider nicht nachweisen, dass es sich bei den Kookkurrenzgraphen um Small-World-Graphen handelt.
 Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen.
 Zwar sind die durchschnittlichen Weglängen bei den Zufallsgraphen beinahe identisch zu denen der Ursprungsgraphen, jedoch bilden die Wortcorpora nicht genügend Cluster, um die Anforderungen an Small-World-Graphen zu erfüllen.
 $C/C_{rand}$ liegt teilweise derart nah beieinander, dass den Graphen lediglich Ähnlichkeit zu Zufallsgraphen nachweisbar ist.
-Bei denews10k liegt er -- bedingt durch die geringe Dichte -- sogar unter $0,5$.
+Bei denews liegt er -- bedingt durch die geringe Dichte -- sogar unter $0,5$.
 
 \begin{table}[ht]
     \begin{tabular}{l*{4}{r}}
     \toprule
-    Kenngröße                     & nl        & denews10k & wiki\_sim & wiki\_en \\
+    Kenngröße                     & nl        & denews    & wiki\_sim & wiki\_en \\
     \midrule
     $|V|$                         & 2946      & 3205      & 36582     & 45897  \\
     $|E|$                         & 11639     & 7669      & 371559    & 514489 \\
     $|V|$\footnotemark[6]         & 2766      & 3142      & 36131     & 45446  \\
     $|E|$\footnotemark[6]         & 11541     & 7636      & 371319    & 514248 \\
-    Dichte (in $10^{-4}$)          & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
+    Dichte (in $10^{-4}$)         & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
     Clusterkoeffizient            & 0,064516  & 0,033906  & 0,040403  & 0,042299 \\
     Clusterkoeff. stdev ($10^{-2}$)           & 0,626338  & 0,470389  & 0,612476  & 0,481688 \\
     $\sigma$                      & 0,970016  & 0,451959  & 0,857932  &         \\
-    $C / C_{rand}$                 & 0,961374  & 0,474512  & 0,832651  &         \\
-    $L / L_{rand}$                 & 0,991090  & 1,049900  & 0,970532  &         \\
+    $C / C_{rand}$                & 0,961374  & 0,474512  & 0,832651  &         \\
+    $L / L_{rand}$                & 0,991090  & 1,049900  & 0,970532  &         \\
 %    \dots                         &           &           &           &          \\
     \bottomrule
     \end{tabular}
@@ -578,7 +578,7 @@ Bei denews10k liegt er -- bedingt durch die geringe Dichte -- sogar unter $0,5$.
 \begin{table}[ht]
     \begin{tabular}{l*{2}{lr}}
     \toprule
-    Nr. & nl & Häufigkeit & denews10k & Häufigkeit\\
+    Nr. & nl & Häufigkeit & denews & Häufigkeit\\
     \midrule
     1  & Menschen    & 87 &  Prozent     & 48 \\
     2  & gewonnen    & 69 &  Euro        & 47 \\
@@ -609,7 +609,7 @@ Bei denews10k liegt er -- bedingt durch die geringe Dichte -- sogar unter $0,5$.
 \end{table}
 
 Wie in Tabelle \ref{words-nachrichten} zu erkennen, gibt es nur wenige
-Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews10k.
+Überschneidungen des Vokabulars des nachrichtenleicht-Corpus mit denews.
 Fett gedruckt sind in den Tabellen diejenigen Worte, die in beiden Corpora
 vorkommen.
 Bei den Nachrichten-Corpora handelt es sich lediglich um das Wort "`Jahr"'.
