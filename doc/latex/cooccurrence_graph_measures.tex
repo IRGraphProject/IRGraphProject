@@ -127,8 +127,9 @@ Python-Modul, welches der Erstellung, Manipulation und statistischen
 Auswertung von Graphen dient. Es stellt im Kern einen C++-Wrapper um die Boost
 Graph Library dar, wodurch eine \"ahnliche Performanz zu nativen C-Bibliotheken
 erreicht wird. Es ist zus\"atzlich in der Lage, Graphen mit modernen Techniken
-zu visualisieren und \"ubliche Ma\ss{}e wie Clusterkoeffizienten, Knoten-
-und Kantengrade und Durchmesser zu berechnen.
+zu visualisieren und stellt eine vielzahl von Algorithmen zur Berechnung  
+\"ublicher Ma\ss{}e wie Clusterkoeffizienten, Knoten- und Kantengrade und
+ Durchmesser zur Verfügung.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,8 +137,9 @@ und Kantengrade und Durchmesser zu berechnen.
 \label{sec:datenbasis}
 
 Als Datenbasis wurden Quellen gew\"ahlt, die sich durch eine gro\ss{}e
-semantische und logische N\"ahe zueinander auszeichnen, namentlich
-Nachrichtenseiten in deutscher und Wikipediaartikel in englischer Sprache.
+semantische und logische N\"ahe zueinander auszeichnen, zum einen
+Nachrichtenseiten in deutscher und zum anderen Wikipediaartikel in
+ englischer Sprache.
 
 \subsection{Nachrichtenseiten}
 \label{nrseiten}
@@ -155,7 +157,7 @@ Nachrichtenangeboten ausgeschlossen sind.
 Als korrespondierende Datenquelle in Standardsprache wurde der
 deunews\-2010\_10K-Corpus des Lehrstuhls f\"ur automatische Sprachverarbeitung
 (ASV) der Universit\"at Leipzig gew\"ahlt. Dieser weist eine \"ahnliche Satzzahl
-zu den von nachrichtenleicht extrahierten Text auf und wurde bereits von der ASV
+zu den aus nachrichtenleicht extrahierten Text auf und wurde bereits von der ASV
 normalisiert \cite{Quasthoff2006}.
 
 \subsection{Wikipedia (wiki\_sim bzw. wiki\_en)}
@@ -179,11 +181,11 @@ gestattet.
 Mittels eines selbstgeschriebenen Crawlers wurden die relevanten Textmengen
 heruntergeladen, extrahiert und zu Corpora zusammengefasst.
 
-Nachrichtenleicht.de wurde rekursiv von der Startseite aus gequeriet
+Nachrichtenleicht.de wurde rekursiv von der Startseite aus abgearbeitet
 und die resultierenden Texte in einer MongoDB gespeichert.
 Dabei wurden Überschriften, Teaser und Nachrichtentexte jeweils seperat erfasst
 und schließlich Teaser und Nachrichteninhalt zum Corpus hinzugefügt.
-Der resultierende Corpus umfasst den Text aus 845 Artikeln mit ca. 141.000
+Der resultierende Corpus umfasst die Texte aus 845 Artikeln mit ca. 141.000
 Wörtern in 15.500 Sätzen.
 
 Zur Erstellung der Wikipedia-Corpora wurde zunächst eine Liste aller
@@ -274,7 +276,7 @@ Corpusgraphen mittels eines \texttt{force-directed graph} nach
 \section{Berechnung der Graphenkenngr\"o\ss{}en und Ergebnisse}
 \label{sec:berechnung-ergebnisse}
 
-Nach der Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
+Nach Erstellung der Graphen sollen diese auf typische Kenngrößen untersucht,
 anhand dieser charakterisiert sowie paarweise verglichen werden.
 
 Als Vergleichskategorien bieten sich einerseits deutsch vs. englisch und andererseits Leichte vs.
@@ -324,7 +326,7 @@ deutlich größer: 45.897 (45.446) Knoten entfallen auf die \emph{standard},
 
 Es l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
 Leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
-erf\"ullt ist.
+erf\"ullt ist. Dabei ist zwar zu beachten, dass die leichten Sätze deutlich kürzer sind, jedoch sind die Unterschiede recht deutlich, insbesondere bei den englischen Korpora, trotz Abdeckung gleicher Themengebiete. 
 
 
 \subsection{Rang der Knotengrade}
@@ -477,14 +479,16 @@ Häufigkeit der Längen aller kürzesten Wege darstellt (siehe Abb. \ref{fig-mdh
 
 Humphries et al. führen in \cite{Humphries2006} einen Messwert ein, der deutlich
 machen soll, ob ein Graph ein Small-World-Graph ist oder nicht. Sie setzen hierzu
-die Weglängen und die globalen Clusterkoeffizienten von Graphen zueinander in Relation.
+die Weglängen und die globalen Clusterkoeffizienten von Graphen zueinander in 
+Relation.
 
-Dabei sind Clusterkoeffizienten insbesondere in gitterartigen Netzwerken hoch und
-kurze Weglängen zeichnen besonders Zufallsgraphen aus. Um diese Erkentnisse zu
-verbinden, werden die beiden Messwerte des zu testenden Graphen mit denen eines
-vergleichbaren Zufallsgraphen relativiert. Der Zufallsgraph wird aus dem 
-Ursprünglichen durch zufallsbasiertes \emph{rewiring} gewonnen.
-Dabei werden Kanten jeweils neu verbunden, unter Beibehaltung der Verteilung
+Dabei sollen sich Small-World-Graphen insbesondere durch einen hohen
+ Clusterkoeffizienten auszeichnen, wogegen kurze Weglängen besonders
+ Zufallsgraphen charakterisieren. Um diese Erkentnisse zu verbinden, werden die
+ beiden Messwerte des zu testenden Graphen mit denen eines vergleichbaren
+ Zufallsgraphen relativiert. Der Zufallsgraph wird aus dem Ursprünglichen durch
+ zufallsbasiertes \emph{rewiring} gewonnen.
+Dabei werden alle Kanten jeweils neu verbunden, unter Beibehaltung der Verteilung
 der Knotengrade.
 Jede neu zu erstellende Verbindung hat dabei die gleiche Wahrscheinlichkeit.
 
@@ -553,7 +557,7 @@ Auch die dort verbundenen Wörter sind ein Hinweis darauf, ob ein Wort am Rand o
 Verben wie \emph{sagt} verbinden sehr schnell zum Zentrum.
 
 \paragraph{Small-World-Messwert}
-Wie die Ergebnisse der Clusterkoeffizienten bereits andeuten, lässt sich mit dem verwendeten Maß leider nicht nachweisen, dass es sich bei den Kookkurrenzgraphen um Small-World-Graphen handelt.
+Wie die Ergebnisse der Clusterkoeffizienten bereits andeuten, lässt sich mit dem verwendeten Maß nicht nachweisen, dass es sich bei den Kookkurrenzgraphen um Small-World-Graphen handelt.
 Die Zwischenrechnungen und Ergebnisse sind in \ref{tab-zsf} zu sehen.
 Zwar sind die durchschnittlichen Weglängen bei den Zufallsgraphen beinahe identisch zu denen der Ursprungsgraphen, jedoch bilden die Wortcorpora nicht genügend Cluster, um die Anforderungen an Small-World-Graphen zu erfüllen.
 $C/C_{rand}$ liegt teilweise derart nah beieinander, dass den Graphen lediglich Ähnlichkeit zu Zufallsgraphen nachweisbar ist.
@@ -564,16 +568,16 @@ Bei denews liegt er -- bedingt durch die geringe Dichte -- sogar unter $0,5$.
     \toprule
     Kenngröße                     & nl        & denews    & wiki\_sim & wiki\_en \\
     \midrule
-    $|V|$                         & 2946      & 3205      & 36582     & 45897  \\
-    $|E|$                         & 11639     & 7669      & 371559    & 514489 \\
-    $|V|$\footnotemark[6]         & 2766      & 3142      & 36131     & 45446  \\
-    $|E|$\footnotemark[6]         & 11541     & 7636      & 371319    & 514248 \\
-    Dichte (in $10^{-4}$)         & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
-    Clusterkoeffizient            & 0,064516  & 0,033906  & 0,040403  & 0,042299 \\
-    Clusterkoeff. stdev ($10^{-2}$)           & 0,626338  & 0,470389  & 0,612476  & 0,481688 \\
-    $\sigma$                      & 0,970016  & 0,451959  & 0,857932  &         \\
-    $C / C_{rand}$                & 0,961374  & 0,474512  & 0,832651  &         \\
-    $L / L_{rand}$                & 0,991090  & 1,049900  & 0,970532  &         \\
+    $|V|$                          & 2946      & 3205      & 36582     & 45897  \\
+    $|E|$                          & 11639     & 7669      & 371559    & 514489 \\
+    $|V|$\footnotemark[6]          & 2766      & 3142      & 36131     & 45446  \\
+    $|E|$\footnotemark[6]          & 11541     & 7636      & 371319    & 514248 \\
+    Dichte (in $10^{-4}$)           & 15,090239 & 7,737342  & 2,844456  & 2,489951 \\
+    Clusterkoeffizient             & 0,064516  & 0,033906  & 0,040403  & 0,042299 \\
+    Clusterkoeff. stdev ($10^{-2}$) & 0,626338  & 0,470389  & 0,612476  & 0,481688 \\
+    $\sigma$                       & 0,970016  & 0,451959  & 0,857932  & 0,897925  \\
+    $C / C_{rand}$                  & 0,961374  & 0,474512  & 0,832651  & 0,869740 \\
+    $L / L_{rand}$                  & 0,991090  & 1,049900  & 0,970532  & 0,968610 \\
 %    \dots                         &           &           &           &          \\
     \bottomrule
     \end{tabular}
