@@ -3,7 +3,7 @@
 # - minimum distance distribution
 # - boxplot of cooc values distribution for each corpus
 
-setwd("../python/IRGraphProject/data/results")
+setwd("IRGraphProject/data/results")
 load(".RData")
 require(ggplot2)
 require(gridExtra)
@@ -33,19 +33,36 @@ head(den_vdeg,10)
 col1 = "#56B4E9"
 q1 <- ggplot(wsi_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("Wiki simple") + 
   geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") + 
-  scale_y_continuous(name ="Anzahl Knoten", limits = c(0,11000)) + scale_x_continuous(limits = c(0,6000))
+  scale_y_continuous(name ="Anzahl Knotenpaare", limits = c(0,11000)) + scale_x_continuous(limits = c(0,6000))
 q2 <- ggplot(wen_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("Wiki english") + 
   geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") +
-  scale_y_continuous(name ="Anzahl Knoten", limits = c(0,11000)) + scale_x_continuous(limits = c(0,6000))
+  scale_y_continuous(name ="Anzahl Knotenpaare", limits = c(0,11000)) + scale_x_continuous(limits = c(0,6000))
 q3 <- ggplot(nl_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("Nachrichtenleicht") + 
   geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") +
-  scale_y_continuous(name ="Anzahl Knoten", limits = c(0,1500)) + scale_x_continuous(limits = c(0,300))
+  scale_y_continuous(name ="Anzahl Knotenpaare", limits = c(0,1500)) + scale_x_continuous(limits = c(0,300))
 q4 <- ggplot(den_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("denews10k") + 
   geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") +
-  scale_y_continuous(name ="Anzahl Knoten", limits = c(0,1500)) + scale_x_continuous(limits = c(0,300))
+  scale_y_continuous(name ="Anzahl Knotenpaare", limits = c(0,1500)) + scale_x_continuous(limits = c(0,300))
 
 pdf("vdeg_plots.pdf",width=10,height=10)
 grid.arrange(q1,q2,q3,q4,nrow=2,ncol=2)
+dev.off()
+
+q1l <- ggplot(wsi_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("Wiki simple") + 
+  geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") + 
+  scale_y_log10(name ="Anzahl Knotenpaare", limits = c(1,11000)) + scale_x_log10(limits = c(1,6000))
+q2l <- ggplot(wen_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("Wiki english") + 
+  geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") +
+  scale_y_log10(name ="Anzahl Knotenpaare", limits = c(1,11000)) + scale_x_log10(limits = c(1,6000))
+q3l <- ggplot(nl_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("Nachrichtenleicht") + 
+  geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") +
+  scale_y_log10(name ="Anzahl Knotenpaare", limits = c(1,1500)) + scale_x_log10(limits = c(1,300))
+q4l <- ggplot(den_vdeg, aes(x=vertexdegree, y=count)) + ggtitle("denews10k") + 
+  geom_point(shape=19, color = col1, alpha = 0.3) + xlab("Knotengrad") +
+  scale_y_log10(name ="Anzahl Knotenpaare", limits = c(1,1500)) + scale_x_log10(limits = c(1,300))
+
+pdf("vdeg_plots_log.pdf",width=10,height=10)
+grid.arrange(q1l,q2l,q3l,q4l,nrow=2,ncol=2)
 dev.off()
 
 # minimum distance
