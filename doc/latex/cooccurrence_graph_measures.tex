@@ -83,7 +83,6 @@ kontrollierte Sprache f\"ur technische Handb\"ucher. Aufgrund dieser
 konkurrierenden Ans\"atze gibt es keine einheitliche Definition oder
 Sprachpraxis des Simple English.
 
-% TODO: Was war nochmal Motivation und Ziel?
 \paragraph{Ziel unseres Projekts} ist es, Kookkurrenzgraphen in Leichter und
 Standardsprache miteinander zu vergleichen und die Unterschiede mit Hilfe
 mathematischer Grapheigenschaften und -kenngrößen zu untersuchen.
@@ -268,7 +267,7 @@ gespeichert, um sie anschließend nach \texttt{R} zu importieren und dort mittel
 \texttt{ggplot2} grafisch darzustellen.
 
 Um Kookkurrenzgraphen für einzelne Wörter auszugeben, wurden Subgraphen aus dem
-Korpusgraphen mittels eines \texttt{force-directed graph} nach
+Corpusgraphen mittels eines \texttt{force-directed graph} nach
 \cite{Hu2006} gelayoutet.
 
 
@@ -927,13 +926,13 @@ Zur Erstellung dieser Subgraphen wurden weit außen liegende Wörter ermittelt,
 d.h. solche Wörter, von denen die längsten Pfade im Graphen ausgehen.
 
 Zusätzlich zum Kookkurrenz-Schwellwert wurde hier bei der Graphenerzeugung
-die Knotendistanz variiert, d.h. die Anzahl der `Hops' ausgehend vom Zielwort,
+die Knotendistanz variiert, d.h. die Anzahl der Schritte ausgehend vom Zielwort,
 die in den Graphen mit einbezogen werden (und deren evtl. auftretende
 Querverbindungen untereinander).
-Eine Distanz von 1 bedeutet, dass nur die direkten Nachbarn (und evtl.
-auftretende Querverbindungen) einbezogen werden, bei 2 kommen 2 zusätzlich deren
-Nachbarn hinzu, sodass alle Knoten, die innerhalb des angegebenen Abstandes vom
-Ausgangsknoten liegen verwendet werden.
+Eine Distanz von 1 bedeutet, dass nur die direkten Nachbarn (und eventuell
+auftretende Querverbindungen) einbezogen werden. Bei 2 kommen zusätzlich deren
+Nachbarn hinzu, so dass alle Knoten, die innerhalb des angegebenen Abstandes vom
+Ausgangsknoten liegen, einbezogen werden.
 
 Auch hier sind die jeweiligen Parameter in der Legende der Grafik angegeben.
 
