@@ -106,7 +106,7 @@ gestattet (Abschnitt \ref{sec:graphen}).
 \section{Werkzeuge}
 
 \subsection{Programmiersprache Python}
-Nach sprachunanbhängigen Recherchen über verwendbare Bibliotheken haben wir uns
+Nach sprachunabhängigen Recherchen über verwendbare Bibliotheken haben wir uns
 für die Programmiersprache Python\footnote{\url{https://www.python.org/}}
 entschieden.
 Ausschlag gebend waren sowohl das umfangreiche und vielfach erprobte
@@ -183,7 +183,7 @@ heruntergeladen, extrahiert und zu Corpora zusammengefasst.
 
 Nachrichtenleicht.de wurde rekursiv von der Startseite aus abgearbeitet
 und die resultierenden Texte in einer MongoDB gespeichert.
-Dabei wurden Überschriften, Teaser und Nachrichtentexte jeweils seperat erfasst
+Dabei wurden Überschriften, Teaser und Nachrichtentexte jeweils separat erfasst
 und schließlich Teaser und Nachrichteninhalt zum Corpus hinzugefügt.
 Der resultierende Corpus umfasst die Texte aus 845 Artikeln mit ca. 141.000
 Wörtern in 15.500 Sätzen.
@@ -209,7 +209,7 @@ Dies lieferte sehr zufriedenstellende Ergebnisse mit überschaubarem
 Rechenaufwand.
 
 Nach Entfernen des MediaWiki-Markups wurden die Artikel auf die Satzanzahl
-des jweils k\"urzeren Artikels reduziert und anschliessend in einer MongoDB
+des jeweils k\"urzeren Artikels reduziert und anschließend in einer MongoDB
 gespeichert.
 
 Die beiden Wikipedia-Corpora umfassen jeweils ca. 30.800 Sätze.
@@ -252,7 +252,7 @@ handelt -- identische
 Kookkurrenzpaare entfernt, so dass am Ende jedes Paar nur einmal auftrat.
 
 Die verbleibenden Kookkurrenzpaare wurden in \texttt{graph-tool}-Objekte geparst
-und zu einem corpusumfassenden Kokkurrenzgraphen zusammengesetzt.
+und zu einem corpusumfassenden Kookkurrenzgraphen zusammengesetzt.
 
 Die so erstellten Graphen waren jedoch nicht zusammenhängend.
 Um sinnvolle Berechnungen von Weglängen etc. anzustellen, erwies es sich als
@@ -268,7 +268,7 @@ gespeichert, um sie anschließend nach \texttt{R} zu importieren und dort mittel
 \texttt{ggplot2} grafisch darzustellen.
 
 Um Kookkurrenzgraphen für einzelne Wörter auszugeben, wurden Subgraphen aus dem
-Corpusgraphen mittels eines \texttt{force-directed graph} nach
+Korpusgraphen mittels eines \texttt{force-directed graph} nach
 \cite{Hu2006} gelayoutet.
 
 
@@ -326,13 +326,13 @@ deutlich größer: 45.897 (45.446) Knoten entfallen auf die \emph{standard},
 
 Es l\"asst sich also schlie\ss{}en, dass diese grundlegende Erwartung,
 Leichte Sprache enthielte bei gleicher Satzzahl weniger unterschiedliche Wörter,
-erf\"ullt ist. Dabei ist zwar zu beachten, dass die leichten Sätze deutlich kürzer sind, jedoch sind die Unterschiede recht deutlich, insbesondere bei den englischen Korpora, trotz Abdeckung gleicher Themengebiete. 
+erf\"ullt ist. Dabei ist zwar zu beachten, dass die leichten Sätze deutlich kürzer sind, jedoch sind die Unterschiede recht deutlich, insbesondere bei den englischen Corpora, trotz Abdeckung gleicher Themengebiete. 
 
 
 \subsection{Rang der Knotengrade}
 
 Wie in Abb. \ref{fig-vdeg} und \ref{fig-vdeg-log} dargestellt, folgt die Verteilung der Knotengrade
-dem Zipfschen Gesetz.
+dem Zipfschen Gesetz. Die für diese Verteilung typische Gerade ist auf den logarithmierten Graphen deutlich erkennbar.
 
 \begin{figure}[ht]
     \centering
@@ -491,7 +491,7 @@ Relation.
 
 Dabei sollen sich Small-World-Graphen insbesondere durch einen hohen
  Clusterkoeffizienten auszeichnen, wogegen kurze Weglängen besonders
- Zufallsgraphen charakterisieren. Um diese Erkentnisse zu verbinden, werden die
+ Zufallsgraphen charakterisieren. Um diese Erkenntnisse zu verbinden, werden die
  beiden Messwerte des zu testenden Graphen mit denen eines vergleichbaren
  Zufallsgraphen relativiert. Der Zufallsgraph wird aus dem Ursprünglichen durch
  zufallsbasiertes \emph{rewiring} gewonnen.
@@ -534,13 +534,13 @@ Für die Graphdurchmesser zeigen sich jedoch andere Ergebnisse.
 Typischerweise lassen sich alle Knoten innerhalb von etwa 6 Schritten von jedem anderen Knoten aus erreichen.
 Tabelle \ref{md-perc} bestätigt diese These.
 Es befinden sich nur wenige Wortpaare außerhalb dieser Grenze.
-Diese werden im nächsten Abschnitt und Kapitel \ref{sec:aussen_liegende} mit Hilfe von Visualisierungen detailierter betrachtet.
+Diese werden im nächsten Abschnitt und Kapitel \ref{sec:aussen_liegende} mit Hilfe von Visualisierungen detaillierter betrachtet.
 
 Es zeigt sich bei allen untersuchten Graphen, dass deren Ränder aus selten verwendeten Namen bestehen.
 Die Tabelle zeigt sehr deutlich, dass die meisten Paare innerhalb von 3-4 Schritten verbunden sind.
 Längere Pfade treten nur selten auf.
 Die durchschnittlichen Weglängen liegen bei allen vier Graphen knapp über 3.
-Für Small-World-Graphen wäre lt. Newmann ein etwas höherer Durchschnitt typischer gewesen (vgl. \cite{Newman2003}).
+Für Small-World-Graphen wäre laut Newmann ein etwas höherer Durchschnitt typischer gewesen (vgl. \cite{Newman2003}).
 Bei sozialen Netzwerken bewegen sich die Weglängen nach seinen Angaben typischerweise um $5$-$7$.
 Für den dort ebenfalls erwähnten Wortkookkurrenzgraphen ist leider kein Wert angegeben.
 
@@ -646,7 +646,7 @@ Auch wurden die Ursprungstexte für jeweils unterschiedliche Zielgruppen verfass
 
 Darüber hinaus zeigt sich, dass Worte im nachrichtenleicht-Corpus generell
 häufiger auftreten (häufigstes Wort: Menschen, 87mal; denews: Prozent, 48mal).
-Dies bestätigt die Vermutung aus Abschnitt \ref{groesse-knotenzahl} bzgl. der
+Dies bestätigt die Vermutung aus Abschnitt \ref{groesse-knotenzahl} bezüglich der
 Knotenanzahl.
 
 Weiterhin wird ersichtlich, dass der nachrichtenleicht-Corpus seinen
@@ -927,12 +927,13 @@ Zur Erstellung dieser Subgraphen wurden weit außen liegende Wörter ermittelt,
 d.h. solche Wörter, von denen die längsten Pfade im Graphen ausgehen.
 
 Zusätzlich zum Kookkurrenz-Schwellwert wurde hier bei der Graphenerzeugung
-die Knotendistanz variiert, d.h. die Anzahl der `hops' ausgehend vom Zielwort,
+die Knotendistanz variiert, d.h. die Anzahl der `Hops' ausgehend vom Zielwort,
 die in den Graphen mit einbezogen werden (und deren evtl. auftretende
 Querverbindungen untereinander).
 Eine Distanz von 1 bedeutet, dass nur die direkten Nachbarn (und evtl.
-auftretende Querverbindungen) einbezogen werden, bei kommen 2 zusätzlich deren
-Nachbarn hinzu, usw.
+auftretende Querverbindungen) einbezogen werden, bei 2 kommen 2 zusätzlich deren
+Nachbarn hinzu, sodass alle Knoten, die innerhalb des angegebenen Abstandes vom
+Ausgangsknoten liegen verwendet werden.
 
 Auch hier sind die jeweiligen Parameter in der Legende der Grafik angegeben.
 
