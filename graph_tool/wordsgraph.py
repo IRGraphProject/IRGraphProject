@@ -91,3 +91,23 @@ class WordsGraph:
 
     def clustercoefficient(self):
         return graph_tool.clustering.global_clustering(self.graph)
+
+
+    def filter_main_component(self):
+        """
+        Filters largest set of interconnected nodes. Drops all small components
+        that are not connected to the main set.
+        """
+        print("filtering for main component...")
+        vertices_before = self.graph.num_vertices()
+        edges_before = self.graph.num_edges()
+        main_component = graph_tool.topology.label_largest_component(self.graph)
+        self.graph.set_vertex_filter(main_component)
+        vertices_after = self.graph.num_vertices()
+        edges_after = self.graph.num_edges()
+        print("vertices before: " + str(vertices_before))
+        print("vertices after: " + str(vertices_after))
+        print("difference: " + str(vertices_before - vertices_after))
+        print("edges before: " + str(edges_before))
+        print("edges after: " + str(edges_after))
+        print("difference: " + str(edges_before - edges_after))
